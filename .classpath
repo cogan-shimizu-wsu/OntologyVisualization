@@ -27,5 +27,6 @@
 			<attribute name="javadoc_location" value="file:/Users/nazifakarima/Documents/Nazifa/WrightState/Thesis/yFiles-for-Java-Complete-3.0.0.4-Evaluation/doc/javadoc/"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="lib/slf4j-1.7.24/slf4j-simple-1.7.24.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
