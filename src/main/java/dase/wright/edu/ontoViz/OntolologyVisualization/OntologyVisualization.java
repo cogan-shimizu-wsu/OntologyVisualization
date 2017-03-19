@@ -1,45 +1,41 @@
 package dase.wright.edu.ontoViz.OntolologyVisualization;
 
-import java.awt.BorderLayout;
+import static org.semanticweb.owlapi.util.OWLAPIStreamUtils.asList;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
-
-import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
-import javax.swing.WindowConstants;
+import java.util.Iterator;
+import java.util.stream.Stream;
 
 import org.semanticweb.owlapi.apibinding.OWLManager;
+import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.MissingImportHandlingStrategy;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLDataProperty;
+import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 
-import com.yworks.yfiles.geometry.RectD;
-import com.yworks.yfiles.graph.IEdge;
-import com.yworks.yfiles.graph.IGraph;
-import com.yworks.yfiles.graph.ILabel;
-import com.yworks.yfiles.graph.INode;
-import com.yworks.yfiles.graph.IPort;
-import com.yworks.yfiles.view.GraphComponent;
-import com.yworks.yfiles.view.input.GraphEditorInputMode;
-
 /**
- * This Project is supposed to produce an interactive visualization for ontologies for ensuring better understandability
+ * This Project is supposed to produce an interactive visualization for
+ * ontologies for ensuring better understandability
+ * 
  * @author: Nazifa Karima
  */
 public class OntologyVisualization {
 
 	public static OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
-	public static File fullOntology = new File("src/resources/chessgame.owl");
-	
+	public static File ontologyFile = new File("src/resources/chessgame.owl");
+
 	public static OWLOntology ontology;
+
 	public static ArrayList<OWLClass> classes = new ArrayList<OWLClass>();
 	public static ArrayList<OWLObjectProperty> prop = new ArrayList<OWLObjectProperty>();
 	public static ArrayList<OWLDataProperty> dataProp = new ArrayList<OWLDataProperty>();
@@ -49,39 +45,18 @@ public class OntologyVisualization {
 	// dataProp = (ArrayList<OWLDataProperty>)
 	// ontology.getDataPropertiesInSignature();
 	// individuals = ontology.getIndividualsInSignature();
+	
 
 	public static void main(String[] args) {
 
-		//System.out.println("Filepath: " + fullOntology.getAbsolutePath());
-		init(manager, fullOntology, classes, prop, dataProp);
+		init(manager, ontologyFile, classes, prop, dataProp);
 
-		 Runnable doHelloWorld = new Runnable() { public void run() { /*create a component for displaying and editing a graph.*/
-		 GraphComponent graphComponent = new GraphComponent(); /*Enabling user-interaction*/
-		 graphComponent.setInputMode(new GraphEditorInputMode());
-		
-		 IGraph graph = graphComponent.getGraph(); 
-		 INode node1 = graph.createNode(new RectD(30, 30, 30, 30)); 
-		 INode node2 = graph.createNode(new RectD(100, 30, 30, 30));
-		
-		 IEdge edge1 = graph.createEdge(node1, node2);
-		
-		 IPort portAtNode1 = graph.addPort(node1);
-		
-		 ILabel ln1 = graph.addLabel(node1, "n1"); 
-		 ILabel ln2 = graph.addLabel(node2, "n2");
-		
-		 /*create a top-level window and add the graph component.*/ 
-		 JFrame frame = new JFrame("Ontology Visualization");
-		
-		 frame.setSize(500, 500); frame.setLocationRelativeTo(null);
-		 frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		 frame.add(graphComponent, BorderLayout.CENTER);
-		 frame.setVisible(true); } };
-		 SwingUtilities.invokeLater(doHelloWorld);
+		/*Visualizer.dummyVisualization();*/
+		/*TODO provide the visualizer class with the tree*/
 
 	}
 
-	/**/
+	/*initializes thr ontology and produces a tree structure for each class with it's properties*/
 	private static void init(OWLOntologyManager manager, File fullOntology, ArrayList<OWLClass> classes,
 			ArrayList<OWLObjectProperty> prop, ArrayList<OWLDataProperty> dataProp) {
 		OWLOntology ontology;
@@ -93,70 +68,48 @@ public class OntologyVisualization {
 			 */
 			manager.setOntologyLoaderConfiguration(manager.getOntologyLoaderConfiguration()
 					.setMissingImportHandlingStrategy(MissingImportHandlingStrategy.SILENT));
-
-			for (OWLClass cls : ontology.getClassesInSignature()) {
-				classes.add(cls);
-				/*
-				 * System.out.println("Class: " + classes.get(classes.size() -
-				 * 1));
-				 */
-				for (OWLAxiom op : ontology.getAxioms()) {
-					if (op.isLogicalAxiom()) {
-
-					//	System.out.println("Anon indiv: " + op.getAnonymousIndividuals() + "\n" + "type: "
-						//		+ op.getAxiomType() + "\n" + op.getSignature());
-
-					}
-
-				}
-			}
-			writeHashMapintoFile(objPropAxioms, "ChessGame");
-			for (OWLObjectProperty obp : ontology.getObjectPropertiesInSignature()) {
-				prop.add(obp);
-				// System.out.println("Object Property:" + prop.get(prop.size()
-				// - 1));
-			}
-			for (OWLDataProperty dp : ontology.getDataPropertiesInSignature()) {
-				dataProp.add(dp);
-				// System.out.println("Data Properties " +
-				// dataProp.get(dataProp.size() - 1));
-			}
-
-			showAllAxioms(objPropAxioms);
+			/*Load Ontology*/
+			IRI iri = IRI.create(ontologyFile.toURI());
+			
+			AxiomEntityVisitor nodeCreator = new AxiomEntityVisitor();
+			
+			/* Create Tree for each Axiom */
+						ontology.classesInSignature().forEach(cls -> {
+							createEntityNode(nodeCreator, cls, sortAxioms(ontology.axioms(cls)));
+							/* TODO add treeCreator object as parameter later */						
+							});
+			
 		} catch (OWLOntologyCreationException e) {
-			// TODO Auto-generated catch block
+			/* TODO Auto-generated catch block*/
 			e.printStackTrace();
 		}
 	}
-
-	private static void writeHashMapintoFile(HashMap<OWLClass, ArrayList<OWLObjectProperty>> objPropAxioms,
-			String string) {
-		// File file = new File("/Users/nazifakarima/Desktop", "chessgame");
-		//
-		// //Blank workbook
-		// XSSFWorkbook workbook = new XSSFWorkbook();
-		//
-		// //Create a blank sheet
-		// XSSFSheet sheet = workbook.createSheet("ChessGame");
-		//
-		// Iterator it = objPropAxioms.entrySet().iterator();
-		// while (it.hasNext()) {
-		// Map.Entry pair = (Map.Entry)it.next();
-		// System.out.println(pair.getKey() + " = " + pair.getValue());
-		// }
-		BufferedWriter writer = null;
-		File chessGame = new File("/visualizations/chessGame");
-		try {
-			System.out.println(chessGame.getCanonicalPath());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+	
+/**
+ * This method visits every entity of an axiom and creates a node in the tree
+ * */
+	protected static void createEntityNode(AxiomEntityVisitor nodeCreator, OWLEntity cls,
+	        Collection<? extends OWLAxiom> axioms)
+	{
+		if(axioms.size() > 0){
+			System.out.println(cls);
+			for(Iterator<? extends OWLAxiom> it = axioms.iterator(); it.hasNext();)
+			{
+				OWLAxiom axiom = it.next();
+				/*System.out.println("Type of Axiom: " + axiom.isLogicalAxiom() + ": " + axiom);*/
+				axiom.accept(nodeCreator);
+			}
 		}
 	}
-
-	private static void showAllAxioms(HashMap<OWLClass, ArrayList<OWLObjectProperty>> objPropAxioms2) {
-		// for (Iterator it:objPropAxioms2) {
-
-		// }
+	
+	private static Collection<? extends OWLAxiom> sortAxioms(Stream<? extends OWLAxiom> axioms)
+	{
+		return asList(axioms.sorted());
 	}
+
+	private static <T extends OWLEntity> Collection<T> sortEntities(Stream<T> entities) {
+		return asList(entities.sorted());
+	}
+
+	
 }
