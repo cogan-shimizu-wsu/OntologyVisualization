@@ -2,12 +2,48 @@ package dase.wright.edu.ontoViz.OntolologyVisualization;
 
 public class Node {
 	Node left;
+	public Node getLeft() {
+		return left;
+	}
+
+	public void setLeft(Node left) {
+		this.left = left;
+	}
+
+	public Node getRight() {
+		return right;
+	}
+
+	public void setRight(Node right) {
+		this.right = right;
+	}
+
+	public boolean isRoot() {
+		return root;
+	}
+
+	public void setRoot(boolean root) {
+		this.root = root;
+	}
+
+	public String getValue() {
+		return value;
+	}
+
+	public void setValue(String value) {
+		this.value = value;
+	}
+
 	Node right;
 	boolean root;
-	Values value;
+	String value;
+	//Values value;
 
-	public Node(Node l, Node R, boolean r, Values val) {
-
+	public Node(Node l, Node r, boolean root, Values val) {
+		setLeft(l);
+		setRight(r);
+		setRoot(root);
+		setValue(value);
 	}
 
 	public enum Values {

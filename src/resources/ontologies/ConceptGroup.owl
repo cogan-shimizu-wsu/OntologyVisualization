@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY owl2xml "http://www.w3.org/2006/12/owl2-xml#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+    <!ENTITY cpannotationschema "http://www.ontologydesignpatterns.org/schemas/cpannotationschema.owl#" >
+	<!ENTITY conceptgroup "http://www.mondeca.com/system/conceptgroup#" >
+]>
+
+<rdf:RDF 
+	xmlns="http://www.ontologydesignpatterns.org/schemas/cpannotationschema.owl#"
+	xml:base="http://www.ontologydesignpatterns.org/schemas/cpannotationschema.owl"
+	xmlns:conceptgroup="http://www.mondeca.com/system/conceptgroup#"
+	xmlns:cpannotationschema="http://www.ontologydesignpatterns.org/schemas/cpannotationschema.owl#"
+    xmlns:owl2xml="http://www.w3.org/2006/12/owl2-xml#"
+	xmlns:owl="http://www.w3.org/2002/07/owl#"
+	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+	xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema#">
+	
+<!-- Ontology Information -->
+  <owl:Ontology rdf:about="">
+    <owl:versionInfo xml:lang="en">Ontology Design Pattern Concept Group - Version 1 - 14-08-2009</owl:versionInfo>
+  </owl:Ontology>
+
+<!-- Classes -->
+
+  <owl:Class rdf:about="http://www.mondeca.com/system/conceptgroup#Concept">
+    <rdfs:label xml:lang="fr">Concept</rdfs:label>
+	<rdfs:label xml:lang="en">Concept</rdfs:label>
+  </owl:Class>
+  
+  <owl:Class rdf:about="http://www.mondeca.com/system/conceptgroup#BT-NT">
+    <rdfs:label xml:lang="fr">Relation Générique-Spécifique</rdfs:label>
+	<rdfs:label xml:lang="en">Broader-Narrower relation</rdfs:label>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:allValuesFrom rdf:resource="http://www.mondeca.com/system/conceptgroup#Concept"/>
+        <owl:onProperty rdf:resource="http://www.mondeca.com/system/conceptgroup#BT"/>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:allValuesFrom rdf:resource="http://www.mondeca.com/system/conceptgroup#Concept"/>
+        <owl:onProperty rdf:resource="http://www.mondeca.com/system/conceptgroup#NT"/>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://www.mondeca.com/system/conceptgroup#Group">
+    <rdfs:label xml:lang="fr">Groupe</rdfs:label>
+	<rdfs:label xml:lang="en">Group</rdfs:label>
+	<owl:equivalentClass rdf:resource="http://www.mondeca.com/system/conceptgroup#MembershipRestriction"/>
+	<rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:maxCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:maxCardinality>
+        <owl:onProperty rdf:resource="http://www.mondeca.com/system/conceptgroup#structuringAssociationType"/>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+  </owl:Class>
+  
+  <owl:Class rdf:about="http://www.mondeca.com/system/conceptgroup#MembershipRestriction">
+    <rdfs:label xml:lang="fr">Restriction d'appartenance</rdfs:label>
+	<rdfs:label xml:lang="en">Membership restriction</rdfs:label>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://www.mondeca.com/system/conceptgroup#SuperGroupSubGroupRelation">
+    <rdfs:label xml:lang="fr">SuperGroupe-SousGroupe relation</rdfs:label>
+	<rdfs:label xml:lang="en">SuperGroup-SubGroup relation</rdfs:label>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:allValuesFrom rdf:resource="http://www.mondeca.com/system/conceptgroup#Group"/>
+        <owl:onProperty rdf:resource="http://www.mondeca.com/system/conceptgroup#superGroup"/>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:allValuesFrom rdf:resource="http://www.mondeca.com/system/conceptgroup#Group"/>
+        <owl:onProperty rdf:resource="http://www.mondeca.com/system/conceptgroup#subGroup"/>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+  </owl:Class>
+
+  
+  
+
+<!-- Datatype Properties -->
+
+<!-- Object Properties -->
+  
+  <owl:ObjectProperty rdf:about="http://www.mondeca.com/system/conceptgroup#inGroup">
+	<rdfs:domain rdf:resource="http://www.mondeca.com/system/conceptgroup#Concept"/>
+    <rdfs:label xml:lang="fr">fait partie du groupe</rdfs:label>
+	<rdfs:label xml:lang="en">in group</rdfs:label>
+    <rdfs:range rdf:resource="http://www.mondeca.com/system/conceptgroup#Group"/>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="http://www.mondeca.com/system/conceptgroup#structuringAssociationType">
+    <rdfs:domain rdf:resource="http://www.mondeca.com/system/conceptgroup#Group"/>
+    <rdfs:label xml:lang="fr">type d'association structurant</rdfs:label>
+	<rdfs:label xml:lang="en">structuring association type</rdfs:label>
+    <rdfs:range rdf:resource="http://www.mondeca.com/system/conceptgroup#BT-NT"/>
+  </owl:ObjectProperty>
+  
+  
+  <owl:ObjectProperty rdf:about="http://www.mondeca.com/system/conceptgroup#BT">
+    <rdfs:label xml:lang="fr">concept générique</rdfs:label>
+	<rdfs:label xml:lang="en">broader concept</rdfs:label>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="http://www.mondeca.com/system/conceptgroup#NT">
+    <rdfs:label xml:lang="fr">concept spécifique</rdfs:label>
+	<rdfs:label xml:lang="en">narrower concept</rdfs:label>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="http://www.mondeca.com/system/conceptgroup#subGroup">
+    <rdfs:label xml:lang="fr">sous-groupe</rdfs:label>
+	<rdfs:label xml:lang="en">sub-group</rdfs:label>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="http://www.mondeca.com/system/conceptgroup#superGroup">
+    <rdfs:label xml:lang="fr">super-groupe</rdfs:label>
+	<rdfs:label xml:lang="en">super-group</rdfs:label>
+  </owl:ObjectProperty>
+  
+  
+  
+  
+  <!-- http://www.ontologydesignpatterns.org/schemas/cpannotationschema.owl#coversRequirements -->
+
+    <owl:AnnotationProperty rdf:about="#coversRequirements">
+        <rdfs:comment>How a group entity stands alone?, How to represent either a vocabulary subset, a cross vocabulary subset or a whole vocabulary?, How to represent group concept members?</rdfs:comment>
+    </owl:AnnotationProperty>
+    
+      
+    <!-- http://www.ontologydesignpatterns.org/schemas/cpannotationschema.owl#hasIntent -->
+
+    <owl:AnnotationProperty rdf:about="#hasIntent">
+        <rdfs:comment>This CP allows designers to represent concept group defined by intention (all concepts satisfying group membership condition) or by extension (all concepts referring a group).</rdfs:comment>
+    </owl:AnnotationProperty>
+    
+
+    <!-- http://www.ontologydesignpatterns.org/schemas/cpannotationschema.owl#reengineeredFrom -->
+
+    <owl:AnnotationProperty rdf:about="#reengineeredFrom">
+        <rdfs:comment>SNOMED-CT Reference Sets specification: http://www.ihtsdo.org/fileadmin/user_upload/Docs_01/Technical_Docs/reference_sets.pdf</rdfs:comment>
+    </owl:AnnotationProperty>
+    
+
+    <!-- http://www.ontologydesignpatterns.org/schemas/cpannotationschema.owl#scenarios -->
+
+    <owl:AnnotationProperty rdf:about="#scenarios">
+        <rdfs:comment>Used to describe whole vocabulary entity or vocabulary concepts subset. Compliant with RefSets in SNOMED-CT or themes in GEMET.</rdfs:comment>
+    </owl:AnnotationProperty>
+  
+</rdf:RDF>

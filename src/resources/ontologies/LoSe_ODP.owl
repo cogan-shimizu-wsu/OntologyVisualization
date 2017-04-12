@@ -1,0 +1,736 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE Ontology [
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY xml "http://www.w3.org/XML/1998/namespace" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+]>
+
+
+<Ontology xmlns="http://www.w3.org/2002/07/owl#"
+     xml:base="https://github.com/Michael-Gloeckner/LoSe_ODP"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     ontologyIRI="https://github.com/Michael-Gloeckner/LoSe_ODP">
+    <Prefix name="" IRI="http://www.semanticweb.org/owl/owlapi/turtle#"/>
+    <Prefix name="owl" IRI="http://www.w3.org/2002/07/owl#"/>
+    <Prefix name="rdf" IRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
+    <Prefix name="xml" IRI="http://www.w3.org/XML/1998/namespace"/>
+    <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
+    <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
+    <Prefix name="LoSe_ODP" IRI="https://github.com/Michael-Gloeckner/LoSe_ODP#"/>
+    <Annotation>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">Logistics Service</Literal>
+    </Annotation>
+    <Annotation>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">This is an ontology design pattern for logistics services.</Literal>
+    </Annotation>
+    <Annotation>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">LoSe_ODP</Literal>
+    </Annotation>
+    <Annotation>
+        <AnnotationProperty abbreviatedIRI="owl:versionInfo"/>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">created by Michael Glöckner</Literal>
+    </Annotation>
+    <Annotation>
+        <AnnotationProperty abbreviatedIRI="owl:versionInfo"/>
+        <Literal datatypeIRI="&xsd;string">0.2</Literal>
+    </Annotation>
+    <Declaration>
+        <Class IRI="#Active"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Capability"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Capacity"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Character"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Contraints"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Control"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Cost"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Economic"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Environmental"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Flow"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Information"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Informational"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Location"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#LogisticsService"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#LogisticsStakeholder"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Mandatory"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#NonMandatory"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Passive"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Physical"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Product"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Quality"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Quantity"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Resource"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#SLA"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Social"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Time"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Transformation"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#IsConnectedBy"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#IsConsumedBy"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#IsContrainedBy"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#IsMeasuredBy"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#IsPerformedBy"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#IsProvidedBy"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasCapability"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasCapacity"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasCharacter"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasTransformation"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#capacity"/>
+    </Declaration>
+    <SubClassOf>
+        <Class IRI="#Active"/>
+        <Class IRI="#Character"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Control"/>
+        <Class IRI="#Flow"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Cost"/>
+        <Class IRI="#Transformation"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Economic"/>
+        <Class IRI="#NonMandatory"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Environmental"/>
+        <Class IRI="#NonMandatory"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Information"/>
+        <Class IRI="#Flow"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Information"/>
+        <Class IRI="#Transformation"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Informational"/>
+        <Class IRI="#Character"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Location"/>
+        <Class IRI="#Transformation"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Mandatory"/>
+        <Class IRI="#Contraints"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#NonMandatory"/>
+        <Class IRI="#Contraints"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Passive"/>
+        <Class IRI="#Character"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Physical"/>
+        <Class IRI="#Character"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Product"/>
+        <Class IRI="#Flow"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Product"/>
+        <Class IRI="#Transformation"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Quality"/>
+        <Class IRI="#Transformation"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Quantity"/>
+        <Class IRI="#Transformation"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Social"/>
+        <Class IRI="#NonMandatory"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Time"/>
+        <Class IRI="#Transformation"/>
+    </SubClassOf>
+    <DisjointClasses>
+        <Class IRI="#Active"/>
+        <Class IRI="#Passive"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#Mandatory"/>
+        <Class IRI="#NonMandatory"/>
+    </DisjointClasses>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#IsConnectedBy"/>
+        <Class IRI="#LogisticsService"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#IsConsumedBy"/>
+        <Class IRI="#LogisticsService"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#IsConsumedBy"/>
+        <Class IRI="#Resource"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#IsContrainedBy"/>
+        <Class IRI="#LogisticsService"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#IsMeasuredBy"/>
+        <Class IRI="#LogisticsService"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#IsPerformedBy"/>
+        <Class IRI="#Flow"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#IsPerformedBy"/>
+        <Class IRI="#Transformation"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#IsProvidedBy"/>
+        <Class IRI="#Resource"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasCapability"/>
+        <Class IRI="#LogisticsService"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasCapacity"/>
+        <Class IRI="#Resource"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasCharacter"/>
+        <Class IRI="#Resource"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasTransformation"/>
+        <Class IRI="#Capability"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#IsConnectedBy"/>
+        <Class IRI="#Flow"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#IsConsumedBy"/>
+        <Class IRI="#LogisticsService"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#IsConsumedBy"/>
+        <Class IRI="#LogisticsStakeholder"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#IsContrainedBy"/>
+        <Class IRI="#Contraints"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#IsMeasuredBy"/>
+        <Class IRI="#SLA"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#IsPerformedBy"/>
+        <Class IRI="#Resource"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#IsProvidedBy"/>
+        <Class IRI="#LogisticsStakeholder"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasCapability"/>
+        <Class IRI="#Capability"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasCapacity"/>
+        <Class IRI="#Capacity"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasCharacter"/>
+        <Class IRI="#Character"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasTransformation"/>
+        <Class IRI="#Transformation"/>
+    </ObjectPropertyRange>
+    <DataPropertyDomain>
+        <DataProperty IRI="#capacity"/>
+        <Class IRI="#Capacity"/>
+    </DataPropertyDomain>
+    <DataPropertyRange>
+        <DataProperty IRI="#capacity"/>
+        <Datatype abbreviatedIRI="xsd:float"/>
+    </DataPropertyRange>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Active</IRI>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">An Active Resource posseses the ability of transforming a logistics entity by itself.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Active</IRI>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">Active</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Capability</IRI>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">Presents the Capabilities of something.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Capability</IRI>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">Capability</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Capacity</IRI>
+        <Literal datatypeIRI="&rdf;PlainLiteral">Determines a lowest and/or highest available capacity of something.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Capacity</IRI>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">Capacity</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Character</IRI>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">The Character describes the consistence of a Resource. It is either Informational OR Physical.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Character</IRI>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">Character</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Contraints</IRI>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">Contraints define external requirements that have to be fulfilled by a logistics service. They are either of mandatory (such as official laws) or non-mandatory nature (such as customer requirements).</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Contraints</IRI>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">Constraints</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Control</IRI>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">Control is the Flow of information in order to trigger following LogisticsService.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Control</IRI>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">Control</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Cost</IRI>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">A LogisticsService tranforms costs of the overall service in a certain kind of way. Usually Costs increase by the usage of a Service.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Cost</IRI>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">Cost</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Economic</IRI>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">Economic contraints aim at delivering complex logistics services in a cheap way.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Economic</IRI>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">Economic</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Environmental</IRI>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">Environmental constraints aim at delivering complex logistics services in a einvironmentally friendly way, e.g. with a reduced carbon footprint.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Environmental</IRI>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">Environmental</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Flow</IRI>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">The several flows connect two or more logistics services with each other. Different kinds of flows can be distinguished.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Flow</IRI>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">Flow</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Information</IRI>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">A LogisticsService could transform Information in a certain kind of way.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Information</IRI>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">Information</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Informational</IRI>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">Defines a informational (in-tangible) character of something.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Informational</IRI>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">Informational</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#IsConnectedBy</IRI>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">describes the connection of something by something</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#IsConnectedBy</IRI>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">isConnectedBy</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#IsConsumedBy</IRI>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">describes the consumption of something by something</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#IsConsumedBy</IRI>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">isConsumedBy</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#IsContrainedBy</IRI>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">describes constrain of something by something</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#IsContrainedBy</IRI>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">isContrainedBy</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#IsMeasuredBy</IRI>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">describes measurement of something by something</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#IsMeasuredBy</IRI>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">isMeasuredBy</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#IsPerformedBy</IRI>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">describes the performance of something by something</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#IsPerformedBy</IRI>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">isPerformedBy</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#IsProvidedBy</IRI>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">describes the provision of something by something</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#IsProvidedBy</IRI>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">isProvidedBy</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Location</IRI>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">A LogisticsService could transform Location in a certain kind of way.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Location</IRI>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">Location</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#LogisticsService</IRI>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">A Logistics Service is characterized by general service characteristics. This includes a pre-defined set of inputs, outputs and transformations that take place during its execution. Further important is the usage of resources and the application of knowledge and skills within activities or processes in order to generate benefit for another entity or for the entity itself.
+
+A Logistics Service is a Service conducted within the logistics domain and logistics purpose.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#LogisticsService</IRI>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">LogisticsService</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#LogisticsStakeholder</IRI>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">A LogisticsStakeholder is a natural or a legal person involved in the planning, operation or monitoring of a LogisticsService. It either provides, uses or manages the service or is in another way connected to it.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#LogisticsStakeholder</IRI>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">LogisticsStakeholder</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Mandatory</IRI>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">Mandatory contraints are requirements by official, public or governmental institutions.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Mandatory</IRI>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">Mandatory</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#NonMandatory</IRI>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">Non-mandatory contraints are requirements by customers. They are not obligatory like the mandatory contraints from legal institutions.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#NonMandatory</IRI>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">NonMandatory</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Passive</IRI>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">An Passive Resource does not posses the ability of transforming a logistics entity by itself. It is transformed by an Active Resource.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Passive</IRI>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">Passive</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Physical</IRI>
+        <Literal datatypeIRI="&rdf;PlainLiteral">Defines a physical (tangible) character of something.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Physical</IRI>
+        <Literal datatypeIRI="&rdf;PlainLiteral">Physical</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Product</IRI>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">A LogisticsService could transform Good in a certain kind of way.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Product</IRI>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">Good</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:seeAlso"/>
+        <IRI>#Product</IRI>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">http://ontologydesignpatterns.org/wiki/Submissions:Material_Transformation</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Quality</IRI>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">A LogisticsService could transform Quality of a Product in a certain kind of way.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Quality</IRI>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">Quality</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Quantity</IRI>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">A LogisticsService could transform Quantity of a Product in a certain kind of way.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Quantity</IRI>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">Quantity</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Resource</IRI>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">A Resource is consumed during the conduction of a LogisticsService. It is either available again afterward (such as warehouse capacity or a truck) or not (such as some kind of one-way packaging).</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Resource</IRI>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">Resource</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#SLA</IRI>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">ServiceLevelAgreements determine the quality of the service, e.g. lead time, accuracy.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#SLA</IRI>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">ServiceLevelAgreements</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Social</IRI>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">Social contraints aim at delivering complex logistics services in a socially reasonable way, e.g. with a guaranteed minimum wage.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Social</IRI>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">Social</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Time</IRI>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">Time describes the temporal starting and ending points of a LogisticsService.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Time</IRI>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">Time</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:seeAlso"/>
+        <IRI>#Time</IRI>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">http://www.ontologydesignpatterns.org/cp/owl/timeinterval.owl</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Transformation</IRI>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">Transformation contains the possible dimensions that could be changed during a LogisticsService.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Transformation</IRI>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">Transformation</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#capacity</IRI>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">quantifies a cpacity</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#capacity</IRI>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">capacity</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#hasCapability</IRI>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">describes the capabilities something comprises.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#hasCapability</IRI>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">hasCapability</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#hasCharacter</IRI>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">defines the character of a Resource</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#hasCharacter</IRI>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">hasCharacter</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#hasTransformation</IRI>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">describes something has or depends on transformation.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#hasTransformation</IRI>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">hasTransformation</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <AnonymousIndividual nodeID="_:https://github.com/Michael-Gloeckner/genid0"/>
+        <Literal datatypeIRI="&xsd;string">LoSeOn</Literal>
+    </AnnotationAssertion>
+</Ontology>
+
+
+
+<!-- Generated by the OWL API (version 3.4.2) http://owlapi.sourceforge.net -->
+

@@ -1,5 +1,9 @@
 package dase.wright.edu.ontoViz.OntolologyVisualization;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAnnotation;
 import org.semanticweb.owlapi.model.OWLAnnotationAssertionAxiom;
@@ -10,9 +14,11 @@ import org.semanticweb.owlapi.model.OWLAnonymousIndividual;
 import org.semanticweb.owlapi.model.OWLAsymmetricObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLDataAllValuesFrom;
 import org.semanticweb.owlapi.model.OWLDataComplementOf;
 import org.semanticweb.owlapi.model.OWLDataExactCardinality;
+import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLDataHasValue;
 import org.semanticweb.owlapi.model.OWLDataIntersectionOf;
 import org.semanticweb.owlapi.model.OWLDataMaxCardinality;
@@ -21,6 +27,7 @@ import org.semanticweb.owlapi.model.OWLDataOneOf;
 import org.semanticweb.owlapi.model.OWLDataProperty;
 import org.semanticweb.owlapi.model.OWLDataPropertyAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLDataPropertyDomainAxiom;
+import org.semanticweb.owlapi.model.OWLDataPropertyExpression;
 import org.semanticweb.owlapi.model.OWLDataPropertyRangeAxiom;
 import org.semanticweb.owlapi.model.OWLDataSomeValuesFrom;
 import org.semanticweb.owlapi.model.OWLDataUnionOf;
@@ -40,6 +47,7 @@ import org.semanticweb.owlapi.model.OWLFacetRestriction;
 import org.semanticweb.owlapi.model.OWLFunctionalDataPropertyAxiom;
 import org.semanticweb.owlapi.model.OWLFunctionalObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.OWLHasKeyAxiom;
+import org.semanticweb.owlapi.model.OWLIndividual;
 import org.semanticweb.owlapi.model.OWLInverseFunctionalObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.OWLInverseObjectPropertiesAxiom;
 import org.semanticweb.owlapi.model.OWLIrreflexiveObjectPropertyAxiom;
@@ -47,6 +55,7 @@ import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLNegativeDataPropertyAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLNegativeObjectPropertyAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLObjectAllValuesFrom;
 import org.semanticweb.owlapi.model.OWLObjectComplementOf;
 import org.semanticweb.owlapi.model.OWLObjectExactCardinality;
@@ -60,6 +69,7 @@ import org.semanticweb.owlapi.model.OWLObjectOneOf;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLObjectPropertyAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLObjectPropertyDomainAxiom;
+import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
 import org.semanticweb.owlapi.model.OWLObjectPropertyRangeAxiom;
 import org.semanticweb.owlapi.model.OWLObjectSomeValuesFrom;
 import org.semanticweb.owlapi.model.OWLObjectUnionOf;
@@ -85,10 +95,23 @@ import org.semanticweb.owlapi.model.SWRLObjectPropertyAtom;
 import org.semanticweb.owlapi.model.SWRLRule;
 import org.semanticweb.owlapi.model.SWRLSameIndividualAtom;
 import org.semanticweb.owlapi.model.SWRLVariable;
+import org.semanticweb.owlapi.util.OWLEntityComparator;
+import org.semanticweb.owlapi.util.ShortFormProvider;
+import org.semanticweb.owlapi.util.SimpleShortFormProvider;
+import org.semanticweb.owlapi.util.OWLAPIStreamUtils;
 
 public class AxiomEntityVisitor implements OWLObjectVisitor {
-	public AxiomEntityVisitor() {
-		// TODO Auto-generated constructor stub
+	private final ShortFormProvider shortFormProvider = new SimpleShortFormProvider();
+	private final OWLEntityComparator entityComparator = new OWLEntityComparator(shortFormProvider);
+	//private final OWLDataFactory dataFactory;
+	private OWLObject subject;
+
+	ArrayList<String> stack;
+
+	public AxiomEntityVisitor(ArrayList<String> st) {
+		this.stack = st;
+		//this.dataFactory = owlDataFactory;
+		//this.subject = dataFactory.getOWLThing();
 	}
 
 	@Override
@@ -97,69 +120,48 @@ public class AxiomEntityVisitor implements OWLObjectVisitor {
 	}
 
 	@Override
-	public void visit(OWLAnnotation node) {
-		OWLObjectVisitor.super.visit(node);
-	}
-
-	@Override
-	public void visit(OWLAnnotationAssertionAxiom axiom) {
-		OWLObjectVisitor.super.visit(axiom);
-	}
-
-	@Override
-	public void visit(OWLAnnotationProperty property) {
-		// TODO Auto-generated method stub
-		OWLObjectVisitor.super.visit(property);
-		System.out.println("OWLAnnotationProperty property: " + property);
-	}
-
-	@Override
-	public void visit(OWLAnnotationPropertyDomainAxiom axiom) {
-		// TODO Auto-generated method stub
-		OWLObjectVisitor.super.visit(axiom);
-		System.out.println("OWLAnnotationPropertyDomainAxiom axiom: " + axiom);
-	}
-
-	@Override
-	public void visit(OWLAnnotationPropertyRangeAxiom axiom) {
-		// TODO Auto-generated method stub
-		OWLObjectVisitor.super.visit(axiom);
-		System.out.println("OWLAnnotationPropertyRangeAxiom axiom: " + axiom);
-	}
-
-	@Override
-	public void visit(OWLAnonymousIndividual individual) {
-		// TODO Auto-generated method stub
+	public void visit(
+			OWLAnonymousIndividual individual) {/*
+												 * blank-nodes, how to deal with
+												 * them?
+												 */
 		OWLObjectVisitor.super.visit(individual);
 		System.out.println("OWLAnonymousIndividual individual: " + individual);
 	}
 
 	@Override
 	public void visit(OWLAsymmetricObjectPropertyAxiom axiom) {
-		// TODO Auto-generated method stub
 		OWLObjectVisitor.super.visit(axiom);
-		System.out.println("OWLAsymmetricObjectPropertyAxiom axiom: " + axiom);
+		axiom.getProperty().accept(this);
+		stack.add("SUBCLASS");
+		stack.add("NOT");
+		axiom.getProperty().accept(this);
+		stack.add("INVERSE");
 	}
 
 	@Override
 	public void visit(OWLClass ce) {
-		// TODO Auto-generated method stub
 		OWLObjectVisitor.super.visit(ce);
-		System.out.println("OWLClass ce: " + ce);
+		stack.add(escapeName(shortFormProvider.getShortForm(ce)));
 	}
 
 	@Override
-	public void visit(OWLClassAssertionAxiom axiom) {
-		// TODO Auto-generated method stub
+	public void visit(
+			OWLClassAssertionAxiom axiom) { /*
+											 * Should I ever reach here if I
+											 * only check logical axioms?
+											 */
 		OWLObjectVisitor.super.visit(axiom);
-		System.out.println("OWLClassAssertionAxiom axiom: " + axiom);
+		axiom.getIndividual().accept(this);
+		axiom.getClassExpression().accept(this);
 	}
 
 	@Override
 	public void visit(OWLDataAllValuesFrom ce) {
-		// TODO Auto-generated method stub
 		OWLObjectVisitor.super.visit(ce);
-		System.out.println("OWLDataAllValuesFrom ce: " + ce);
+		stack.add("ALL");
+		ce.getProperty().accept(this);
+		ce.getFiller().accept(this);
 	}
 
 	@Override
@@ -170,17 +172,11 @@ public class AxiomEntityVisitor implements OWLObjectVisitor {
 	}
 
 	@Override
-	public void visit(OWLDataExactCardinality ce) {
-		// TODO Auto-generated method stub
-		OWLObjectVisitor.super.visit(ce);
-		System.out.println("OWLDataExactCardinality ce: " + ce);
-	}
-
-	@Override
 	public void visit(OWLDataHasValue ce) {
-		// TODO Auto-generated method stub
 		OWLObjectVisitor.super.visit(ce);
-		System.out.println("OWLDataHasValue ce: " + ce);
+		stack.add("SOME");
+		ce.getProperty().accept(this);
+		ce.getFiller().accept(this);
 	}
 
 	@Override
@@ -188,20 +184,6 @@ public class AxiomEntityVisitor implements OWLObjectVisitor {
 		// TODO Auto-generated method stub
 		OWLObjectVisitor.super.visit(node);
 		System.out.println("OWLDataIntersectionOf node: " + node);
-	}
-
-	@Override
-	public void visit(OWLDataMaxCardinality ce) {
-		// TODO Auto-generated method stub
-		OWLObjectVisitor.super.visit(ce);
-		System.out.println("OWLDataMaxCardinality ce: " + ce);
-	}
-
-	@Override
-	public void visit(OWLDataMinCardinality ce) {
-		// TODO Auto-generated method stub
-		OWLObjectVisitor.super.visit(ce);
-		System.out.println("OWLDataMinCardinality ce: " + ce);
 	}
 
 	@Override
@@ -213,37 +195,41 @@ public class AxiomEntityVisitor implements OWLObjectVisitor {
 
 	@Override
 	public void visit(OWLDataProperty property) {
-		// TODO Auto-generated method stub
 		OWLObjectVisitor.super.visit(property);
-		System.out.println("OWLDataProperty property: " + property);
+		stack.add(shortFormProvider.getShortForm(property));
 	}
 
 	@Override
 	public void visit(OWLDataPropertyAssertionAxiom axiom) {
-		// TODO Auto-generated method stub
 		OWLObjectVisitor.super.visit(axiom);
-		System.out.println("OWLDataPropertyAssertionAxiom axiom: " + axiom);
+		axiom.getProperty().accept(this);
+		axiom.getSubject().accept(this);
+		axiom.getObject().accept(this);
 	}
 
-	@Override
-	public void visit(OWLDataPropertyDomainAxiom axiom) {
-		// TODO Auto-generated method stub
+	//@Override
+	/*public void visit(OWLDataPropertyDomainAxiom axiom) {
 		OWLObjectVisitor.super.visit(axiom);
-		System.out.println("OWLDataPropertyDomainAxiom axiom: " + axiom);
-	}
+		dataFactory.getOWLDataSomeValuesFrom(axiom.getProperty(), dataFactory.getTopDatatype())
+				.accept(this);// why and how and do I even need this method? //
+		stack.add("SUBCLASS");
+		axiom.getDomain().accept(this);
+	}*/
 
-	@Override
-	public void visit(OWLDataPropertyRangeAxiom axiom) {
-		// TODO Auto-generated method stub
+	//@Override
+	/*public void visit(OWLDataPropertyRangeAxiom axiom) {
 		OWLObjectVisitor.super.visit(axiom);
-		System.out.println("OWLDataPropertyRangeAxiom axiom: " + axiom);
-	}
+		stack.add("TOP");
+		stack.add("SUBCLASS");
+		dataFactory.getOWLDataAllValuesFrom(axiom.getProperty(), axiom.getRange()).accept(this);
+	}*/
 
 	@Override
 	public void visit(OWLDataSomeValuesFrom ce) {
-		// TODO Auto-generated method stub
 		OWLObjectVisitor.super.visit(ce);
-		System.out.println("OWLDataSomeValuesFrom ce: " + ce);
+		stack.add("SOME");
+		ce.getProperty().accept(this);
+		ce.getFiller().accept(this);
 	}
 
 	@Override
@@ -255,9 +241,10 @@ public class AxiomEntityVisitor implements OWLObjectVisitor {
 
 	@Override
 	public void visit(OWLDatatypeDefinitionAxiom axiom) {
-		// TODO Auto-generated method stub
 		OWLObjectVisitor.super.visit(axiom);
-		System.out.println("OWLDatatypeDefinitionAxiom axiom: " + axiom);
+		axiom.getDatatype().accept(this);
+		stack.add("OWLDatatypeDefinitionAxiom");
+		axiom.getDataRange().accept(this);
 	}
 
 	@Override
@@ -276,65 +263,110 @@ public class AxiomEntityVisitor implements OWLObjectVisitor {
 
 	@Override
 	public void visit(OWLDeclarationAxiom axiom) {
-		// TODO Auto-generated method stub
 		OWLObjectVisitor.super.visit(axiom);
-		System.out.println("OWLDeclarationAxiom axiom: " + axiom);
+		stack.add("DECLARATION");
+		axiom.getEntity().accept(this);
 	}
 
 	@Override
-	public void visit(OWLDifferentIndividualsAxiom axiom) {
-		// TODO Auto-generated method stub
+	public void visit(OWLDifferentIndividualsAxiom axiom) {/* needed? */
 		OWLObjectVisitor.super.visit(axiom);
-		System.out.println("OWLDifferentIndividualsAxiom axiom: " + axiom);
+		for (Iterator<OWLIndividual> it = axiom.individuals().iterator(); it.hasNext();) {
+			it.next().accept(this);
+			if (it.hasNext()) {
+				stack.add("NOT_EQUAL");
+			} else {
+				stack.add("End of List");
+			}
+		}
 	}
 
 	@Override
 	public void visit(OWLDisjointClassesAxiom axiom) {
-		// TODO Auto-generated method stub
 		OWLObjectVisitor.super.visit(axiom);
-		System.out.println("OWLDisjointClassesAxiom axiom: " + axiom);
+		List<OWLClassExpression> classExpressions = org.semanticweb.owlapi.util.OWLAPIStreamUtils
+				.asList(axiom.classExpressions());
+		stack.add("AllDisjoint");
+		for (Iterator<OWLClassExpression> it = classExpressions.iterator(); it.hasNext();) {
+			it.next().accept(this);
+			if (!it.hasNext())
+				stack.add("End of disjoint class list");
+		}
 	}
 
 	@Override
 	public void visit(OWLDisjointDataPropertiesAxiom axiom) {
-		// TODO Auto-generated method stub
 		OWLObjectVisitor.super.visit(axiom);
-		System.out.println("OWLDisjointDataPropertiesAxiom axiom: " + axiom);
+		for (Iterator<OWLDataPropertyExpression> it = axiom.properties().iterator(); it.hasNext();) {
+			it.next().accept(this);
+			if (it.hasNext()) {
+				stack.add("DisjointDataProperty");
+			} else
+				stack.add("End Of List");
+		}
 	}
 
 	@Override
 	public void visit(OWLDisjointObjectPropertiesAxiom axiom) {
-		// TODO Auto-generated method stub
 		OWLObjectVisitor.super.visit(axiom);
-		System.out.println("OWLDisjointObjectPropertiesAxiom axiom: " + axiom);
+		stack.add("DISJOINTObjectProperty");
+		for (Iterator<OWLObjectPropertyExpression> it = axiom.properties().iterator(); it.hasNext();) {
+			it.next().accept(this);
+			if (!it.hasNext()) {
+				stack.add("End Of List");
+			}
+		}
 	}
 
 	@Override
 	public void visit(OWLDisjointUnionAxiom axiom) {
-		// TODO Auto-generated method stub
 		OWLObjectVisitor.super.visit(axiom);
-		System.out.println("OWLDisjointUnionAxiom axiom: " + axiom);
+		stack.add("DisjointClasses");
+		for (Iterator<OWLClassExpression> it = axiom.classExpressions().iterator(); it.hasNext();) {
+			it.next().accept(this);
+			if (!it.hasNext()) {
+				stack.add("End Of List");
+			}
+		}
 	}
 
 	@Override
 	public void visit(OWLEquivalentClassesAxiom axiom) {
-		// TODO Auto-generated method stub
 		OWLObjectVisitor.super.visit(axiom);
-		System.out.println("OWLEquivalentClassesAxiom axiom: " + axiom);
+		List<OWLClassExpression> classExpressions = org.semanticweb.owlapi.util.OWLAPIStreamUtils
+				.asList(axiom.classExpressions());
+		stack.add("Equivalent");
+		for (Iterator<OWLClassExpression> it = classExpressions.iterator(); it.hasNext();) {
+			it.next().accept(this);
+			if (!it.hasNext())
+				stack.add("End of equivalent class list");
+		}
 	}
 
 	@Override
 	public void visit(OWLEquivalentDataPropertiesAxiom axiom) {
-		// TODO Auto-generated method stub
 		OWLObjectVisitor.super.visit(axiom);
-		System.out.println("OWLEquivalentDataPropertiesAxiom axiom: " + axiom);
+		/*for (Iterator<OWLDataPropertyExpression> it = axiom.properties().iterator(); it.hasNext();) {
+			it.next().accept(this);
+			if (it.hasNext()) {
+				stack.add("Equivalent");
+			} else {
+				stack.add("End of list");
+			}
+		}*/
 	}
 
 	@Override
 	public void visit(OWLEquivalentObjectPropertiesAxiom axiom) {
-		// TODO Auto-generated method stub
 		OWLObjectVisitor.super.visit(axiom);
-		System.out.println("OWLEquivalentObjectPropertiesAxiom axiom: " + axiom);
+		/*for (Iterator<OWLObjectPropertyExpression> it = axiom.properties().iterator(); it.hasNext();) {
+			it.next().accept(this);
+			if (it.hasNext()) {
+				stack.add("EQUIVALENT");
+			} else {
+				stack.add("End of List");
+			}
+		}*/
 	}
 
 	@Override
@@ -344,19 +376,21 @@ public class AxiomEntityVisitor implements OWLObjectVisitor {
 		System.out.println("OWLFacetRestriction node: " + node);
 	}
 
-	@Override
+	/*@Override
 	public void visit(OWLFunctionalDataPropertyAxiom axiom) {
-		// TODO Auto-generated method stub
 		OWLObjectVisitor.super.visit(axiom);
-		System.out.println("OWLFunctionalDataPropertyAxiom axiom: " + axiom);
+		stack.add("TOP");
+		stack.add("SUBCLASS");
+		dataFactory.getOWLDataMaxCardinality(1, axiom.getProperty()).accept(this);
 	}
-
-	@Override
+*/
+	/*@Override
 	public void visit(OWLFunctionalObjectPropertyAxiom axiom) {
-		// TODO Auto-generated method stub
 		OWLObjectVisitor.super.visit(axiom);
-		System.out.println("OWLFunctionalObjectPropertyAxiom axiom: " + axiom);
-	}
+		stack.add("TOP");
+		stack.add("SUBCLASS");
+		dataFactory.getOWLObjectMaxCardinality(1, axiom.getProperty()).accept(this);
+	}*/
 
 	@Override
 	public void visit(OWLHasKeyAxiom axiom) {
@@ -365,95 +399,110 @@ public class AxiomEntityVisitor implements OWLObjectVisitor {
 		System.out.println("OWLHasKeyAxiom axiom: " + axiom);
 	}
 
-	@Override
+	/*@Override
 	public void visit(OWLInverseFunctionalObjectPropertyAxiom axiom) {
-		// TODO Auto-generated method stub
 		OWLObjectVisitor.super.visit(axiom);
-		System.out.println("OWLInverseFunctionalObjectPropertyAxiom axiom: " + axiom);
-	}
+		stack.add("TOP");
+		stack.add("SUBCLASS");
+		OWLObjectPropertyExpression property = axiom.getProperty();
+		if (property.isAnonymous())  What is anonymous property 
+		{
+			dataFactory.getOWLObjectMaxCardinality(1, property).accept(this);
+		} else {
+			OWLObjectPropertyExpression prop = dataFactory.getOWLObjectInverseOf(property.asOWLObjectProperty());
+			dataFactory.getOWLObjectMaxCardinality(1, prop).accept(this);
+		}
+	}*/
 
 	@Override
 	public void visit(OWLInverseObjectPropertiesAxiom axiom) {
-		// TODO Auto-generated method stub
 		OWLObjectVisitor.super.visit(axiom);
-		System.out.println("OWLInverseObjectPropertiesAxiom axiom: " + axiom);
+		/*axiom.getFirstProperty().accept(this);
+		stack.add("EQUIVALENT");
+		axiom.getSecondProperty().accept(this);
+		stack.add("INVERSE");*/
 	}
 
 	@Override
 	public void visit(OWLIrreflexiveObjectPropertyAxiom axiom) {
-		// TODO Auto-generated method stub
 		OWLObjectVisitor.super.visit(axiom);
-		System.out.println("OWLIrreflexiveObjectPropertyAxiom axiom: " + axiom);
+		stack.add("IrreflexiveObjectProperty");
+		axiom.getProperty().accept(this);
 	}
 
 	@Override
 	public void visit(OWLLiteral node) {
 		// TODO Auto-generated method stub
 		OWLObjectVisitor.super.visit(node);
-		System.out.println("OWLLiteral node: " + node);
+		//System.out.println("OWLLiteral node: " + node);
+		stack.add(node.getLiteral());
 	}
 
 	@Override
 	public void visit(OWLNamedIndividual individual) {
-		// TODO Auto-generated method stub
 		OWLObjectVisitor.super.visit(individual);
-		System.out.println("OWLNamedIndividual individual: " + individual);
+		stack.add(shortFormProvider.getShortForm(individual));
 	}
 
 	@Override
 	public void visit(OWLNegativeDataPropertyAssertionAxiom axiom) {
-		// TODO Auto-generated method stub
 		OWLObjectVisitor.super.visit(axiom);
-		System.out.println("OWLNegativeDataPropertyAssertionAxiom axiom: " + axiom);
+		stack.add("NOT");
+		axiom.getProperty().accept(this);
+		axiom.getSubject().accept(this);
+		axiom.getObject().accept(this);
 	}
 
 	@Override
 	public void visit(OWLNegativeObjectPropertyAssertionAxiom axiom) {
-		// TODO Auto-generated method stub
 		OWLObjectVisitor.super.visit(axiom);
-		System.out.println("OWLNegativeObjectPropertyAssertionAxiom axiom: " + axiom);
+		stack.add("NOT");
+		axiom.getProperty().accept(this);
+		axiom.getSubject().accept(this);
+		axiom.getObject().accept(this);
 	}
 
 	@Override
 	public void visit(OWLObjectAllValuesFrom ce) {
-		// TODO Auto-generated method stub
 		OWLObjectVisitor.super.visit(ce);
-		System.out.println("OWLObjectAllValuesFrom ce: " + ce);
+		stack.add("ALL");
+		ce.getProperty().accept(this);
+		getNestedFillers(ce.getFiller());
 	}
 
 	@Override
 	public void visit(OWLObjectComplementOf ce) {
-		// TODO Auto-generated method stub
 		OWLObjectVisitor.super.visit(ce);
-		System.out.println("OWLObjectComplementOf ce: " + ce);
-	}
-
-	@Override
-	public void visit(OWLObjectExactCardinality ce) {
-		// TODO Auto-generated method stub
-		OWLObjectVisitor.super.visit(ce);
-		System.out.println("OWLObjectExactCardinality ce: " + ce);
+		stack.add("NOT");
+		getNestedFillers(ce.getOperand());
 	}
 
 	@Override
 	public void visit(OWLObjectHasSelf ce) {
-		// TODO Auto-generated method stub
 		OWLObjectVisitor.super.visit(ce);
-		System.out.println("OWLObjectHasSelf ce: " + ce);
+		stack.add("SOME");
+		ce.getProperty().accept(this);
+		stack.add("SELF");
 	}
 
 	@Override
 	public void visit(OWLObjectHasValue ce) {
-		// TODO Auto-generated method stub
 		OWLObjectVisitor.super.visit(ce);
-		System.out.println("OWLObjectHasValue ce: " + ce);
+		stack.add("SOME");
+		ce.getProperty().accept(this);
+		ce.getFiller().accept(this);
 	}
 
 	@Override
 	public void visit(OWLObjectIntersectionOf ce) {
-		// TODO Auto-generated method stub
+
 		OWLObjectVisitor.super.visit(ce);
-		System.out.println("OWLObjectIntersectionOf ce: " + ce);
+		for (Iterator<? extends OWLClassExpression> it = ce.operands().iterator(); it.hasNext();) {
+			it.next().accept(this);
+			if (it.hasNext()) {
+				stack.add("AND");
+			}
+		}
 	}
 
 	@Override
@@ -464,66 +513,67 @@ public class AxiomEntityVisitor implements OWLObjectVisitor {
 	}
 
 	@Override
-	public void visit(OWLObjectMaxCardinality ce) {
-		// TODO Auto-generated method stub
-		OWLObjectVisitor.super.visit(ce);
-		System.out.println("OWLObjectMaxCardinality ce: " + ce);
-	}
-
-	@Override
-	public void visit(OWLObjectMinCardinality ce) {
-		// TODO Auto-generated method stub
-		OWLObjectVisitor.super.visit(ce);
-		System.out.println("OWLObjectMinCardinality ce: " + ce);
-	}
-
-	@Override
 	public void visit(OWLObjectOneOf ce) {
-		// TODO Auto-generated method stub
 		OWLObjectVisitor.super.visit(ce);
-		System.out.println("OWLObjectOneOf ce: " + ce);
+		for (Iterator<? extends OWLIndividual> it = ce.individuals().iterator(); it.hasNext();) {
+			it.next().accept(this);
+			if (it.hasNext()) {
+				stack.add("OR");
+			}
+		}
 	}
 
 	@Override
 	public void visit(OWLObjectProperty property) {
-		// TODO Auto-generated method stub
 		OWLObjectVisitor.super.visit(property);
-		System.out.println("OWLObjectProperty property: " + property);
+		stack.add(shortFormProvider.getShortForm(property));
 	}
 
 	@Override
 	public void visit(OWLObjectPropertyAssertionAxiom axiom) {
-		// TODO Auto-generated method stub
 		OWLObjectVisitor.super.visit(axiom);
-		System.out.println("OWLObjectPropertyAssertionAxiom axiom: " + axiom);
+		axiom.getProperty().accept(this);
+		axiom.getSubject().accept(this);
+		axiom.getObject().accept(this);
 	}
 
-	@Override
+	/*@Override
 	public void visit(OWLObjectPropertyDomainAxiom axiom) {
-		// TODO Auto-generated method stub
 		OWLObjectVisitor.super.visit(axiom);
-		System.out.println("OWLObjectPropertyDomainAxiom axiom: " + axiom);
-	}
+		dataFactory.getOWLObjectSomeValuesFrom(axiom.getProperty(), dataFactory.getOWLThing()).accept(this);
+		stack.add("SUBCLASS");
+		axiom.getDomain().accept(this);
+	}*/
 
-	@Override
+	/*@Override
 	public void visit(OWLObjectPropertyRangeAxiom axiom) {
-		// TODO Auto-generated method stub
 		OWLObjectVisitor.super.visit(axiom);
-		System.out.println("OWLObjectPropertyRangeAxiom axiom: " + axiom);
-	}
+		stack.add("TOP");
+		stack.add("SUBCLASS");
+		dataFactory.getOWLObjectAllValuesFrom(axiom.getProperty(), axiom.getRange()).accept(this);
+	}*/
 
 	@Override
 	public void visit(OWLObjectSomeValuesFrom ce) {
-		// TODO Auto-generated method stub
 		OWLObjectVisitor.super.visit(ce);
-		System.out.println("OWLObjectSomeValuesFrom ce: " + ce);
+		stack.add("SOME");
+		ce.getProperty().accept(this);
+		getNestedFillers(ce.getFiller());
+	}
+
+	private void getNestedFillers(OWLClassExpression ce) {
+		ce.accept(this);
 	}
 
 	@Override
 	public void visit(OWLObjectUnionOf ce) {
-		// TODO Auto-generated method stub
 		OWLObjectVisitor.super.visit(ce);
-		System.out.println("OWLObjectUnionOf ce: " + ce);
+		for (Iterator<? extends OWLClassExpression> it = ce.operands().iterator(); it.hasNext();) {
+			it.next().accept(this);
+			if (it.hasNext()) {
+				stack.add("OR");
+			}
+		}
 	}
 
 	@Override
@@ -535,16 +585,22 @@ public class AxiomEntityVisitor implements OWLObjectVisitor {
 
 	@Override
 	public void visit(OWLReflexiveObjectPropertyAxiom axiom) {
-		// TODO Auto-generated method stub
 		OWLObjectVisitor.super.visit(axiom);
-		System.out.println("OWLReflexiveObjectPropertyAxiom axiom: " + axiom);
+		stack.add("Reflexive Property");
+		axiom.getProperty().accept(this);
 	}
 
 	@Override
 	public void visit(OWLSameIndividualAxiom axiom) {
-		// TODO Auto-generated method stub
 		OWLObjectVisitor.super.visit(axiom);
-		System.out.println("OWLSameIndividualAxiom axiom: " + axiom);
+		for (Iterator<OWLIndividual> it = axiom.individuals().iterator(); it.hasNext();) {
+			it.next().accept(this);
+			if (it.hasNext()) {
+				stack.add("OWLSameIndividualAxiom");
+			} else {
+
+			}
+		}
 	}
 
 	@Override
@@ -556,50 +612,63 @@ public class AxiomEntityVisitor implements OWLObjectVisitor {
 
 	@Override
 	public void visit(OWLSubClassOfAxiom axiom) {
-		// TODO Auto-generated method stub
 		OWLObjectVisitor.super.visit(axiom);
-		
+		/* for SubClass */
+		stack.add("Subclass");
 		axiom.getSubClass().accept(this);
-		System.out.println("OWLSubClassOfAxiom axiom subclass: " + axiom.getSubClass());
+		/* Push into Stack */
+		/* for SuperClass */
 		axiom.getSuperClass().accept(this);
-		System.out.println("OWLSubClassOfAxiom axiom superclass: " + axiom.getSuperClass());
 	}
 
 	@Override
-	public void visit(OWLSubDataPropertyOfAxiom axiom) {
-		// TODO Auto-generated method stub
+	public void visit(OWLSubDataPropertyOfAxiom axiom) {/* needed? */
 		OWLObjectVisitor.super.visit(axiom);
-		System.out.println("OWLSubDataPropertyOfAxiom axiom: " + axiom);
+		axiom.getSubProperty().accept(this);
+		stack.add("SUBCLASS");
+		axiom.getSuperProperty().accept(this);
 	}
 
 	@Override
 	public void visit(OWLSubObjectPropertyOfAxiom axiom) {
-		// TODO Auto-generated method stub
 		OWLObjectVisitor.super.visit(axiom);
-		System.out.println("OWLSubObjectPropertyOfAxiom axiom: " + axiom);
+		axiom.getSubProperty().accept(this);
+		stack.add("SUBCLASS");
+		axiom.getSuperProperty().accept(this);
 	}
 
 	@Override
 	public void visit(OWLSubPropertyChainOfAxiom axiom) {
-		// TODO Auto-generated method stub
 		OWLObjectVisitor.super.visit(axiom);
-		System.out.println("OWLSubPropertyChainOfAxiom axiom: " + axiom);
+		for (Iterator<OWLObjectPropertyExpression> it = axiom.getPropertyChain().iterator(); it.hasNext();) {
+			it.next().accept(this);
+			if (it.hasNext()) {
+				stack.add("CIRCULAR");
+			} else {
+				stack.add("End of list");
+			}
+		}
+		stack.add("SUBCLASS");
+		axiom.getSuperProperty().accept(this);
 	}
 
 	@Override
 	public void visit(OWLSymmetricObjectPropertyAxiom axiom) {
-		// TODO Auto-generated method stub
 		OWLObjectVisitor.super.visit(axiom);
-		System.out.println("OWLSymmetricObjectPropertyAxiom axiom: " + axiom);
+		axiom.getProperty().accept(this);
+		stack.add("EQUIVALENT");
+		axiom.getProperty().accept(this);
+		stack.add("INVERSE");
 	}
 
 	@Override
 	public void visit(OWLTransitiveObjectPropertyAxiom axiom) {
-		// TODO Auto-generated method stub
 		OWLObjectVisitor.super.visit(axiom);
-		System.out.println("OWLTransitiveObjectPropertyAxiom axiom: " + axiom);
+		stack.add("TransitiveProperty");
+		axiom.getProperty().accept(this);
 	}
 
+	/*****************SWRL*******************/
 	@Override
 	public void visit(SWRLBuiltInAtom node) {
 		// TODO Auto-generated method stub
@@ -675,5 +744,92 @@ public class AxiomEntityVisitor implements OWLObjectVisitor {
 		// TODO Auto-generated method stub
 		OWLObjectVisitor.super.visit(node);
 		System.out.println("SWRLVariable node: " + node);
+	}
+	/*****************SWRL*******************/
+
+	private static String escapeName(String name) {
+		return name.replace("_", "\\_").replace("#", "\\#");
+	}
+
+	@Override
+	public void visit(OWLAnnotation node) {
+		OWLObjectVisitor.super.visit(node);
+	}
+
+	@Override
+	public void visit(
+			OWLAnnotationAssertionAxiom axiom) {/* not needed, most likely */
+		OWLObjectVisitor.super.visit(axiom);
+		stack.add("Annotation");
+		axiom.getSubject().accept(this);
+		axiom.getProperty().accept(this);
+		axiom.getValue().accept(this);
+	}
+
+	@Override
+	public void visit(OWLAnnotationProperty property) {
+		OWLObjectVisitor.super.visit(property);
+	}
+
+	@Override
+	public void visit(OWLAnnotationPropertyDomainAxiom axiom) {
+		OWLObjectVisitor.super.visit(axiom);
+	}
+
+	@Override
+	public void visit(OWLAnnotationPropertyRangeAxiom axiom) {
+		OWLObjectVisitor.super.visit(axiom);
+	}
+
+	@Override
+	public void visit(OWLObjectExactCardinality ce) {
+		OWLObjectVisitor.super.visit(ce);
+		stack.add("OWLObjectExactCardinality");
+		stack.add(Integer.toString(ce.getCardinality()));
+		ce.getProperty().accept(this);
+		ce.getFiller().accept(this);
+	}
+
+	@Override
+	public void visit(OWLDataExactCardinality ce) {
+		OWLObjectVisitor.super.visit(ce);
+		stack.add("OWLDataExactCardinality");
+		stack.add(Integer.toString(ce.getCardinality()));
+		ce.getProperty().accept(this);
+		ce.getFiller().accept(this);
+	}
+
+	@Override
+	public void visit(OWLDataMaxCardinality ce) {
+		OWLObjectVisitor.super.visit(ce);
+		stack.add("MAX");
+		stack.add(Integer.toString(ce.getCardinality()));
+		ce.getProperty().accept(this);
+	}
+
+	@Override
+	public void visit(OWLDataMinCardinality ce) {
+		OWLObjectVisitor.super.visit(ce);
+		stack.add("MIN");
+		stack.add(Integer.toString(ce.getCardinality()));
+		ce.getProperty().accept(this);
+	}
+
+	@Override
+	public void visit(OWLObjectMaxCardinality ce) {
+		OWLObjectVisitor.super.visit(ce);
+		stack.add("MAX");
+		stack.add(Integer.toString(ce.getCardinality()));
+		ce.getProperty().accept(this);
+		getNestedFillers(ce.getFiller());
+	}
+
+	@Override
+	public void visit(OWLObjectMinCardinality ce) {
+		OWLObjectVisitor.super.visit(ce);
+		stack.add("MIN");
+		stack.add(Integer.toString(ce.getCardinality()));
+		ce.getProperty().accept(this);
+		getNestedFillers(ce.getFiller());
 	}
 }

@@ -1,0 +1,351 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+    <!ENTITY oopmetrics "http://www.cs.ubbcluj.ro/~ivpop/ontologies/oopmetrics.owl#" >
+    <!ENTITY cpannotationschema "http://www.ontologydesignpatterns.org/schemas/cpannotationschema.owl#" >
+]>
+
+
+<rdf:RDF xmlns="http://www.cs.ubbcluj.ro/~ivpop/ontologies/oopmetrics.owl#"
+     xml:base="http://www.cs.ubbcluj.ro/~ivpop/ontologies/oopmetrics.owl"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:cpannotationschema="http://www.ontologydesignpatterns.org/schemas/cpannotationschema.owl#"
+     xmlns:oopmetrics="http://www.cs.ubbcluj.ro/~ivpop/ontologies/oopmetrics.owl#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+    <owl:Ontology rdf:about="http://www.cs.ubbcluj.ro/~ivpop/ontologies/oopmetrics.owl">
+        <owl:versionInfo>1.1.0</owl:versionInfo>
+        <cpannotationschema:hasUnitTest>PREFIX rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt;
+PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;
+PREFIX oopmetrics: &lt;http://www.cs.ubbcluj.ro/~ivpop/ontologies/oopmetrics.owl#&gt;
+SELECT DISTINCT ?class
+WHERE {
+    ?class rdf:type oopmetrics:OOPClass .
+
+    ?class oopmetrics:hasMetric ?metric1 .
+    ?metric1 rdf:type oopmetrics:OOPMetric .
+    ?metric1 oopmetrics:hasMetricCategory ?wmc .
+    ?wmc rdf:type oopmetrics:OOPMetricCategory .
+    ?wmc oopmetrics:hasTag 1 .
+    ?metric1 oopmetrics:hasIntegerValue ?v1 . FILTER (?v1 &gt; 100)
+
+    ?class oopmetrics:hasMetric ?metric2 .
+    ?metric2 rdf:type oopmetrics:OOPMetric .
+    ?metric2 oopmetrics:hasMetricCategory ?atfd .
+    ?atfd rdf:type oopmetrics:OOPMetricCategory .
+    ?atfd oopmetrics:hasTag 2 .
+    ?metric2 oopmetrics:hasIntegerValue ?v2 . FILTER (?v2 &gt; 1)
+
+    ?class oopmetrics:hasMetric ?metric3 .
+    ?metric3 rdf:type oopmetrics:OOPMetric .
+    ?metric3 oopmetrics:hasMetricCategory ?tcc .
+    ?tcc rdf:type oopmetrics:OOPMetricCategory .
+    ?tcc oopmetrics:hasTag 3 .
+    ?metric3 oopmetrics:hasFloatValue ?v3 . FILTER (?v3 &lt; 0.5)
+}</cpannotationschema:hasUnitTest>
+        <hasMention>Ontology patterns and other works based on this pattern or any other version of it must cite the source (such as give a link to this pattern or cite the article that describes this pattern, if such article will be published). This should have been clear without even mentioning it.</hasMention>
+        <hasAuthor>Ionel Virgil Pop</hasAuthor>
+        <hasInitialReleaseDate>August 10, 2012 (Hawaii Time)</hasInitialReleaseDate>
+        <cpannotationschema:scenarios xml:lang="en">Find if a class (or which class) is a God Class based on it&apos;s metrics.</cpannotationschema:scenarios>
+        <cpannotationschema:hasConsequences xml:lang="en">Software anti-patterns (design-flaws) can be detected based on software metrics by using this ontology pattern.</cpannotationschema:hasConsequences>
+        <cpannotationschema:hasIntent xml:lang="en">To represent software metrics especially for the purpose of detecting design-flaws in software systems based on these metrics. This is useful for re-engineering the software system.</cpannotationschema:hasIntent>
+        <cpannotationschema:coversRequirements xml:lang="en">What are the software metrics for a particular project/package/class/method? 
+Knowing the software metrics, is there a design-flaw in the software system?</cpannotationschema:coversRequirements>
+        <cpannotationschema:hasConsequences xml:lang="ro">Anti-sabloanele (defectele de proiectare) soft pot fi detectate pe baza metricior soft daca se foloseste aceasta ontologie sablon.</cpannotationschema:hasConsequences>
+        <cpannotationschema:coversRequirements xml:lang="ro">Care sunt metricile soft pentru un anumit proiect/pachet/clasa/metoda?
+Cunoscand metricile soft, exista un defect de proiectare in sistemul soft?</cpannotationschema:coversRequirements>
+        <cpannotationschema:hasIntent xml:lang="ro">De a reprezenta metricile soft in special in scopul detectarii defectelor de proiectare din sistemele soft pe baza acestor metrici. Acest lucru este folositor pentru reingineria sistemului soft.</cpannotationschema:hasIntent>
+        <cpannotationschema:scenarios xml:lang="ro">Gaseste daca o clasa (sau care clasa) se inscrie in anti-sablonul &quot;God Class&quot; pe baza metricilor ei.</cpannotationschema:scenarios>
+        <owl:imports rdf:resource="http://www.ontologydesignpatterns.org/schemas/cpannotationschema.owl"/>
+    </owl:Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <owl:AnnotationProperty rdf:about="&oopmetrics;hasInitialReleaseDate"/>
+    <owl:AnnotationProperty rdf:about="&oopmetrics;hasAuthor"/>
+    <owl:AnnotationProperty rdf:about="&oopmetrics;hasMention"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Datatypes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.cs.ubbcluj.ro/~ivpop/ontologies/oopmetrics.owl#hasClass -->
+
+    <owl:ObjectProperty rdf:about="&oopmetrics;hasClass">
+        <rdfs:label xml:lang="en">hasClass</rdfs:label>
+        <rdfs:comment xml:lang="en">Refers to an OOPClass from an OOPPackage.</rdfs:comment>
+        <rdfs:comment xml:lang="ro">Se refera la o OOPClass dintr-un OOPPackage.</rdfs:comment>
+        <rdfs:isDefinedBy rdf:resource="http://www.cs.ubbcluj.ro/~ivpop/ontologies/oopmetrics.owl"/>
+        <rdfs:range rdf:resource="&oopmetrics;OOPClass"/>
+        <rdfs:domain rdf:resource="&oopmetrics;OOPPackage"/>
+        <rdfs:subPropertyOf rdf:resource="&owl;topObjectProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.cs.ubbcluj.ro/~ivpop/ontologies/oopmetrics.owl#hasMethod -->
+
+    <owl:ObjectProperty rdf:about="&oopmetrics;hasMethod">
+        <rdfs:label xml:lang="en">hasMethod</rdfs:label>
+        <rdfs:comment xml:lang="en">Refers to an OOPMethod from an OOPClass.</rdfs:comment>
+        <rdfs:comment xml:lang="ro">Se refera la o OOPMethod dintr-o OOPClass.</rdfs:comment>
+        <rdfs:isDefinedBy rdf:resource="http://www.cs.ubbcluj.ro/~ivpop/ontologies/oopmetrics.owl"/>
+        <rdfs:domain rdf:resource="&oopmetrics;OOPClass"/>
+        <rdfs:range rdf:resource="&oopmetrics;OOPMethod"/>
+        <rdfs:subPropertyOf rdf:resource="&owl;topObjectProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.cs.ubbcluj.ro/~ivpop/ontologies/oopmetrics.owl#hasMetric -->
+
+    <owl:ObjectProperty rdf:about="&oopmetrics;hasMetric">
+        <rdfs:label xml:lang="en">hasMetric</rdfs:label>
+        <rdfs:comment xml:lang="en">Refers to a software metric that an OOPProject/OOPPackage/OOPClass/OOPMethod has.</rdfs:comment>
+        <rdfs:comment xml:lang="ro">Se refera la o metrica soft pe care o are un/o OOPProject/OOPPackage/OOPClass/ OOPMethod.</rdfs:comment>
+        <rdfs:isDefinedBy rdf:resource="http://www.cs.ubbcluj.ro/~ivpop/ontologies/oopmetrics.owl"/>
+        <rdfs:range rdf:resource="&oopmetrics;OOPMetric"/>
+        <rdfs:subPropertyOf rdf:resource="&owl;topObjectProperty"/>
+        <rdfs:domain>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&oopmetrics;OOPClass"/>
+                    <rdf:Description rdf:about="&oopmetrics;OOPMethod"/>
+                    <rdf:Description rdf:about="&oopmetrics;OOPPackage"/>
+                    <rdf:Description rdf:about="&oopmetrics;OOPProject"/>
+                </owl:unionOf>
+            </owl:Class>
+        </rdfs:domain>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.cs.ubbcluj.ro/~ivpop/ontologies/oopmetrics.owl#hasMetricCategory -->
+
+    <owl:ObjectProperty rdf:about="&oopmetrics;hasMetricCategory">
+        <rdfs:label xml:lang="en">hasMetricCategory</rdfs:label>
+        <rdfs:comment xml:lang="en">Each software metric has an OOPMetricCategory. The category to which it belongs is specified by the hasMetricCategory property.</rdfs:comment>
+        <rdfs:comment xml:lang="ro">Fiecare metrica soft are o categorie OOPMetricCategory. Categoria de care apartine este specificata prin intermediul proprietatii hasMetricCategory.</rdfs:comment>
+        <rdfs:isDefinedBy rdf:resource="http://www.cs.ubbcluj.ro/~ivpop/ontologies/oopmetrics.owl"/>
+        <rdfs:domain rdf:resource="&oopmetrics;OOPMetric"/>
+        <rdfs:range rdf:resource="&oopmetrics;OOPMetricCategory"/>
+        <rdfs:subPropertyOf rdf:resource="&owl;topObjectProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.cs.ubbcluj.ro/~ivpop/ontologies/oopmetrics.owl#hasPackage -->
+
+    <owl:ObjectProperty rdf:about="&oopmetrics;hasPackage">
+        <rdfs:label xml:lang="en">hasPackage</rdfs:label>
+        <rdfs:comment xml:lang="en">Refers to an OOPPackage from an OOPProject.</rdfs:comment>
+        <rdfs:comment xml:lang="ro">Se refera la un OOPPackage dintr-un OOPProject.</rdfs:comment>
+        <rdfs:isDefinedBy rdf:resource="http://www.cs.ubbcluj.ro/~ivpop/ontologies/oopmetrics.owl"/>
+        <rdfs:range rdf:resource="&oopmetrics;OOPPackage"/>
+        <rdfs:domain rdf:resource="&oopmetrics;OOPProject"/>
+        <rdfs:subPropertyOf rdf:resource="&owl;topObjectProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.cs.ubbcluj.ro/~ivpop/ontologies/oopmetrics.owl#hasFloatValue -->
+
+    <owl:DatatypeProperty rdf:about="&oopmetrics;hasFloatValue">
+        <rdfs:label xml:lang="en">hasFloatValue</rdfs:label>
+        <rdfs:comment xml:lang="en">The real value of the software metric.</rdfs:comment>
+        <rdfs:comment xml:lang="ro">Valoarea reala pentru metrica soft.</rdfs:comment>
+        <rdfs:isDefinedBy rdf:resource="http://www.cs.ubbcluj.ro/~ivpop/ontologies/oopmetrics.owl"/>
+        <rdfs:domain rdf:resource="&oopmetrics;OOPMetric"/>
+        <rdfs:range rdf:resource="&xsd;float"/>
+        <rdfs:subPropertyOf rdf:resource="&owl;topDataProperty"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.cs.ubbcluj.ro/~ivpop/ontologies/oopmetrics.owl#hasIntegerValue -->
+
+    <owl:DatatypeProperty rdf:about="&oopmetrics;hasIntegerValue">
+        <rdfs:label xml:lang="en">hasIntegerValue</rdfs:label>
+        <rdfs:comment xml:lang="en">The integer value of the software metric.</rdfs:comment>
+        <rdfs:comment xml:lang="ro">Valoarea intreaga pentru metrica soft.</rdfs:comment>
+        <rdfs:isDefinedBy rdf:resource="http://www.cs.ubbcluj.ro/~ivpop/ontologies/oopmetrics.owl"/>
+        <rdfs:domain rdf:resource="&oopmetrics;OOPMetric"/>
+        <rdfs:range rdf:resource="&xsd;integer"/>
+        <rdfs:subPropertyOf rdf:resource="&owl;topDataProperty"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.cs.ubbcluj.ro/~ivpop/ontologies/oopmetrics.owl#hasLongName -->
+
+    <owl:DatatypeProperty rdf:about="&oopmetrics;hasLongName">
+        <rdfs:label xml:lang="en">hasLongName</rdfs:label>
+        <rdfs:comment xml:lang="en">The full name of the category of software metric, such as: &quot;Weighted Methods Count&quot;.</rdfs:comment>
+        <rdfs:comment xml:lang="ro">Numele complet pentru categoria de metrica soft, cum ar fi: &quot;Weighted Methods Count&quot;.</rdfs:comment>
+        <rdfs:isDefinedBy rdf:resource="http://www.cs.ubbcluj.ro/~ivpop/ontologies/oopmetrics.owl"/>
+        <rdfs:domain rdf:resource="&oopmetrics;OOPMetricCategory"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+        <rdfs:subPropertyOf rdf:resource="&owl;topDataProperty"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.cs.ubbcluj.ro/~ivpop/ontologies/oopmetrics.owl#hasName -->
+
+    <owl:DatatypeProperty rdf:about="&oopmetrics;hasName">
+        <rdfs:label xml:lang="en">hasName</rdfs:label>
+        <rdfs:comment xml:lang="en">This represents the name (more precisely the acronym) of the category of software metric. Such as: &quot;WMC&quot; for &quot;Weighted Methods Count&quot;, TCC for &quot;Tight Class Cohesion&quot;, etc.</rdfs:comment>
+        <rdfs:comment xml:lang="ro">Aceasta reprezinta numele (mai precis acronimul) pentru categoria de metrica soft. Cum ar fi: &quot;WMC&quot; pentru &quot;Weighted Methods Count&quot;, TCC pentru &quot;Tight Class Cohesion&quot;, etc.</rdfs:comment>
+        <rdfs:isDefinedBy rdf:resource="http://www.cs.ubbcluj.ro/~ivpop/ontologies/oopmetrics.owl"/>
+        <rdfs:domain rdf:resource="&oopmetrics;OOPMetricCategory"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+        <rdfs:subPropertyOf rdf:resource="&owl;topDataProperty"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.cs.ubbcluj.ro/~ivpop/ontologies/oopmetrics.owl#hasTag -->
+
+    <owl:DatatypeProperty rdf:about="&oopmetrics;hasTag">
+        <rdfs:label xml:lang="en">hasTag</rdfs:label>
+        <rdfs:comment xml:lang="en">A numerical value representing the category of software metric.</rdfs:comment>
+        <rdfs:comment xml:lang="ro">O valoare numerica reprezentand categoria metricii soft.</rdfs:comment>
+        <rdfs:isDefinedBy rdf:resource="http://www.cs.ubbcluj.ro/~ivpop/ontologies/oopmetrics.owl"/>
+        <rdfs:domain rdf:resource="&oopmetrics;OOPMetricCategory"/>
+        <rdfs:range rdf:resource="&xsd;integer"/>
+        <rdfs:subPropertyOf rdf:resource="&owl;topDataProperty"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.cs.ubbcluj.ro/~ivpop/ontologies/oopmetrics.owl#OOPClass -->
+
+    <owl:Class rdf:about="&oopmetrics;OOPClass">
+        <rdfs:label xml:lang="en">OOPClass</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+        <rdfs:comment xml:lang="en">This represents the &quot;class&quot; concept from object-oriented programming.</rdfs:comment>
+        <rdfs:comment xml:lang="ro">Aceasta reprezinta conceptul &quot;clasa&quot; din programarea orientata obiect.</rdfs:comment>
+        <rdfs:isDefinedBy rdf:resource="http://www.cs.ubbcluj.ro/~ivpop/ontologies/oopmetrics.owl"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.cs.ubbcluj.ro/~ivpop/ontologies/oopmetrics.owl#OOPMethod -->
+
+    <owl:Class rdf:about="&oopmetrics;OOPMethod">
+        <rdfs:label xml:lang="en">OOPMethod</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+        <rdfs:comment xml:lang="en">This represents the &quot;method&quot; concept from object-oriented programming.</rdfs:comment>
+        <rdfs:comment xml:lang="ro">Aceasta reprezinta conceptul &quot;metoda&quot; din programarea orientata obiect.</rdfs:comment>
+        <rdfs:isDefinedBy rdf:resource="http://www.cs.ubbcluj.ro/~ivpop/ontologies/oopmetrics.owl"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.cs.ubbcluj.ro/~ivpop/ontologies/oopmetrics.owl#OOPMetric -->
+
+    <owl:Class rdf:about="&oopmetrics;OOPMetric">
+        <rdfs:label xml:lang="en">OOPMetric</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+        <rdfs:comment xml:lang="en">This represents a software metric specific to object-oriented programming.</rdfs:comment>
+        <rdfs:comment xml:lang="ro">Aceasta reprezinta o metrica soft specifica programarii orientate obiect.</rdfs:comment>
+        <rdfs:isDefinedBy rdf:resource="http://www.cs.ubbcluj.ro/~ivpop/ontologies/oopmetrics.owl"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.cs.ubbcluj.ro/~ivpop/ontologies/oopmetrics.owl#OOPMetricCategory -->
+
+    <owl:Class rdf:about="&oopmetrics;OOPMetricCategory">
+        <rdfs:label xml:lang="en">OOPMetricCategory</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+        <rdfs:comment xml:lang="en">Each software metric belongs in an OOPMetricCategory.</rdfs:comment>
+        <rdfs:comment xml:lang="ro">Fiecare metrica soft apartine unei categorii OOPMetricCategory.</rdfs:comment>
+        <rdfs:isDefinedBy rdf:resource="http://www.cs.ubbcluj.ro/~ivpop/ontologies/oopmetrics.owl"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.cs.ubbcluj.ro/~ivpop/ontologies/oopmetrics.owl#OOPPackage -->
+
+    <owl:Class rdf:about="&oopmetrics;OOPPackage">
+        <rdfs:label xml:lang="en">OOPPackage</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+        <rdfs:comment xml:lang="en">This represents the &quot;package&quot; concept from object-oriented programming.</rdfs:comment>
+        <rdfs:comment xml:lang="ro">Aceasta reprezinta conceptul &quot;pachet&quot; din programarea orientata obiect.</rdfs:comment>
+        <rdfs:isDefinedBy rdf:resource="http://www.cs.ubbcluj.ro/~ivpop/ontologies/oopmetrics.owl"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.cs.ubbcluj.ro/~ivpop/ontologies/oopmetrics.owl#OOPProject -->
+
+    <owl:Class rdf:about="&oopmetrics;OOPProject">
+        <rdfs:label xml:lang="en">OOPProject</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+        <rdfs:comment xml:lang="en">This represents a software project.</rdfs:comment>
+        <rdfs:comment xml:lang="ro">Aceasta reprezinta un proiect soft.</rdfs:comment>
+        <rdfs:isDefinedBy rdf:resource="http://www.cs.ubbcluj.ro/~ivpop/ontologies/oopmetrics.owl"/>
+    </owl:Class>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 3.3.1957) http://owlapi.sourceforge.net -->
+

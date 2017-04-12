@@ -1,0 +1,198 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<rdf:RDF xml:base="http://www.mondeca.com/system/conceptterms#"
+		xmlns:cpannotationschema="http://www.ontologydesignpatterns.org/schemas/cpannotationschema.owl"
+		xmlns:owl="http://www.w3.org/2002/07/owl#"
+		xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+		xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+
+	<!-- Ontology Information -->
+	<owl:Ontology rdf:about="">
+		<owl:versionInfo xml:lang="en">Ontology Design Pattern - Concept Terms - Version 2 - 18-09-2009 - Created by Pierre-Yves Vandenbussche and Jean Charlet</owl:versionInfo>
+		<owl:imports rdf:resource="http://www.ontologydesignpatterns.org/schemas/cpannotationschema.owl"/>
+
+		<cpannotationschema:coversRequirements rdf:datatype="http://www.w3.org/2001/XMLSchema#string">
+			How to distinguish a preferred term from synonyms in order to name a concept?, How to enable cross language searching?, How to allow adding properties on term?
+		</cpannotationschema:coversRequirements>
+
+		<cpannotationschema:hasConsequences rdf:datatype="http://www.w3.org/2001/XMLSchema#string">
+			Compare to labels on a concept class, this solution has a higher data load.
+		</cpannotationschema:hasConsequences>
+
+		<cpannotationschema:hasIntent rdf:datatype="http://www.w3.org/2001/XMLSchema#string">
+			This CP allows designers to represent both conceptual and linguistic part of a vocabulary. 
+			The pattern purpose is not to encompass all linguistic complexity as Linginfo(http://olp.dfki.de/LingInfo/index.php) or LMF(http://www.lexicalmarkupframework.org/) does, but to describe linguistic information in more details than simple labels on a concept as SKOS does. This pattern suits for various vocabularies (thesaurus, terminology, taxonomy…) and has been applied to GEMET, Eurovoc, CIM10 among other.
+			Modeling takes into account:
+			-the possibility to extend the current pattern in order to add some more precise linguistic information (for instance represent translation relation between two terms since term is a class)
+			-minimal linguistic artifacts necessary for vocabulary resource access by providing a preferred Term to name a concept and some synonyms which are Simple non preferred terms.
+		</cpannotationschema:hasIntent>
+
+		<cpannotationschema:reengineeredFrom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">
+			BS8723-5 model: http://schemas.bs8723.org/Examples.aspx
+			In BS8723 model, triangular-shaped relations are defined between a thesaurus concept, a preferred term and some simple non preferred terms. We are convinced that maintaining this model can be optimized by reifying those relations in a single relation class. That is why we defines the Concept-Terms relation which reusing N-ary pattern in order to represent terms on a concept. Between all terms, we distinguish a preferred term and some synonyms (simple non preferred terms).
+		</cpannotationschema:reengineeredFrom>
+
+		<cpannotationschema:scenarios rdf:datatype="http://www.w3.org/2001/XMLSchema#string">
+			Used for vocabulary representation. For example in Eurovoc(http://europa.eu/eurovoc/), a concept has a preferred term "social sciences" in english and a simple non preferred term (i.e. synonyms) "humanities" in the same language whereas the same concept has a preferred term "sciences sociales" in french and a simple non preferred term "sciences humaines" in this language. If we wanted to add a translation relation between terms we could state that "social sciences" english term is a translation of "sciences sociales" french term.
+			If we consider a second preferred term in english "award" which names a concept, in a particular information retrieval context, we could define a coumpound non preferred term "social sciences awards" which is related to preferred terms "social sciences" and "award".
+		</cpannotationschema:scenarios>
+	</owl:Ontology>
+
+	<!-- Classes -->
+
+	<owl:Class rdf:about="#Concept">
+		<rdfs:label xml:lang="fr">Concept</rdfs:label>
+		<rdfs:label xml:lang="en">Concept</rdfs:label>
+		<rdfs:comment>
+			A concept can be viewed as a thesaurus descriptor, a taxonomy entry, a subject, a notion. Its definition is broad enough to accept this variety and to be aligned with SKOS:concept or BS8723:ThesaurusConcept.
+		</rdfs:comment>
+	</owl:Class>
+
+	<owl:Class rdf:about="#Term">
+		<rdfs:label xml:lang="fr">Terme</rdfs:label>
+		<rdfs:label xml:lang="en">Term</rdfs:label>
+		<rdfs:comment>
+			A term is a single-word or a multi-word.
+		</rdfs:comment>
+		<rdfs:subClassOf>
+			<owl:Restriction>
+				<owl:cardinality rdf:datatype="xsd:nonNegativeInteger">1</owl:cardinality>
+				<owl:onProperty rdf:resource="#language"/>
+			</owl:Restriction>
+		</rdfs:subClassOf>
+	</owl:Class>
+
+	<owl:Class rdf:about="#SimpleNonPreferredTerm">
+		<rdfs:label xml:lang="fr">Terme simple non préféré</rdfs:label>
+		<rdfs:label xml:lang="en">Simple non preferred term</rdfs:label>
+		<rdfs:subClassOf rdf:resource="#Term"/>
+		<rdfs:comment>
+			A term which is considered, among all terms describing a concept, a non preferred term (simple non preferred term are synonyms of the preferred term they are linked to.
+		</rdfs:comment>
+	</owl:Class>
+
+	<owl:Class rdf:about="#PreferredTerm">
+		<rdfs:label xml:lang="fr">Terme préféré</rdfs:label>
+		<rdfs:label xml:lang="en">Preferred term</rdfs:label>
+		<rdfs:subClassOf rdf:resource="#Term"/>
+		<rdfs:comment>
+			A term which is considered, among all terms describing a concept, the preferred one (main term used to name the concept in the term language).
+		</rdfs:comment>
+	</owl:Class>
+
+	<owl:Class rdf:about="#CompoundNonPreferredTerm">
+		<rdfs:label xml:lang="fr">Terme composé non préféré</rdfs:label>
+		<rdfs:label xml:lang="en">Compound non preferred term</rdfs:label>
+		<rdfs:subClassOf rdf:resource="#Term"/>
+		<rdfs:subClassOf>
+			<owl:Restriction>
+				<owl:allValuesFrom rdf:resource="#PreferredTerm"/>
+				<owl:onProperty rdf:resource="#composedBy"/>
+			</owl:Restriction>
+		</rdfs:subClassOf>
+		<rdfs:subClassOf>
+			<owl:Restriction>
+				<owl:minCardinality rdf:datatype="xsd:nonNegativeInteger">2</owl:minCardinality>
+				<owl:onProperty rdf:resource="#composedBy"/>
+			</owl:Restriction>
+		</rdfs:subClassOf>
+		<rdfs:comment>
+			A term which is composed by two preferred term. This term is used for post-coordination. For example, from two preferred terms "opencast mining" and "coal mining", a coumpound non preferred term could be "opencast coal mining".
+		</rdfs:comment>
+	</owl:Class>
+
+	<owl:Class rdf:about="#ConceptTermsRelation">
+		<rdfs:label xml:lang="fr">Relation Concept-Termes</rdfs:label>
+		<rdfs:label xml:lang="en">Concept-Terms relation</rdfs:label>
+		<rdfs:subClassOf>
+			<owl:Restriction>
+				<owl:allValuesFrom rdf:resource="#PreferredTerm"/>
+				<owl:onProperty rdf:resource="#hasPreferredTerm"/>
+			</owl:Restriction>
+		</rdfs:subClassOf>
+		<rdfs:subClassOf>
+			<owl:Restriction>
+				<owl:allValuesFrom rdf:resource="#Concept"/>
+				<owl:onProperty rdf:resource="#hasForConcept"/>
+			</owl:Restriction>
+		</rdfs:subClassOf>
+		<rdfs:subClassOf>
+			<owl:Restriction>
+				<owl:allValuesFrom rdf:resource="#SimpleNonPreferredTerm"/>
+				<owl:onProperty rdf:resource="#hasForSimpleNonPreferredTerm"/>
+			</owl:Restriction>
+		</rdfs:subClassOf>
+		<rdfs:subClassOf>
+			<owl:Restriction>
+				<owl:cardinality rdf:datatype="xsd:nonNegativeInteger">1</owl:cardinality>
+				<owl:onProperty rdf:resource="#hasPreferredTerm"/>
+			</owl:Restriction>
+		</rdfs:subClassOf>
+		<rdfs:subClassOf>
+			<owl:Restriction>
+				<owl:maxCardinality rdf:datatype="xsd:nonNegativeInteger">1</owl:maxCardinality>
+				<owl:onProperty rdf:resource="#hasForConcept"/>
+			</owl:Restriction>
+		</rdfs:subClassOf>
+		<rdfs:comment>
+			This relation reuse N-ary pattern in order to represent terms on a concept. Between all terms, we distinguish a preferred term and some synonyms (simple non preferred terms).
+			In BS8723 model, triangular-shaped relations are defined between a thesaurus concept, a preferred term and some simple non preferred terms. We are convinced that maintaining this model can be optimized by reifying those relations in a single relation class.
+		</rdfs:comment>
+	</owl:Class>
+
+
+	<!-- Datatype Properties -->
+
+	<owl:DatatypeProperty rdf:about="#language">
+		<rdfs:domain rdf:resource="#Term"/>
+		<rdfs:label xml:lang="fr">langue</rdfs:label>
+		<rdfs:label xml:lang="en">language</rdfs:label>
+	</owl:DatatypeProperty>
+
+	<!-- Object Properties -->
+
+	<owl:ObjectProperty rdf:about="#hasPreferredTerm">
+		<rdfs:label xml:lang="en">has preferred term</rdfs:label>
+		<rdfs:label xml:lang="fr">a pour terme préféré</rdfs:label>
+		<owl:inverseOf rdf:resource="#isPTInConceptTermsRelation"/>
+	</owl:ObjectProperty>
+
+	<owl:ObjectProperty rdf:about="#hasForSimpleNonPreferredTerm">
+		<rdfs:label xml:lang="en">has for simple non preferred term</rdfs:label>
+		<rdfs:label xml:lang="fr">a pour terme simple non préféré</rdfs:label>
+		<owl:inverseOf rdf:resource="#isSNPTInConceptTermsRelation"/>
+	</owl:ObjectProperty>
+
+	<owl:ObjectProperty rdf:about="#hasForConcept">
+		<rdfs:label xml:lang="en">has for concept</rdfs:label>
+		<rdfs:label xml:lang="fr">a pour concept</rdfs:label>
+		<owl:inverseOf rdf:resource="#isConceptInConceptTermsRelation"/>
+	</owl:ObjectProperty>
+
+	<owl:ObjectProperty rdf:about="#isConceptInConceptTermsRelation">
+		<rdfs:label xml:lang="en">is concept in concept-terms relation</rdfs:label>
+		<rdfs:label xml:lang="fr">est un concept dans la relation concept-termes</rdfs:label>
+	</owl:ObjectProperty>
+
+	<owl:ObjectProperty rdf:about="#isPTInConceptTermsRelation">
+		<rdfs:label xml:lang="en">is PT in concept-terms relation</rdfs:label>
+		<rdfs:label xml:lang="fr">est un PT dans la relation concept-termes</rdfs:label>
+	</owl:ObjectProperty>
+
+	<owl:ObjectProperty rdf:about="#isSNPTInConceptTermsRelation">
+		<rdfs:label xml:lang="en">is SNPT in concept-terms relation</rdfs:label>
+		<rdfs:label xml:lang="fr">est un SNPT dans la relation concept-termes</rdfs:label>
+	</owl:ObjectProperty>
+
+	<owl:ObjectProperty rdf:about="#composedBy">
+		<rdfs:label xml:lang="en">composed by</rdfs:label>
+		<rdfs:label xml:lang="fr">composé de</rdfs:label>
+		<owl:inverseOf rdf:resource="#composes"/>
+	</owl:ObjectProperty>
+
+	<owl:ObjectProperty rdf:about="#composes">
+		<rdfs:label xml:lang="en">composes</rdfs:label>
+		<rdfs:label xml:lang="fr">compose</rdfs:label>
+	</owl:ObjectProperty>
+
+</rdf:RDF>

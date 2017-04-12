@@ -1,0 +1,564 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+    <!ENTITY reaction "http://www.ontologydesignpatterns.org/cp/reaction.owl#" >
+    <!ENTITY sequence "http://www.ontologydesignpatterns.org/cp/owl/sequence.owl#" >
+    <!ENTITY agentrole "http://www.ontologydesignpatterns.org/cp/owl/agentrole.owl#" >
+    <!ENTITY situation "http://www.ontologydesignpatterns.org/cp/owl/situation.owl#" >
+    <!ENTITY objectrole "http://www.ontologydesignpatterns.org/cp/owl/objectrole.owl#" >
+    <!ENTITY cpannotationschema "http://www.ontologydesignpatterns.org/schemas/cpannotationschema.owl#" >
+]>
+
+
+<rdf:RDF xmlns="http://www.ontologydesignpatterns.org/cp/reaction.owl#"
+     xml:base="http://www.ontologydesignpatterns.org/cp/reaction.owl"
+     xmlns:reaction="http://www.ontologydesignpatterns.org/cp/reaction.owl#"
+     xmlns:agentrole="http://www.ontologydesignpatterns.org/cp/owl/agentrole.owl#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:cpannotationschema="http://www.ontologydesignpatterns.org/schemas/cpannotationschema.owl#"
+     xmlns:sequence="http://www.ontologydesignpatterns.org/cp/owl/sequence.owl#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:objectrole="http://www.ontologydesignpatterns.org/cp/owl/objectrole.owl#"
+     xmlns:situation="http://www.ontologydesignpatterns.org/cp/owl/situation.owl#">
+    <owl:Ontology rdf:about="http://www.ontologydesignpatterns.org/cp/reaction.owl">
+        <rdfs:label xml:lang="en">Reaction</rdfs:label>
+        <rdfs:label xml:lang="en">Story</rdfs:label>
+        <rdfs:label xml:lang="en">TrackableSituation</rdfs:label>
+        <owl:versionInfo rdf:datatype="&xsd;float">0.2</owl:versionInfo>
+        <owl:versionInfo rdf:datatype="&xsd;string">1.1 added rdfs:isDefinedBy for all named entities</owl:versionInfo>
+        <cpannotationschema:hasAuthor rdf:datatype="&xsd;string">Enrico Daga</cpannotationschema:hasAuthor>
+        <cpannotationschema:relatedCPs rdf:datatype="&xsd;anyURI">http://www.ontologydesignpatterns.org/cp/owl/agentrole.owl</cpannotationschema:relatedCPs>
+        <cpannotationschema:relatedCPs rdf:datatype="&xsd;anyURI">http://www.ontologydesignpatterns.org/cp/owl/sequence.owl</cpannotationschema:relatedCPs>
+        <cpannotationschema:relatedCPs rdf:datatype="&xsd;anyURI">http://www.ontologydesignpatterns.org/cp/owl/situation.owl</cpannotationschema:relatedCPs>
+        <owl:incompatibleWith rdf:datatype="&xsd;anyURI">http://www.ontologydesignpatterns.org/cp/owl/timeindexedagentrole.owl</owl:incompatibleWith>
+        <rdfs:comment xml:lang="en">Candidates domain: Legal, Sport, Performance, Writing.</rdfs:comment>
+        <cpannotationschema:coversRequirements xml:lang="en">In which order some agents has been involved in a situation?</cpannotationschema:coversRequirements>
+        <cpannotationschema:hasIntent xml:lang="en">To model dynamic situations, tracking agents and actions they produce, events that are results of some action(s), and consequences as new actions, i.e. reactions</cpannotationschema:hasIntent>
+        <cpannotationschema:coversRequirements xml:lang="en">Who contributed to produce a particular reaction?</cpannotationschema:coversRequirements>
+        <cpannotationschema:coversRequirements xml:lang="en">Who contributed to some event?</cpannotationschema:coversRequirements>
+        <cpannotationschema:coversRequirements xml:lang="en">Who produced, directly as well as  indirectly, a certain event?</cpannotationschema:coversRequirements>
+        <cpannotationschema:coversRequirements xml:lang="en">Who reacted to some event?</cpannotationschema:coversRequirements>
+        <rdfs:comment xml:lang="en">[Legal]
+Using this pattern is possible to describe a story in terms of agents, actions and events. Can be used in the Legal domain, to represent formally the process that produced a certain crime, for example. Different versions of the story can be implemented and computed by a diff algorythm to provide support for human&#39;s analyzes and decisions. Specialization is needed, of course, to better fit the domain.
+
+[Sport]
+A complete soccer match can be described by specializing/implementing this pattern. Agent, Event can be specialized to better fit the domain. Additional rules can be applied (particular event contributors can correspond to certain role) as well as additional properties (time indexing, relative to the soccer match time indexing method).
+
+[Writing]
+A story script can be represented as a sequence of facts and actors. This works well for stories with a relevance of events and actions. In principle any event can be represented, also psychological feedbacks of characters and emotions, not neccessarly physical events. External agents can be used to represent natural events, as well as the &quot;deus ex machina&quot; literary pattern.</rdfs:comment>
+        <owl:imports rdf:resource="http://www.ontologydesignpatterns.org/cp/owl/agentrole.owl"/>
+        <owl:imports rdf:resource="http://www.ontologydesignpatterns.org/cp/owl/sequence.owl"/>
+        <owl:imports rdf:resource="http://www.ontologydesignpatterns.org/cp/owl/situation.owl"/>
+    </owl:Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <owl:AnnotationProperty rdf:about="&cpannotationschema;hasAuthor"/>
+    <owl:AnnotationProperty rdf:about="&owl;versionInfo"/>
+    <owl:AnnotationProperty rdf:about="&rdfs;isDefinedBy"/>
+    <owl:AnnotationProperty rdf:about="&cpannotationschema;coversRequirements"/>
+    <owl:AnnotationProperty rdf:about="&cpannotationschema;hasIntent"/>
+    <owl:AnnotationProperty rdf:about="&rdfs;label"/>
+    <owl:AnnotationProperty rdf:about="&rdfs;comment"/>
+    <owl:AnnotationProperty rdf:about="&cpannotationschema;relatedCPs"/>
+    <owl:AnnotationProperty rdf:about="&owl;incompatibleWith"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.ontologydesignpatterns.org/cp/owl/sequence.owl#directlyFollows -->
+
+    <owl:ObjectProperty rdf:about="&sequence;directlyFollows"/>
+    
+
+
+    <!-- http://www.ontologydesignpatterns.org/cp/owl/sequence.owl#directlyPrecedes -->
+
+    <owl:ObjectProperty rdf:about="&sequence;directlyPrecedes"/>
+    
+
+
+    <!-- http://www.ontologydesignpatterns.org/cp/owl/situation.owl#hasSetting -->
+
+    <owl:ObjectProperty rdf:about="&situation;hasSetting"/>
+    
+
+
+    <!-- http://www.ontologydesignpatterns.org/cp/owl/situation.owl#isSettingFor -->
+
+    <owl:ObjectProperty rdf:about="&situation;isSettingFor"/>
+    
+
+
+    <!-- http://www.ontologydesignpatterns.org/cp/reaction.owl#hasConsequence -->
+
+    <owl:ObjectProperty rdf:about="&reaction;hasConsequence">
+        <rdf:type rdf:resource="&owl;TransitiveProperty"/>
+        <rdfs:isDefinedBy rdf:resource="http://www.ontologydesignpatterns.org/cp/owl/reaction.owl"/>
+        <rdfs:range rdf:resource="&reaction;Consequence"/>
+        <rdfs:domain rdf:resource="&reaction;Event"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.ontologydesignpatterns.org/cp/reaction.owl#hasNextAction -->
+
+    <owl:ObjectProperty rdf:about="&reaction;hasNextAction">
+        <rdfs:label xml:lang="en">has next action</rdfs:label>
+        <rdfs:label xml:lang="it">has azione successiva</rdfs:label>
+        <rdfs:isDefinedBy rdf:resource="http://www.ontologydesignpatterns.org/cp/owl/reaction.owl"/>
+        <rdfs:subPropertyOf rdf:resource="&sequence;directlyFollows"/>
+        <rdfs:domain rdf:resource="&reaction;Action"/>
+        <rdfs:range rdf:resource="&reaction;Reaction"/>
+        <owl:inverseOf rdf:resource="&reaction;hasPreviousAction"/>
+        <owl:propertyDisjointWith rdf:resource="&reaction;hasPreviousAction"/>
+        <owl:propertyChainAxiom rdf:parseType="Collection">
+            <rdf:Description rdf:about="&reaction;hasOutcome"/>
+            <rdf:Description rdf:about="&reaction;raise"/>
+        </owl:propertyChainAxiom>
+    </owl:ObjectProperty>
+    <owl:Axiom>
+        <rdfs:comment xml:lang="en">This is necessarly to preserve the coherence of the ontology.
+if Action1-&gt;hasOutcome-&gt;Event1 and Event1-&gt;raise-&gt;Reaction2 is not possible that Reaction2-&gt;hasNextAction-&gt;Action1</rdfs:comment>
+        <owl:annotatedSource rdf:resource="&reaction;hasNextAction"/>
+        <owl:annotatedTarget rdf:resource="&reaction;hasPreviousAction"/>
+        <owl:annotatedProperty rdf:resource="&owl;propertyDisjointWith"/>
+    </owl:Axiom>
+    
+
+
+    <!-- http://www.ontologydesignpatterns.org/cp/reaction.owl#hasNextEvent -->
+
+    <owl:ObjectProperty rdf:about="&reaction;hasNextEvent">
+        <rdfs:label xml:lang="en">has next event</rdfs:label>
+        <rdfs:label xml:lang="it">ha evento successivo</rdfs:label>
+        <rdfs:isDefinedBy rdf:resource="http://www.ontologydesignpatterns.org/cp/owl/reaction.owl"/>
+        <rdfs:subPropertyOf rdf:resource="&sequence;directlyFollows"/>
+        <rdfs:domain rdf:resource="&reaction;Event"/>
+        <rdfs:range rdf:resource="&reaction;Event"/>
+        <owl:propertyDisjointWith rdf:resource="&reaction;hasPreviousEvent"/>
+        <owl:propertyChainAxiom rdf:parseType="Collection">
+            <rdf:Description rdf:about="&reaction;raise"/>
+            <rdf:Description rdf:about="&reaction;hasOutcome"/>
+        </owl:propertyChainAxiom>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.ontologydesignpatterns.org/cp/reaction.owl#hasOutcome -->
+
+    <owl:ObjectProperty rdf:about="&reaction;hasOutcome">
+        <rdfs:label xml:lang="en">has outcome</rdfs:label>
+        <rdfs:label xml:lang="it">ha come risultato</rdfs:label>
+        <rdfs:comment xml:lang="en">Is also true that some action directly preceeds its outcome</rdfs:comment>
+        <rdfs:isDefinedBy rdf:resource="http://www.ontologydesignpatterns.org/cp/owl/reaction.owl"/>
+        <rdfs:subPropertyOf rdf:resource="&sequence;directlyPrecedes"/>
+        <rdfs:subPropertyOf rdf:resource="&situation;hasSetting"/>
+        <rdfs:domain rdf:resource="&reaction;Action"/>
+        <rdfs:range rdf:resource="&reaction;Event"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.ontologydesignpatterns.org/cp/reaction.owl#hasPreviousAction -->
+
+    <owl:ObjectProperty rdf:about="&reaction;hasPreviousAction">
+        <rdfs:label xml:lang="en">has previous action</rdfs:label>
+        <rdfs:label xml:lang="it">ha azione precedente</rdfs:label>
+        <rdfs:isDefinedBy rdf:resource="http://www.ontologydesignpatterns.org/cp/owl/reaction.owl"/>
+        <rdfs:subPropertyOf rdf:resource="&sequence;directlyPrecedes"/>
+        <rdfs:range rdf:resource="&reaction;Action"/>
+        <rdfs:domain rdf:resource="&reaction;Reaction"/>
+        <owl:propertyChainAxiom rdf:parseType="Collection">
+            <rdf:Description rdf:about="&reaction;isRaisedBy"/>
+            <rdf:Description rdf:about="&reaction;isOutcomeOf"/>
+        </owl:propertyChainAxiom>
+    </owl:ObjectProperty>
+    <owl:Axiom>
+        <rdfs:comment xml:lang="en">This is necessarly to preserve the coherence of the ontology.
+if Action1-&gt;hasOutcome-&gt;Event1 and Event1-&gt;raise-&gt;Reaction2 is not possible that Reaction2-&gt;hasNextAction-&gt;Action1</rdfs:comment>
+        <owl:annotatedSource rdf:resource="&reaction;hasNextAction"/>
+        <owl:annotatedTarget rdf:resource="&reaction;hasPreviousAction"/>
+        <owl:annotatedProperty rdf:resource="&owl;propertyDisjointWith"/>
+    </owl:Axiom>
+    
+
+
+    <!-- http://www.ontologydesignpatterns.org/cp/reaction.owl#hasPreviousEvent -->
+
+    <owl:ObjectProperty rdf:about="&reaction;hasPreviousEvent">
+        <rdfs:label xml:lang="en">has previous event</rdfs:label>
+        <rdfs:label xml:lang="it">ha evento precedente</rdfs:label>
+        <rdfs:isDefinedBy rdf:resource="http://www.ontologydesignpatterns.org/cp/owl/reaction.owl"/>
+        <rdfs:subPropertyOf rdf:resource="&sequence;directlyPrecedes"/>
+        <rdfs:range rdf:resource="&reaction;Event"/>
+        <rdfs:domain rdf:resource="&reaction;Event"/>
+        <owl:inverseOf rdf:resource="&reaction;hasNextEvent"/>
+        <owl:propertyChainAxiom rdf:parseType="Collection">
+            <rdf:Description rdf:about="&reaction;isOutcomeOf"/>
+            <rdf:Description rdf:about="&reaction;isRaisedBy"/>
+        </owl:propertyChainAxiom>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.ontologydesignpatterns.org/cp/reaction.owl#isCoagentWith -->
+
+    <owl:ObjectProperty rdf:about="&reaction;isCoagentWith">
+        <rdf:type rdf:resource="&owl;SymmetricProperty"/>
+        <rdfs:label xml:lang="en">is co-agent with</rdfs:label>
+        <rdfs:label xml:lang="en">è co-agente con</rdfs:label>
+        <rdfs:isDefinedBy rdf:resource="http://www.ontologydesignpatterns.org/cp/owl/reaction.owl"/>
+        <rdfs:domain rdf:resource="&agentrole;Agent"/>
+        <rdfs:range rdf:resource="&agentrole;Agent"/>
+        <owl:propertyDisjointWith rdf:resource="&reaction;isConcurrentWith"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.ontologydesignpatterns.org/cp/reaction.owl#isConcurrentWith -->
+
+    <owl:ObjectProperty rdf:about="&reaction;isConcurrentWith">
+        <rdf:type rdf:resource="&owl;SymmetricProperty"/>
+        <rdfs:label xml:lang="en">is cocncurrent with</rdfs:label>
+        <rdfs:label xml:lang="it">è simultanea a</rdfs:label>
+        <rdfs:isDefinedBy rdf:resource="http://www.ontologydesignpatterns.org/cp/owl/reaction.owl"/>
+        <owl:propertyChainAxiom rdf:parseType="Collection">
+            <rdf:Description rdf:about="&reaction;hasOutcome"/>
+            <rdf:Description rdf:about="&reaction;isOutcomeOf"/>
+        </owl:propertyChainAxiom>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.ontologydesignpatterns.org/cp/reaction.owl#isConsequenceOf -->
+
+    <owl:ObjectProperty rdf:about="&reaction;isConsequenceOf">
+        <rdf:type rdf:resource="&owl;TransitiveProperty"/>
+        <rdfs:isDefinedBy rdf:resource="http://www.ontologydesignpatterns.org/cp/owl/reaction.owl"/>
+        <rdfs:domain rdf:resource="&reaction;Consequence"/>
+        <rdfs:range rdf:resource="&reaction;Event"/>
+        <owl:inverseOf rdf:resource="&reaction;hasConsequence"/>
+        <owl:propertyDisjointWith rdf:resource="&reaction;isOutcomeOf"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.ontologydesignpatterns.org/cp/reaction.owl#isOutcomeOf -->
+
+    <owl:ObjectProperty rdf:about="&reaction;isOutcomeOf">
+        <rdfs:label xml:lang="en">is outcome of</rdfs:label>
+        <rdfs:label xml:lang="it">è il risultato di</rdfs:label>
+        <rdfs:comment xml:lang="en">Is also true that some outcome follows some action</rdfs:comment>
+        <rdfs:isDefinedBy rdf:resource="http://www.ontologydesignpatterns.org/cp/owl/reaction.owl"/>
+        <rdfs:subPropertyOf rdf:resource="&sequence;directlyFollows"/>
+        <rdfs:subPropertyOf rdf:resource="&situation;isSettingFor"/>
+        <rdfs:range rdf:resource="&reaction;Action"/>
+        <rdfs:domain rdf:resource="&reaction;Event"/>
+        <owl:inverseOf rdf:resource="&reaction;hasOutcome"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.ontologydesignpatterns.org/cp/reaction.owl#isPerformedBy -->
+
+    <owl:ObjectProperty rdf:about="&reaction;isPerformedBy">
+        <rdfs:label xml:lang="en">is performed by</rdfs:label>
+        <rdfs:label xml:lang="it">è eseguita da</rdfs:label>
+        <rdfs:isDefinedBy rdf:resource="http://www.ontologydesignpatterns.org/cp/owl/reaction.owl"/>
+        <rdfs:range rdf:resource="&agentrole;Agent"/>
+        <rdfs:domain rdf:resource="&reaction;Action"/>
+        <owl:inverseOf rdf:resource="&reaction;performs"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.ontologydesignpatterns.org/cp/reaction.owl#isRaisedBy -->
+
+    <owl:ObjectProperty rdf:about="&reaction;isRaisedBy">
+        <rdfs:label xml:lang="en">is raised by</rdfs:label>
+        <rdfs:label xml:lang="it">è provocata da</rdfs:label>
+        <rdfs:isDefinedBy rdf:resource="http://www.ontologydesignpatterns.org/cp/owl/reaction.owl"/>
+        <rdfs:range rdf:resource="&reaction;Event"/>
+        <rdfs:domain rdf:resource="&reaction;Reaction"/>
+        <owl:inverseOf rdf:resource="&reaction;raise"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.ontologydesignpatterns.org/cp/reaction.owl#performs -->
+
+    <owl:ObjectProperty rdf:about="&reaction;performs">
+        <rdfs:label xml:lang="en">performs</rdfs:label>
+        <rdfs:label xml:lang="it">esegue</rdfs:label>
+        <rdfs:isDefinedBy rdf:resource="http://www.ontologydesignpatterns.org/cp/owl/reaction.owl"/>
+        <rdfs:domain rdf:resource="&agentrole;Agent"/>
+        <rdfs:range rdf:resource="&reaction;Action"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.ontologydesignpatterns.org/cp/reaction.owl#raise -->
+
+    <owl:ObjectProperty rdf:about="&reaction;raise">
+        <rdfs:label xml:lang="en">raise</rdfs:label>
+        <rdfs:label xml:lang="it">provoca</rdfs:label>
+        <rdfs:isDefinedBy rdf:resource="http://www.ontologydesignpatterns.org/cp/owl/reaction.owl"/>
+        <rdfs:domain rdf:resource="&reaction;Event"/>
+        <rdfs:range rdf:resource="&reaction;Reaction"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.ontologydesignpatterns.org/cp/owl/agentrole.owl#Agent -->
+
+    <owl:Class rdf:about="&agentrole;Agent">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&reaction;performs"/>
+                <owl:onClass rdf:resource="&reaction;Action"/>
+                <owl:minQualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:minQualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&reaction;performs"/>
+                <owl:allValuesFrom rdf:resource="&reaction;Action"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <owl:disjointWith rdf:resource="&reaction;Action"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.ontologydesignpatterns.org/cp/owl/objectrole.owl#Object -->
+
+    <owl:Class rdf:about="&objectrole;Object">
+        <owl:disjointWith rdf:resource="&reaction;Event"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.ontologydesignpatterns.org/cp/owl/situation.owl#Situation -->
+
+    <owl:Class rdf:about="&situation;Situation"/>
+    
+
+
+    <!-- http://www.ontologydesignpatterns.org/cp/reaction.owl#Action -->
+
+    <owl:Class rdf:about="&reaction;Action">
+        <rdfs:label xml:lang="en">Action</rdfs:label>
+        <rdfs:label xml:lang="it">Azione</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&objectrole;Object"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&reaction;isPerformedBy"/>
+                <owl:allValuesFrom rdf:resource="&agentrole;Agent"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&reaction;isPerformedBy"/>
+                <owl:someValuesFrom rdf:resource="&agentrole;Agent"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&reaction;hasOutcome"/>
+                <owl:onClass rdf:resource="&reaction;Event"/>
+                <owl:minQualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:minQualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&reaction;hasOutcome"/>
+                <owl:allValuesFrom rdf:resource="&reaction;Event"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&reaction;isPerformedBy"/>
+                <owl:onClass rdf:resource="&agentrole;Agent"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment xml:lang="en">Action can produce more than a single event. Mutiple events can share the same position in the sequence.</rdfs:comment>
+        <rdfs:isDefinedBy rdf:resource="http://www.ontologydesignpatterns.org/cp/owl/reaction.owl"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.ontologydesignpatterns.org/cp/reaction.owl#Consequence -->
+
+    <owl:Class rdf:about="&reaction;Consequence">
+        <rdfs:label xml:lang="en">Consequence</rdfs:label>
+        <rdfs:label xml:lang="it">Conseguenza</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&reaction;Event"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&reaction;isOutcomeOf"/>
+                <owl:onClass rdf:resource="&reaction;Action"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">0</owl:qualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&reaction;isConsequenceOf"/>
+                <owl:onClass rdf:resource="&reaction;Event"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment xml:lang="en">A consequence is a kind of event which is not an outcome of any action, it is just caused by another event</rdfs:comment>
+        <rdfs:isDefinedBy rdf:resource="http://www.ontologydesignpatterns.org/cp/owl/reaction.owl"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.ontologydesignpatterns.org/cp/reaction.owl#Event -->
+
+    <owl:Class rdf:about="&reaction;Event">
+        <rdfs:label xml:lang="en">Event</rdfs:label>
+        <rdfs:label xml:lang="it">Evento</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&situation;Situation"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&reaction;isOutcomeOf"/>
+                <owl:allValuesFrom rdf:resource="&reaction;Action"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&reaction;raise"/>
+                <owl:allValuesFrom rdf:resource="&reaction;Reaction"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:isDefinedBy rdf:resource="http://www.ontologydesignpatterns.org/cp/owl/reaction.owl"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.ontologydesignpatterns.org/cp/reaction.owl#ExternalAction -->
+
+    <owl:Class rdf:about="&reaction;ExternalAction">
+        <rdfs:label xml:lang="en">External action</rdfs:label>
+        <rdfs:label xml:lang="it">Azione esterna</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&reaction;Action"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&reaction;isPerformedBy"/>
+                <owl:someValuesFrom rdf:resource="&reaction;ExternalAgent"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&reaction;isPerformedBy"/>
+                <owl:allValuesFrom rdf:resource="&reaction;ExternalAgent"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <owl:disjointWith rdf:resource="&reaction;Reaction"/>
+        <rdfs:isDefinedBy rdf:resource="http://www.ontologydesignpatterns.org/cp/owl/reaction.owl"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.ontologydesignpatterns.org/cp/reaction.owl#ExternalAgent -->
+
+    <owl:Class rdf:about="&reaction;ExternalAgent">
+        <rdfs:label xml:lang="en">External agent</rdfs:label>
+        <rdfs:label xml:lang="it">Agente esterno</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&agentrole;Agent"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&reaction;performs"/>
+                <owl:allValuesFrom rdf:resource="&reaction;ExternalAction"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment xml:lang="en">External agents cannot react to anything!</rdfs:comment>
+        <rdfs:isDefinedBy rdf:resource="http://www.ontologydesignpatterns.org/cp/owl/reaction.owl"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.ontologydesignpatterns.org/cp/reaction.owl#Reaction -->
+
+    <owl:Class rdf:about="&reaction;Reaction">
+        <rdfs:label xml:lang="en">Reaction</rdfs:label>
+        <rdfs:label xml:lang="it">Reazione</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&reaction;Action"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&reaction;isRaisedBy"/>
+                <owl:onClass rdf:resource="&reaction;Event"/>
+                <owl:minQualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:minQualifiedCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment xml:lang="en">Any action raised by some Event is a Reaction</rdfs:comment>
+        <rdfs:comment xml:lang="en">This class is not intended to be instantiated.</rdfs:comment>
+        <rdfs:isDefinedBy rdf:resource="http://www.ontologydesignpatterns.org/cp/owl/reaction.owl"/>
+    </owl:Class>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // General axioms
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointProperties"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&reaction;isCoagentWith"/>
+            <rdf:Description rdf:about="&reaction;isConcurrentWith"/>
+            <rdf:Description rdf:about="&reaction;isConsequenceOf"/>
+            <rdf:Description rdf:about="&reaction;isPerformedBy"/>
+            <rdf:Description rdf:about="&reaction;isRaisedBy"/>
+            <rdf:Description rdf:about="&reaction;performs"/>
+            <rdf:Description rdf:about="&reaction;raise"/>
+        </owl:members>
+    </rdf:Description>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 3.1.0.1602) http://owlapi.sourceforge.net -->
+
