@@ -40,6 +40,7 @@ import org.semanticweb.owlapi.model.OWLDisjointClassesAxiom;
 import org.semanticweb.owlapi.model.OWLDisjointDataPropertiesAxiom;
 import org.semanticweb.owlapi.model.OWLDisjointObjectPropertiesAxiom;
 import org.semanticweb.owlapi.model.OWLDisjointUnionAxiom;
+import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLEquivalentClassesAxiom;
 import org.semanticweb.owlapi.model.OWLEquivalentDataPropertiesAxiom;
 import org.semanticweb.owlapi.model.OWLEquivalentObjectPropertiesAxiom;
@@ -102,16 +103,14 @@ import org.semanticweb.owlapi.util.OWLAPIStreamUtils;
 
 public class AxiomEntityVisitor implements OWLObjectVisitor {
 	private final ShortFormProvider shortFormProvider = new SimpleShortFormProvider();
-	private final OWLEntityComparator entityComparator = new OWLEntityComparator(shortFormProvider);
-	//private final OWLDataFactory dataFactory;
+	public final OWLEntityComparator entityComparator = new OWLEntityComparator(shortFormProvider);
+	
 	private OWLObject subject;
 
 	ArrayList<String> stack;
 
 	public AxiomEntityVisitor(ArrayList<String> st) {
 		this.stack = st;
-		//this.dataFactory = owlDataFactory;
-		//this.subject = dataFactory.getOWLThing();
 	}
 
 	@Override
@@ -236,7 +235,8 @@ public class AxiomEntityVisitor implements OWLObjectVisitor {
 	public void visit(OWLDatatype node) {
 		// TODO Auto-generated method stub
 		OWLObjectVisitor.super.visit(node);
-		System.out.println("OWLDatatype node: " + node);
+		/*System.out.println("OWLDatatype node: " + node);*/
+		stack.add(shortFormProvider.getShortForm(node));
 	}
 
 	@Override
@@ -509,7 +509,10 @@ public class AxiomEntityVisitor implements OWLObjectVisitor {
 	public void visit(OWLObjectInverseOf property) {
 		// TODO Auto-generated method stub
 		OWLObjectVisitor.super.visit(property);
-		System.out.println("OWLObjectInverseOf property: " + property);
+		//System.out.println("OWLObjectInverseOf property: " + property);
+		stack.add("OWLObjectInverseOf");
+		property.getNamedProperty().accept(this);
+		//stack.add(property.toString());
 	}
 
 	@Override
@@ -586,7 +589,7 @@ public class AxiomEntityVisitor implements OWLObjectVisitor {
 	@Override
 	public void visit(OWLReflexiveObjectPropertyAxiom axiom) {
 		OWLObjectVisitor.super.visit(axiom);
-		stack.add("Reflexive Property");
+		stack.add("ReflexiveProperty");
 		axiom.getProperty().accept(this);
 	}
 
@@ -802,7 +805,7 @@ public class AxiomEntityVisitor implements OWLObjectVisitor {
 	@Override
 	public void visit(OWLDataMaxCardinality ce) {
 		OWLObjectVisitor.super.visit(ce);
-		stack.add("MAX");
+		stack.add("DataMaxCardinality");
 		stack.add(Integer.toString(ce.getCardinality()));
 		ce.getProperty().accept(this);
 	}
@@ -810,7 +813,7 @@ public class AxiomEntityVisitor implements OWLObjectVisitor {
 	@Override
 	public void visit(OWLDataMinCardinality ce) {
 		OWLObjectVisitor.super.visit(ce);
-		stack.add("MIN");
+		stack.add("DataMinCardinality");
 		stack.add(Integer.toString(ce.getCardinality()));
 		ce.getProperty().accept(this);
 	}
@@ -818,7 +821,7 @@ public class AxiomEntityVisitor implements OWLObjectVisitor {
 	@Override
 	public void visit(OWLObjectMaxCardinality ce) {
 		OWLObjectVisitor.super.visit(ce);
-		stack.add("MAX");
+		stack.add("ObjectMaxCardinality");
 		stack.add(Integer.toString(ce.getCardinality()));
 		ce.getProperty().accept(this);
 		getNestedFillers(ce.getFiller());
@@ -827,7 +830,7 @@ public class AxiomEntityVisitor implements OWLObjectVisitor {
 	@Override
 	public void visit(OWLObjectMinCardinality ce) {
 		OWLObjectVisitor.super.visit(ce);
-		stack.add("MIN");
+		stack.add("ObjectMinCardinality");
 		stack.add(Integer.toString(ce.getCardinality()));
 		ce.getProperty().accept(this);
 		getNestedFillers(ce.getFiller());
