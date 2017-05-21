@@ -49,11 +49,27 @@ public class OntologyVisualization {
 
 	public class PropertyNode {
 		boolean not;
+		public boolean isNot() {
+			return not;
+		}
+
+		public void setNot(boolean not) {
+			this.not = not;
+		}
+
 		String propertyName;
 
 		public PropertyNode(Boolean val, String name) {
 			this.not = val;
 			this.propertyName = name;
+		}
+
+		public String getPropertyName() {
+			return propertyName;
+		}
+
+		public void setPropertyName(String propertyName) {
+			this.propertyName = propertyName;
 		}
 	}
 
