@@ -38,7 +38,7 @@ import com.google.inject.matcher.Matcher;
 public class OntologyVisualization {
 
 	public static OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
-	public static File ontologyFile = new File("src/resources/chessgame.owl");
+	public static File ontologyFile = new File("src/resources/cruise.owl");
 
 	public static OWLOntology ontology;
 	public static OntologyVisualization ontoViz = new OntologyVisualization();
@@ -49,6 +49,7 @@ public class OntologyVisualization {
 
 	public class PropertyNode {
 		boolean not;
+
 		public boolean isNot() {
 			return not;
 		}
@@ -77,7 +78,17 @@ public class OntologyVisualization {
 		return new PropertyNode(b, property);
 	}
 
-	public static HashMap<String, HashMap<PropertyNode, String>> visualizer = new HashMap<>(); /*work to have same box form same entity (class)*/
+	public static HashMap<String, HashMap<PropertyNode, String>> visualizer = new HashMap<>(); /*
+																								 * work
+																								 * to
+																								 * have
+																								 * same
+																								 * box
+																								 * form
+																								 * same
+																								 * entity
+																								 * (class)
+																								 */
 
 	public class link {
 		String arrowLabel;
@@ -160,7 +171,7 @@ public class OntologyVisualization {
 					AxiomEntityVisitor aeNode = new AxiomEntityVisitor(aLStack);
 					axiom.accept(aeNode);
 				}
-				//System.out.println(aLStack.size());
+				// System.out.println(aLStack.size());
 
 				String first, cur, propName = null, filler = null, className = "";
 				boolean negation = false;
@@ -169,26 +180,28 @@ public class OntologyVisualization {
 					first = (String) iterator.next();
 					if (first.equalsIgnoreCase("subclass") && aLStack.size() <= 3) {
 						PropertyNode propNode = ontoViz.getPropertyNode(false, "rdfs:subclassOf");
-						if(visualizer.containsKey(aLStack.get(1))){
+						if (visualizer.containsKey(aLStack.get(1))) {
 							HashMap<PropertyNode, String> retrievedMap = visualizer.get(aLStack.get(1));
 							retrievedMap.put(propNode, aLStack.get(2));
 							visualizer.put(aLStack.get(1), retrievedMap);
-						}else {
+						} else {
 							HashMap<PropertyNode, String> map = new HashMap<>();
 							map.put(propNode, aLStack.get(2));
 							visualizer.put(aLStack.get(1), map);
 						}
-					}else if (first.equalsIgnoreCase("subclass") || first.equalsIgnoreCase("equivalent")) {
+					} else if (first.equalsIgnoreCase("subclass") || first.equalsIgnoreCase("equivalent")) {
 						className = (String) iterator.next();
 						cur = (String) iterator.next();
-						//Integer curInt = Integer.parseInt(cur);
+						// Integer curInt = Integer.parseInt(cur);
 						while ((cur.equalsIgnoreCase("not") || cur.equalsIgnoreCase("some")
-								|| cur.equalsIgnoreCase("all") || cur.equalsIgnoreCase("OWLObjectExactCardinality")
+								|| cur.equalsIgnoreCase("all") || cur.equalsIgnoreCase("OWLDataExactCardinality")
+								|| cur.equalsIgnoreCase("OWLDataMaxCardinality")
+								|| cur.equalsIgnoreCase("OWLDataMinCardinality")
+								|| cur.equalsIgnoreCase("OWLObjectExactCardinality")
 								|| cur.equalsIgnoreCase("OWLObjectMaxCardinality")
-								|| cur.equalsIgnoreCase("OWLObjectMinCardinality")
-								|| cur.matches("[0-9]"))) {
-							//System.out.println("in while: " + cur);
-							cur = (String) iterator.next();							
+								|| cur.equalsIgnoreCase("OWLObjectMinCardinality") || cur.matches("[0-9]"))) {
+							// System.out.println("in while: " + cur);
+							cur = (String) iterator.next();
 						}
 						if (cur.equalsIgnoreCase("OWLObjectInverseOf")) {
 							negation = true;
@@ -199,14 +212,14 @@ public class OntologyVisualization {
 						PropertyNode propNode;
 						if (negation) {
 							propNode = ontoViz.getPropertyNode(true, propName);
-						}else {
+						} else {
 							propNode = ontoViz.getPropertyNode(false, propName);
 						}
 						if (visualizer.containsKey(className)) {
 							HashMap<PropertyNode, String> retrievedMap = visualizer.get(className);
 							retrievedMap.put(propNode, filler);
 							visualizer.put(className, retrievedMap);
-						}else {
+						} else {
 							HashMap<PropertyNode, String> map = new HashMap<>();
 							map.put(propNode, filler);
 							visualizer.put(className, map);

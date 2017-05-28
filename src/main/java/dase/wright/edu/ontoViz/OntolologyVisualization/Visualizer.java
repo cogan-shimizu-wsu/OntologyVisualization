@@ -73,27 +73,36 @@ public class Visualizer {
 						Map.Entry<PropertyNode, String> secondaryEntry = it.next();
 						PropertyNode pn = secondaryEntry.getKey();
 						String propName =  pn.getPropertyName();
-						if (!propName.contains("cardinal")) {
+						if (!propName.toLowerCase().contains("cardinal") && !propName.toLowerCase().contains("instant")) {
 							String connectedNode = secondaryEntry.getValue();
 							INode node2;
+							if (connectedNode.equalsIgnoreCase("OR") && connectedNode.equalsIgnoreCase("AND") && connectedNode.matches("[0-9]")) {
+								continue;
+							}
 							if (!connectedNode.equalsIgnoreCase("string") && !connectedNode.equalsIgnoreCase("dateTime")
-									&& !connectedNode.equalsIgnoreCase("integer") && connectedNode.matches("[0-9]")) {
-								if (!labels.containsKey(connectedNode)) {
+									&& !connectedNode.equalsIgnoreCase("integer")) {
+								 if(connectedNode.equalsIgnoreCase("SELF")) {
+										System.out.println("self");
+										node2 = node1;
+									}else if (!labels.containsKey(connectedNode)) {
 									node2 = graph.createNode(new RectD(coOrdX + 125, coOrdY, height, width));
 									labels.put(connectedNode, node2);
-								} else {
+								} 
+								else {
 									node2 = labels.get(connectedNode);
 								}
 							} else {
 								node2 = graph.createNode(new RectD(coOrdX + 125, coOrdY, height, width));
 							}
-							ILabel ln2 = graph.addLabel(node2, connectedNode);
+							if(!connectedNode.equalsIgnoreCase("SELF")){
+								ILabel ln2 = graph.addLabel(node2, connectedNode);
+								}
 							IPort portAtNode1 = graph.addPort(node1);
 							IPort portAtNode2 = graph.addPort(node2, FreeNodePortLocationModel.NODE_LEFT_ANCHORED);
 							IEdge edgeAtPorts = graph.createEdge(portAtNode1, portAtNode2);
-							//graph.createEdge(node1, node2);
+							
 							if (pn.isNot()) {
-								ILabel le2 = graph.addLabel(edgeAtPorts, "~" + pn.getPropertyName());
+								ILabel le2 = graph.addLabel(edgeAtPorts, pn.getPropertyName()+ "-");
 							} else {
 								ILabel le2 = graph.addLabel(edgeAtPorts, pn.getPropertyName());
 							} 
