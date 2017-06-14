@@ -186,6 +186,7 @@ public class OntologyVisualization {
 								|| cur.equalsIgnoreCase("OWLObjectExactCardinality")
 								|| cur.equalsIgnoreCase("OWLObjectMaxCardinality")
 								|| cur.equalsIgnoreCase("OWLObjectMinCardinality") || cur.matches("[0-9]"))) {
+							if(cur.equalsIgnoreCase("not")) negation = true;
 							
 							cur = (String) iterator.next();
 						}

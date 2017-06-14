@@ -737,9 +737,6 @@ public class AxiomEntityVisitor implements OWLObjectVisitor {
 	}
 	/*****************SWRL*******************/
 
-	private static String escapeName(String name) {
-		return name.replace("_", "\\_").replace("#", "\\#");
-	}
 
 	@Override
 	public void visit(OWLAnnotation node) {
