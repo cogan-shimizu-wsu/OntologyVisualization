@@ -2,15 +2,11 @@ package dase.wright.edu.ontoViz.OntolologyVisualization;
 
 import static org.semanticweb.owlapi.util.OWLAPIStreamUtils.asList;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
-import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 import org.semanticweb.owlapi.apibinding.OWLManager;
@@ -21,13 +17,10 @@ import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLDataProperty;
 import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
-import org.semanticweb.owlapi.model.OWLObjectVisitor;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.parameters.Imports;
-
-import com.google.inject.matcher.Matcher;
 
 /**
  * This Project is supposed to produce an interactive visualization for
@@ -36,9 +29,9 @@ import com.google.inject.matcher.Matcher;
  * @author: Nazifa Karima
  */
 public class OntologyVisualization {
-
+	
 	public static OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
-	public static File ontologyFile = new File("src/resources/cruise.owl");
+	public static File ontologyFile = new File("src/resources/chessgame.owl");
 
 	public static OWLOntology ontology;
 	public static OntologyVisualization ontoViz = new OntologyVisualization();
@@ -46,9 +39,11 @@ public class OntologyVisualization {
 	public static ArrayList<OWLClass> classes = new ArrayList<OWLClass>();
 	public static ArrayList<OWLObjectProperty> prop = new ArrayList<OWLObjectProperty>();
 	public static ArrayList<OWLDataProperty> dataProp = new ArrayList<OWLDataProperty>();
+	
 
 	public class PropertyNode {
 		boolean not;
+		String propertyName;
 
 		public boolean isNot() {
 			return not;
@@ -57,8 +52,6 @@ public class OntologyVisualization {
 		public void setNot(boolean not) {
 			this.not = not;
 		}
-
-		String propertyName;
 
 		public PropertyNode(Boolean val, String name) {
 			this.not = val;
@@ -78,17 +71,7 @@ public class OntologyVisualization {
 		return new PropertyNode(b, property);
 	}
 
-	public static HashMap<String, HashMap<PropertyNode, String>> visualizer = new HashMap<>(); /*
-																								 * work
-																								 * to
-																								 * have
-																								 * same
-																								 * box
-																								 * form
-																								 * same
-																								 * entity
-																								 * (class)
-																								 */
+	public static HashMap<String, HashMap<PropertyNode, String>> visualizer = new HashMap<>();
 
 	public class link {
 		String arrowLabel;
@@ -171,7 +154,11 @@ public class OntologyVisualization {
 					AxiomEntityVisitor aeNode = new AxiomEntityVisitor(aLStack);
 					axiom.accept(aeNode);
 				}
-				// System.out.println(aLStack.size());
+
+//				for (Iterator<String> iterator = aLStack.iterator(); iterator.hasNext();) {
+//					System.out.print(iterator.next() + " ");
+//				}
+//				System.out.println();
 
 				String first, cur, propName = null, filler = null, className = "";
 				boolean negation = false;
@@ -192,7 +179,6 @@ public class OntologyVisualization {
 					} else if (first.equalsIgnoreCase("subclass") || first.equalsIgnoreCase("equivalent")) {
 						className = (String) iterator.next();
 						cur = (String) iterator.next();
-						// Integer curInt = Integer.parseInt(cur);
 						while ((cur.equalsIgnoreCase("not") || cur.equalsIgnoreCase("some")
 								|| cur.equalsIgnoreCase("all") || cur.equalsIgnoreCase("OWLDataExactCardinality")
 								|| cur.equalsIgnoreCase("OWLDataMaxCardinality")
@@ -200,7 +186,7 @@ public class OntologyVisualization {
 								|| cur.equalsIgnoreCase("OWLObjectExactCardinality")
 								|| cur.equalsIgnoreCase("OWLObjectMaxCardinality")
 								|| cur.equalsIgnoreCase("OWLObjectMinCardinality") || cur.matches("[0-9]"))) {
-							// System.out.println("in while: " + cur);
+							
 							cur = (String) iterator.next();
 						}
 						if (cur.equalsIgnoreCase("OWLObjectInverseOf")) {
@@ -217,8 +203,10 @@ public class OntologyVisualization {
 						}
 						if (visualizer.containsKey(className)) {
 							HashMap<PropertyNode, String> retrievedMap = visualizer.get(className);
-							retrievedMap.put(propNode, filler);
-							visualizer.put(className, retrievedMap);
+							if (!containsSameVisualization(retrievedMap, propNode,filler)) {
+								retrievedMap.put(propNode, filler);
+								visualizer.put(className, retrievedMap);
+							}
 						} else {
 							HashMap<PropertyNode, String> map = new HashMap<>();
 							map.put(propNode, filler);
@@ -230,6 +218,11 @@ public class OntologyVisualization {
 			}
 
 		}
+	}
+
+	private static boolean containsSameVisualization(HashMap<PropertyNode, String> retrievedMap, PropertyNode propNode, String filler) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	private static Collection<? extends OWLAxiom> sortAxioms(Stream<? extends OWLAxiom> axioms) {

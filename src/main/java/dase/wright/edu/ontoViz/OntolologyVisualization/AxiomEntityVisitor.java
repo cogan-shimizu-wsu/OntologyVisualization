@@ -18,7 +18,6 @@ import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLDataAllValuesFrom;
 import org.semanticweb.owlapi.model.OWLDataComplementOf;
 import org.semanticweb.owlapi.model.OWLDataExactCardinality;
-import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLDataHasValue;
 import org.semanticweb.owlapi.model.OWLDataIntersectionOf;
 import org.semanticweb.owlapi.model.OWLDataMaxCardinality;
@@ -26,9 +25,7 @@ import org.semanticweb.owlapi.model.OWLDataMinCardinality;
 import org.semanticweb.owlapi.model.OWLDataOneOf;
 import org.semanticweb.owlapi.model.OWLDataProperty;
 import org.semanticweb.owlapi.model.OWLDataPropertyAssertionAxiom;
-import org.semanticweb.owlapi.model.OWLDataPropertyDomainAxiom;
 import org.semanticweb.owlapi.model.OWLDataPropertyExpression;
-import org.semanticweb.owlapi.model.OWLDataPropertyRangeAxiom;
 import org.semanticweb.owlapi.model.OWLDataSomeValuesFrom;
 import org.semanticweb.owlapi.model.OWLDataUnionOf;
 import org.semanticweb.owlapi.model.OWLDatatype;
@@ -40,23 +37,18 @@ import org.semanticweb.owlapi.model.OWLDisjointClassesAxiom;
 import org.semanticweb.owlapi.model.OWLDisjointDataPropertiesAxiom;
 import org.semanticweb.owlapi.model.OWLDisjointObjectPropertiesAxiom;
 import org.semanticweb.owlapi.model.OWLDisjointUnionAxiom;
-import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLEquivalentClassesAxiom;
 import org.semanticweb.owlapi.model.OWLEquivalentDataPropertiesAxiom;
 import org.semanticweb.owlapi.model.OWLEquivalentObjectPropertiesAxiom;
 import org.semanticweb.owlapi.model.OWLFacetRestriction;
-import org.semanticweb.owlapi.model.OWLFunctionalDataPropertyAxiom;
-import org.semanticweb.owlapi.model.OWLFunctionalObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.OWLHasKeyAxiom;
 import org.semanticweb.owlapi.model.OWLIndividual;
-import org.semanticweb.owlapi.model.OWLInverseFunctionalObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.OWLInverseObjectPropertiesAxiom;
 import org.semanticweb.owlapi.model.OWLIrreflexiveObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLNegativeDataPropertyAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLNegativeObjectPropertyAssertionAxiom;
-import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLObjectAllValuesFrom;
 import org.semanticweb.owlapi.model.OWLObjectComplementOf;
 import org.semanticweb.owlapi.model.OWLObjectExactCardinality;
@@ -69,9 +61,7 @@ import org.semanticweb.owlapi.model.OWLObjectMinCardinality;
 import org.semanticweb.owlapi.model.OWLObjectOneOf;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLObjectPropertyAssertionAxiom;
-import org.semanticweb.owlapi.model.OWLObjectPropertyDomainAxiom;
 import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
-import org.semanticweb.owlapi.model.OWLObjectPropertyRangeAxiom;
 import org.semanticweb.owlapi.model.OWLObjectSomeValuesFrom;
 import org.semanticweb.owlapi.model.OWLObjectUnionOf;
 import org.semanticweb.owlapi.model.OWLObjectVisitor;
@@ -99,14 +89,11 @@ import org.semanticweb.owlapi.model.SWRLVariable;
 import org.semanticweb.owlapi.util.OWLEntityComparator;
 import org.semanticweb.owlapi.util.ShortFormProvider;
 import org.semanticweb.owlapi.util.SimpleShortFormProvider;
-import org.semanticweb.owlapi.util.OWLAPIStreamUtils;
 
 public class AxiomEntityVisitor implements OWLObjectVisitor {
-	private final ShortFormProvider shortFormProvider = new SimpleShortFormProvider();
-	public final OWLEntityComparator entityComparator = new OWLEntityComparator(shortFormProvider);
+	/*private final ShortFormProvider shortFormProvider = new SimpleShortFormProvider();*/
+	/*public final OWLEntityComparator entityComparator = new OWLEntityComparator(shortFormProvider);*/
 	
-	private OWLObject subject;
-
 	ArrayList<String> stack;
 
 	public AxiomEntityVisitor(ArrayList<String> st) {
@@ -141,7 +128,7 @@ public class AxiomEntityVisitor implements OWLObjectVisitor {
 	@Override
 	public void visit(OWLClass ce) {
 		OWLObjectVisitor.super.visit(ce);
-		stack.add(escapeName(shortFormProvider.getShortForm(ce)));
+		stack.add(ce.toStringID());
 	}
 
 	@Override
@@ -195,7 +182,7 @@ public class AxiomEntityVisitor implements OWLObjectVisitor {
 	@Override
 	public void visit(OWLDataProperty property) {
 		OWLObjectVisitor.super.visit(property);
-		stack.add(shortFormProvider.getShortForm(property));
+		stack.add(property.toStringID());
 	}
 
 	@Override
@@ -236,7 +223,7 @@ public class AxiomEntityVisitor implements OWLObjectVisitor {
 		// TODO Auto-generated method stub
 		OWLObjectVisitor.super.visit(node);
 		/*System.out.println("OWLDatatype node: " + node);*/
-		stack.add(shortFormProvider.getShortForm(node));
+		stack.add(node.toStringID());
 	}
 
 	@Override
@@ -441,7 +428,7 @@ public class AxiomEntityVisitor implements OWLObjectVisitor {
 	@Override
 	public void visit(OWLNamedIndividual individual) {
 		OWLObjectVisitor.super.visit(individual);
-		stack.add(shortFormProvider.getShortForm(individual));
+		stack.add(individual.toStringID());
 	}
 
 	@Override
@@ -529,7 +516,7 @@ public class AxiomEntityVisitor implements OWLObjectVisitor {
 	@Override
 	public void visit(OWLObjectProperty property) {
 		OWLObjectVisitor.super.visit(property);
-		stack.add(shortFormProvider.getShortForm(property));
+		stack.add(property.toStringID());
 	}
 
 	@Override
