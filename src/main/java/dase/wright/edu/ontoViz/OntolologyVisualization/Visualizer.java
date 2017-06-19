@@ -17,6 +17,8 @@ import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.util.IRIComparator;
+import org.semanticweb.owlapi.util.IRIShortFormProvider;
 import org.semanticweb.owlapi.util.OWLEntityComparator;
 import org.semanticweb.owlapi.util.ShortFormProvider;
 import org.semanticweb.owlapi.util.SimpleShortFormProvider;
@@ -95,6 +97,8 @@ public class Visualizer {
 						if (!propName.toLowerCase().contains("cardinal")
 								&& !propName.toLowerCase().contains("instant")) {
 							String connectedNodeName = secondaryEntry.getValue();
+							leString = propName;
+							
 							boolean visualizedbefore = checkIfVisualizedBefore(visualized, className, leString,
 									connectedNodeName);
 							if (!visualizedbefore) {
@@ -106,7 +110,7 @@ public class Visualizer {
 								}
 								if (!simpleDataType(connectedNodeName)) {
 									if (connectedNodeName.equalsIgnoreCase("SELF")) {
-										// System.out.println("self");
+										System.out.println("self");
 										node2 = node1;
 									} else if (labels.containsKey(connectedNodeName)) {
 										node2 = labels.get(connectedNodeName);
@@ -119,16 +123,17 @@ public class Visualizer {
 								}
 
 								if (!connectedNodeName.equalsIgnoreCase("SELF")
-										|| !connectedNodeName.equalsIgnoreCase(className)) {
+										&& !connectedNodeName.equalsIgnoreCase(className)) {			
 									String connectedNodeNameString = getReadableClassLabel(connectedNodeName);
 									graph.addLabel(node2, connectedNodeNameString);
-									System.out.print(connectedNodeName + "\n");
+									System.out.print(connectedNodeName + ".\n");
 								} else {
-									System.out.print(className + "\n");
+									System.out.print(className + " , " + connectedNodeName + ".\n");
 								}
 								IPort portAtNode1 = graph.addPort(node1);
 								IPort portAtNode2 = graph.addPort(node2, FreeNodePortLocationModel.NODE_LEFT_ANCHORED);
 								IEdge edgeAtPorts = graph.createEdge(portAtNode1, portAtNode2);
+								
 								leString = getReadablePropertyLabel(propName);
 								if (pn.isNot()) {
 									leString = leString + "-";
@@ -178,12 +183,21 @@ public class Visualizer {
 		while (it.hasNext()) {
 			Map.Entry<String, SimpleEntry<String, String>> entry = it.next();
 			String nd1 = entry.getKey();
-			if (nd1.equalsIgnoreCase(className)) {
+			IRI nd1IRI = IRI.create(nd1);
+			IRI classIRI = IRI.create(className);
+			//IRIShortFormProvider iriShortFormProvider = null;
+			//IRIComparator iriComparator = new IRIComparator(iriShortFormProvider);
+			if (nd1.equalsIgnoreCase(className) || (nd1IRI.compareTo(classIRI) == 0)) {
 				SimpleEntry<String, String> se1 = entry.getValue();
 				String propname = se1.getKey();
-				if (propname.equalsIgnoreCase(leString)) {
+				IRI propnameIRI = IRI.create(propname);
+				IRI leStringIRI = IRI.create(leString);
+				//leString.compareTo(propname);
+				if (propname.equalsIgnoreCase(leString) || (propnameIRI.compareTo(leStringIRI) == 0)) {
 					String fillername = se1.getValue();
-					if (fillername.equalsIgnoreCase(connectedNodeName)) {
+					IRI fillernameIRI = IRI.create(fillername);
+					IRI connectedNodeNameIRI = IRI.create(connectedNodeName);
+					if (fillername.equalsIgnoreCase(connectedNodeName) || (fillernameIRI.compareTo(connectedNodeNameIRI) == 0)) {
 						return true;
 					}
 				}
@@ -240,7 +254,7 @@ public class Visualizer {
 				|| connectedNodeName.equalsIgnoreCase("http://www.w3.org/2001/XMLSchema#gMonthDay")
 				|| connectedNodeName.equalsIgnoreCase("http://www.w3.org/2001/XMLSchema#gDay")
 				|| connectedNodeName.equalsIgnoreCase("http://www.w3.org/2001/XMLSchema#gMonth")
-				//|| connectedNodeName.equalsIgnoreCase("http://www.w3.org/2001/XMLSchema#ID")
+				|| connectedNodeName.equalsIgnoreCase("http://www.w3.org/2001/XMLSchema#ID")
 				);
 	}
 	

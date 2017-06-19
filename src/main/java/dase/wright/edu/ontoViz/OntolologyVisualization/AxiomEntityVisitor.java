@@ -570,7 +570,6 @@ public class AxiomEntityVisitor implements OWLObjectVisitor {
 	public void visit(OWLOntology ontology) {
 		// TODO Auto-generated method stub
 		OWLObjectVisitor.super.visit(ontology);
-		System.out.println("OWLOntology ontology: " + ontology);
 	}
 
 	@Override

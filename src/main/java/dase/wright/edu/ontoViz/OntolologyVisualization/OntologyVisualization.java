@@ -31,7 +31,7 @@ import org.semanticweb.owlapi.model.parameters.Imports;
 public class OntologyVisualization {
 	
 	public static OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
-	public static File ontologyFile = new File("src/resources/chessgame.owl");
+	public static File ontologyFile = new File("src/resources/cruise.owl");
 
 	public static OWLOntology ontology;
 	public static OntologyVisualization ontoViz = new OntologyVisualization();
@@ -186,8 +186,7 @@ public class OntologyVisualization {
 								|| cur.equalsIgnoreCase("OWLObjectExactCardinality")
 								|| cur.equalsIgnoreCase("OWLObjectMaxCardinality")
 								|| cur.equalsIgnoreCase("OWLObjectMinCardinality") || cur.matches("[0-9]"))) {
-							if(cur.equalsIgnoreCase("not")) negation = true;
-							
+							if(cur.equalsIgnoreCase("not")) negation = true;		
 							cur = (String) iterator.next();
 						}
 						if (cur.equalsIgnoreCase("OWLObjectInverseOf")) {
