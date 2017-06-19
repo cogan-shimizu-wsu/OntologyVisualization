@@ -187,6 +187,7 @@ public class Visualizer {
 			IRI classIRI = IRI.create(className);
 			//IRIShortFormProvider iriShortFormProvider = null;
 			//IRIComparator iriComparator = new IRIComparator(iriShortFormProvider);
+			//String str_1 = escapeName(shortFormProvider.getShortForm((OWLEntity) nd1IRI));
 			if (nd1.equalsIgnoreCase(className) || (nd1IRI.compareTo(classIRI) == 0)) {
 				SimpleEntry<String, String> se1 = entry.getValue();
 				String propname = se1.getKey();
