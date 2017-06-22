@@ -788,7 +788,7 @@ public class AxiomEntityVisitor implements OWLObjectVisitor {
 	@Override
 	public void visit(OWLDataMaxCardinality ce) {
 		OWLObjectVisitor.super.visit(ce);
-		stack.add("DataMaxCardinality");
+		stack.add("OWLDataMaxCardinality");
 		stack.add(Integer.toString(ce.getCardinality()));
 		ce.getProperty().accept(this);
 	}
@@ -796,7 +796,7 @@ public class AxiomEntityVisitor implements OWLObjectVisitor {
 	@Override
 	public void visit(OWLDataMinCardinality ce) {
 		OWLObjectVisitor.super.visit(ce);
-		stack.add("DataMinCardinality");
+		stack.add("OWLDataMinCardinality");
 		stack.add(Integer.toString(ce.getCardinality()));
 		ce.getProperty().accept(this);
 	}
@@ -804,7 +804,7 @@ public class AxiomEntityVisitor implements OWLObjectVisitor {
 	@Override
 	public void visit(OWLObjectMaxCardinality ce) {
 		OWLObjectVisitor.super.visit(ce);
-		stack.add("ObjectMaxCardinality");
+		stack.add("OWLObjectMaxCardinality");
 		stack.add(Integer.toString(ce.getCardinality()));
 		ce.getProperty().accept(this);
 		getNestedFillers(ce.getFiller());
@@ -813,7 +813,7 @@ public class AxiomEntityVisitor implements OWLObjectVisitor {
 	@Override
 	public void visit(OWLObjectMinCardinality ce) {
 		OWLObjectVisitor.super.visit(ce);
-		stack.add("ObjectMinCardinality");
+		stack.add("OWLObjectMinCardinality");
 		stack.add(Integer.toString(ce.getCardinality()));
 		ce.getProperty().accept(this);
 		getNestedFillers(ce.getFiller());

@@ -67,7 +67,7 @@ public class OntologyVisualization {
 		}
 	}
 
-	public PropertyNode getPropertyNode(Boolean b, String property) {
+	public PropertyNode createPropertyNode(Boolean b, String property) {
 		return new PropertyNode(b, property);
 	}
 
@@ -166,7 +166,7 @@ public class OntologyVisualization {
 				for (Iterator<String> iterator = aLStack.iterator(); iterator.hasNext();) {
 					first = (String) iterator.next();
 					if (first.equalsIgnoreCase("subclass") && aLStack.size() <= 3) {
-						PropertyNode propNode = ontoViz.getPropertyNode(false, "rdfs:subclassOf");
+						PropertyNode propNode = ontoViz.createPropertyNode(false, "subclass");
 						if (visualizer.containsKey(aLStack.get(1))) {
 							HashMap<PropertyNode, String> retrievedMap = visualizer.get(aLStack.get(1));
 							retrievedMap.put(propNode, aLStack.get(2));
@@ -194,24 +194,25 @@ public class OntologyVisualization {
 							cur = (String) iterator.next();
 						}
 						propName = cur;
+						/*System.out.println("Property name: " + propName);*/
 						filler = (String) iterator.next();
 						PropertyNode propNode;
 						if (negation) {
-							propNode = ontoViz.getPropertyNode(true, propName);
+							propNode = ontoViz.createPropertyNode(true, propName);
 						} else {
-							propNode = ontoViz.getPropertyNode(false, propName);
+							propNode = ontoViz.createPropertyNode(false, propName);
 						}
-						if (visualizer.containsKey(className)) {
+						/*if (visualizer.containsKey(className)) {
 							HashMap<PropertyNode, String> retrievedMap = visualizer.get(className);
-							if (!containsSameVisualization(retrievedMap, propNode,filler)) {
+							if (!containsSameVisualization(retrievedMap, propNode, filler)) {
 								retrievedMap.put(propNode, filler);
 								visualizer.put(className, retrievedMap);
 							}
-						} else {
+						} else {*/
 							HashMap<PropertyNode, String> map = new HashMap<>();
 							map.put(propNode, filler);
 							visualizer.put(className, map);
-						}
+						/*}*/
 					}
 
 				}

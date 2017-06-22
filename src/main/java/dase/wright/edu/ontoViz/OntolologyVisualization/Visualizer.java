@@ -68,7 +68,7 @@ public class Visualizer {
 				while (iterator.hasNext()) {
 					Map.Entry<String, HashMap<PropertyNode, String>> entry = iterator.next();
 
-					System.out.print(entry.getKey() + " : ");
+					/*System.out.print(entry.getKey() + " : ");*/
 
 					String className = entry.getKey();
 					INode node1;
@@ -102,7 +102,7 @@ public class Visualizer {
 							boolean visualizedbefore = checkIfVisualizedBefore(visualized, className, leString,
 									connectedNodeName);
 							if (!visualizedbefore) {
-								System.out.print(propName + " , ");
+								/*System.out.print(propName + " , ");*/
 								if (connectedNodeName.equalsIgnoreCase("OR")
 										&& connectedNodeName.equalsIgnoreCase("AND")
 										&& connectedNodeName.matches("[0-9]")) {
@@ -110,7 +110,6 @@ public class Visualizer {
 								}
 								if (!simpleDataType(connectedNodeName)) {
 									if (connectedNodeName.equalsIgnoreCase("SELF")) {
-										System.out.println("self");
 										node2 = node1;
 									} else if (labels.containsKey(connectedNodeName)) {
 										node2 = labels.get(connectedNodeName);
@@ -126,9 +125,9 @@ public class Visualizer {
 										&& !connectedNodeName.equalsIgnoreCase(className)) {			
 									String connectedNodeNameString = getReadableClassLabel(connectedNodeName);
 									graph.addLabel(node2, connectedNodeNameString);
-									System.out.print(connectedNodeName + ".\n");
+									/*System.out.print(connectedNodeName + ".\n");*/
 								} else {
-									System.out.print(className + " , " + connectedNodeName + ".\n");
+									/*System.out.print(className + " , " + connectedNodeName + ".\n");*/
 								}
 								IPort portAtNode1 = graph.addPort(node1);
 								IPort portAtNode2 = graph.addPort(node2, FreeNodePortLocationModel.NODE_LEFT_ANCHORED);
@@ -183,22 +182,31 @@ public class Visualizer {
 		while (it.hasNext()) {
 			Map.Entry<String, SimpleEntry<String, String>> entry = it.next();
 			String nd1 = entry.getKey();
-			IRI nd1IRI = IRI.create(nd1);
-			IRI classIRI = IRI.create(className);
+			nd1 = nd1.replaceAll("[^\\w\\s]","");
+			className=className.replaceAll("[^\\w\\s]","");
+			System.out.println(nd1 + " comparing to: " + className);
+			//IRI nd1IRI = IRI.create(nd1);
+			//IRI classIRI = IRI.create(className);
 			//IRIShortFormProvider iriShortFormProvider = null;
 			//IRIComparator iriComparator = new IRIComparator(iriShortFormProvider);
 			//String str_1 = escapeName(shortFormProvider.getShortForm((OWLEntity) nd1IRI));
-			if (nd1.equalsIgnoreCase(className) || (nd1IRI.compareTo(classIRI) == 0)) {
+			if (nd1.equalsIgnoreCase(className)) {
 				SimpleEntry<String, String> se1 = entry.getValue();
 				String propname = se1.getKey();
-				IRI propnameIRI = IRI.create(propname);
-				IRI leStringIRI = IRI.create(leString);
+				propname = propname.replaceAll("[^\\w\\s]","");
+				leString = leString.replaceAll("[^\\w\\s]","");
+				System.out.println(propname + " comparing to: " + leString);
+				//IRI propnameIRI = IRI.create(propname);
+				//IRI leStringIRI = IRI.create(leString);
 				//leString.compareTo(propname);
-				if (propname.equalsIgnoreCase(leString) || (propnameIRI.compareTo(leStringIRI) == 0)) {
+				if (propname.equalsIgnoreCase(leString)) {
 					String fillername = se1.getValue();
-					IRI fillernameIRI = IRI.create(fillername);
-					IRI connectedNodeNameIRI = IRI.create(connectedNodeName);
-					if (fillername.equalsIgnoreCase(connectedNodeName) || (fillernameIRI.compareTo(connectedNodeNameIRI) == 0)) {
+					fillername = fillername.replaceAll("[^\\w\\s]","");
+					connectedNodeName = connectedNodeName.replaceAll("[^\\w\\s]","");
+					System.out.println(fillername + " comparing to: " + connectedNodeName);
+					//IRI fillernameIRI = IRI.create(fillername);
+					//IRI connectedNodeNameIRI = IRI.create(connectedNodeName);
+					if (fillername.equalsIgnoreCase(connectedNodeName)) {
 						return true;
 					}
 				}
