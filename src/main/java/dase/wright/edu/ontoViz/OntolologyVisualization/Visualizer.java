@@ -68,8 +68,6 @@ public class Visualizer {
 				while (iterator.hasNext()) {
 					Map.Entry<String, HashMap<PropertyNode, String>> entry = iterator.next();
 
-					/*System.out.print(entry.getKey() + " : ");*/
-
 					String className = entry.getKey();
 					INode node1;
 					if (!labels.containsKey(
@@ -81,6 +79,7 @@ public class Visualizer {
 						labels.put(className, node1);
 						String clsString = getReadableClassLabel(className);					
 						graph.addLabel(node1, clsString);
+						System.out.print("Node1: "+ clsString + " is connected to ");
 					} else {
 						node1 = labels.get(className);
 					}
@@ -102,7 +101,6 @@ public class Visualizer {
 							boolean visualizedbefore = checkIfVisualizedBefore(visualized, className, leString,
 									connectedNodeName);
 							if (!visualizedbefore) {
-								/*System.out.print(propName + " , ");*/
 								if (connectedNodeName.equalsIgnoreCase("OR")
 										&& connectedNodeName.equalsIgnoreCase("AND")
 										&& connectedNodeName.matches("[0-9]")) {
@@ -125,9 +123,9 @@ public class Visualizer {
 										&& !connectedNodeName.equalsIgnoreCase(className)) {			
 									String connectedNodeNameString = getReadableClassLabel(connectedNodeName);
 									graph.addLabel(node2, connectedNodeNameString);
-									/*System.out.print(connectedNodeName + ".\n");*/
+									System.out.print(connectedNodeName + "through ");
 								} else {
-									/*System.out.print(className + " , " + connectedNodeName + ".\n");*/
+									System.out.print(className + " , " + connectedNodeName + " through ");
 								}
 								IPort portAtNode1 = graph.addPort(node1);
 								IPort portAtNode2 = graph.addPort(node2, FreeNodePortLocationModel.NODE_LEFT_ANCHORED);
@@ -140,6 +138,7 @@ public class Visualizer {
 									leString = leString;
 								}
 								graph.addLabel(edgeAtPorts, leString);
+								System.out.print(leString + "\n");
 
 								SimpleEntry<String, String> sE = new SimpleEntry<String, String>(leString,
 										connectedNodeName);

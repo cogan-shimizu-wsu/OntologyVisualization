@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.stream.Stream;
 
 import org.semanticweb.owlapi.apibinding.OWLManager;
@@ -151,8 +152,8 @@ public class OntologyVisualization {
 				ArrayList<String> aLStack = new ArrayList<>();
 				if (axiom.isLogicalAxiom()) {
 					aLStack.clear();
-					AxiomEntityVisitor aeNode = new AxiomEntityVisitor(aLStack);
-					axiom.accept(aeNode);
+					AxiomEntityVisitor visitor = new AxiomEntityVisitor(aLStack);
+					axiom.accept(visitor);
 				}
 
 //				for (Iterator<String> iterator = aLStack.iterator(); iterator.hasNext();) {
@@ -202,17 +203,17 @@ public class OntologyVisualization {
 						} else {
 							propNode = ontoViz.createPropertyNode(false, propName);
 						}
-						/*if (visualizer.containsKey(className)) {
+						if (visualizer.containsKey(className)) {
 							HashMap<PropertyNode, String> retrievedMap = visualizer.get(className);
 							if (!containsSameVisualization(retrievedMap, propNode, filler)) {
 								retrievedMap.put(propNode, filler);
 								visualizer.put(className, retrievedMap);
 							}
-						} else {*/
+						} else {
 							HashMap<PropertyNode, String> map = new HashMap<>();
 							map.put(propNode, filler);
 							visualizer.put(className, map);
-						/*}*/
+						}
 					}
 
 				}
@@ -222,7 +223,28 @@ public class OntologyVisualization {
 	}
 
 	private static boolean containsSameVisualization(HashMap<PropertyNode, String> retrievedMap, PropertyNode propNode, String filler) {
-		// TODO Auto-generated method stub
+		Iterator<Map.Entry<PropertyNode, String>> it = retrievedMap.entrySet().iterator();
+		while (it.hasNext()) {
+			Map.Entry<PropertyNode, String> entry = it.next();
+			PropertyNode pnToMatch = entry.getKey();
+			String propNameToMatch = pnToMatch.getPropertyName();
+			propNameToMatch = propNameToMatch.replaceAll("[^\\w\\s]","");
+			String propNameToCheck = propNode.getPropertyName();
+			propNameToCheck=propNameToCheck.replaceAll("[^\\w\\s]","");
+			//System.out.println("PropertyName" + ": " + propNameToMatch + " comparing to: " + propNameToCheck);
+			if (propNameToMatch.equalsIgnoreCase(propNameToCheck)) {
+				String fillerToMatch = entry.getValue();
+				fillerToMatch = fillerToMatch.replaceAll("[^\\w\\s]","");
+				String fillerToCheck = filler.replaceAll("[^\\w\\s]","");
+
+				//System.out.println("FillerName" + ": " + fillerToMatch + " comparing to: " + fillerToCheck);
+				if (fillerToMatch.equalsIgnoreCase(fillerToCheck)) {
+					//System.out.println("Returning true");
+					return true;
+				}
+			}
+			
+		}
 		return false;
 	}
 
