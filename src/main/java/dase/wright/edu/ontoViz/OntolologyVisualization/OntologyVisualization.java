@@ -43,19 +43,15 @@ public class OntologyVisualization {
 	
 
 	public class PropertyNode {
-		boolean not;
+		boolean isReverse;
 		String propertyName;
-
-		public boolean isNot() {
-			return not;
-		}
-
+		
 		public void setNot(boolean not) {
-			this.not = not;
+			this.isReverse = not;
 		}
 
 		public PropertyNode(Boolean val, String name) {
-			this.not = val;
+			this.isReverse = val;
 			this.propertyName = name;
 		}
 
@@ -131,7 +127,7 @@ public class OntologyVisualization {
 
 			/* Create Tree for each Axiom */
 			ontology.classesInSignature().forEach(cls -> {
-				createAxiomNode(cls, sortAxioms(ontology.axioms(cls, Imports.INCLUDED)));
+				populateVisualizer(cls, sortAxioms(ontology.axioms(cls, Imports.INCLUDED)));
 			});
 
 		} catch (OWLOntologyCreationException e) {
@@ -141,10 +137,9 @@ public class OntologyVisualization {
 	}
 
 	/**
-	 * This method visits every entity of an axiom and creates a node in the
-	 * tree
+	 * This method takes each logical axiom, processes it and puts in the visualizer in <class, property, filler> triple format
 	 */
-	protected static void createAxiomNode(OWLEntity cls, Collection<? extends OWLAxiom> axioms) {
+	protected static void populateVisualizer(OWLEntity cls, Collection<? extends OWLAxiom> axioms) {
 		if (axioms.size() > 0) {
 			for (Iterator<? extends OWLAxiom> it = axioms.iterator(); it.hasNext();) {
 				OWLAxiom axiom = it.next();
@@ -163,58 +158,62 @@ public class OntologyVisualization {
 				String first, cur, propName = null, filler = null, className = "";
 				boolean negation = false;
 
-				for (Iterator<String> iterator = aLStack.iterator(); iterator.hasNext();) {
-					first = (String) iterator.next();
-					if (first.equalsIgnoreCase("subclass") && aLStack.size() <= 3) {
-						PropertyNode propNode = ontoViz.createPropertyNode(false, "subclass");
-						if (visualizer.containsKey(aLStack.get(1))) {
-							HashMap<PropertyNode, String> retrievedMap = visualizer.get(aLStack.get(1));
-							retrievedMap.put(propNode, aLStack.get(2));
-							visualizer.put(aLStack.get(1), retrievedMap);
-						} else {
-							HashMap<PropertyNode, String> map = new HashMap<>();
-							map.put(propNode, aLStack.get(2));
-							visualizer.put(aLStack.get(1), map);
-						}
-					} else if (first.equalsIgnoreCase("subclass") || first.equalsIgnoreCase("equivalent")) {
-						className = (String) iterator.next();
-						cur = (String) iterator.next();
-						while ((cur.equalsIgnoreCase("not") || cur.equalsIgnoreCase("some")
-								|| cur.equalsIgnoreCase("all") || cur.equalsIgnoreCase("OWLDataExactCardinality")
-								|| cur.equalsIgnoreCase("OWLDataMaxCardinality")
-								|| cur.equalsIgnoreCase("OWLDataMinCardinality")
-								|| cur.equalsIgnoreCase("OWLObjectExactCardinality")
-								|| cur.equalsIgnoreCase("OWLObjectMaxCardinality")
-								|| cur.equalsIgnoreCase("OWLObjectMinCardinality") || cur.matches("[0-9]"))) {
-							if(cur.equalsIgnoreCase("not")) negation = true;		
-							cur = (String) iterator.next();
-						}
-						if (cur.equalsIgnoreCase("OWLObjectInverseOf")) {
-							negation = true;
-							cur = (String) iterator.next();
-						}
-						propName = cur;
-						/*System.out.println("Property name: " + propName);*/
-						filler = (String) iterator.next();
-						PropertyNode propNode;
-						if (negation) {
-							propNode = ontoViz.createPropertyNode(true, propName);
-						} else {
-							propNode = ontoViz.createPropertyNode(false, propName);
-						}
-						if (visualizer.containsKey(className)) {
-							HashMap<PropertyNode, String> retrievedMap = visualizer.get(className);
-							if (!containsSameVisualization(retrievedMap, propNode, filler)) {
-								retrievedMap.put(propNode, filler);
-								visualizer.put(className, retrievedMap);
+				if (!aLStack.contains("not")) {
+					for (Iterator<String> iterator = aLStack.iterator(); iterator.hasNext();) {
+						first = (String) iterator.next();
+						if (first.equalsIgnoreCase("subclass") && aLStack.size() <= 3) {
+							PropertyNode propNode = ontoViz.createPropertyNode(false, "subclass");
+							if (visualizer.containsKey(aLStack.get(1))) {
+								HashMap<PropertyNode, String> retrievedMap = visualizer.get(aLStack.get(1));
+								retrievedMap.put(propNode, aLStack.get(2));
+								visualizer.put(aLStack.get(1), retrievedMap);
+							} else {
+								HashMap<PropertyNode, String> map = new HashMap<>();
+								map.put(propNode, aLStack.get(2));
+								visualizer.put(aLStack.get(1), map);
 							}
-						} else {
-							HashMap<PropertyNode, String> map = new HashMap<>();
-							map.put(propNode, filler);
-							visualizer.put(className, map);
+						} else if (first.equalsIgnoreCase("subclass") || first.equalsIgnoreCase("equivalent")) { /*This check prevents disjoint class axioms from visualizing*/
+							className = (String) iterator.next();
+							cur = (String) iterator.next();
+							while ((cur.equalsIgnoreCase("reverse") || (cur.equalsIgnoreCase("inverse"))
+									|| cur.equalsIgnoreCase("some") || cur.equalsIgnoreCase("all") 
+									|| cur.equalsIgnoreCase("OWLDataExactCardinality")
+									|| cur.equalsIgnoreCase("OWLDataMaxCardinality")
+									|| cur.equalsIgnoreCase("OWLDataMinCardinality")
+									|| cur.equalsIgnoreCase("OWLObjectExactCardinality")
+									|| cur.equalsIgnoreCase("OWLObjectMaxCardinality")
+									|| cur.equalsIgnoreCase("OWLObjectMinCardinality") || cur.matches("[0-9]"))) {
+								if(cur.equalsIgnoreCase("reverse"))
+										negation = true;
+								cur = (String) iterator.next();
+							}
+							if (cur.equalsIgnoreCase("OWLObjectInverseOf")) {
+								negation = true;
+								cur = (String) iterator.next();
+							}
+							propName = cur;
+							/*System.out.println("Property name: " + propName);*/
+							filler = (String) iterator.next();
+							PropertyNode propNode;
+							if (negation) {
+								propNode = ontoViz.createPropertyNode(true, propName);
+							} else {
+								propNode = ontoViz.createPropertyNode(false, propName);
+							}
+							if (visualizer.containsKey(className)) {
+								HashMap<PropertyNode, String> retrievedMap = visualizer.get(className);
+								if (!containsSameVisualization(retrievedMap, propNode, filler)) {
+									retrievedMap.put(propNode, filler);
+									visualizer.put(className, retrievedMap);
+								}
+							} else {
+								HashMap<PropertyNode, String> map = new HashMap<>();
+								map.put(propNode, filler);
+								visualizer.put(className, map);
+							}
 						}
-					}
 
+					} 
 				}
 			}
 

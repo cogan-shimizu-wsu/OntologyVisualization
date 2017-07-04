@@ -119,10 +119,10 @@ public class AxiomEntityVisitor implements OWLObjectVisitor {
 	public void visit(OWLAsymmetricObjectPropertyAxiom axiom) {
 		OWLObjectVisitor.super.visit(axiom);
 		axiom.getProperty().accept(this);
-		stack.add("SUBCLASS");
-		stack.add("NOT");
+		stack.add("subclass");
+		stack.add("not");
 		axiom.getProperty().accept(this);
-		stack.add("INVERSE");
+		stack.add("inverse");
 	}
 
 	@Override
@@ -145,7 +145,7 @@ public class AxiomEntityVisitor implements OWLObjectVisitor {
 	@Override
 	public void visit(OWLDataAllValuesFrom ce) {
 		OWLObjectVisitor.super.visit(ce);
-		stack.add("ALL");
+		stack.add("all");
 		ce.getProperty().accept(this);
 		ce.getFiller().accept(this);
 	}
@@ -160,7 +160,7 @@ public class AxiomEntityVisitor implements OWLObjectVisitor {
 	@Override
 	public void visit(OWLDataHasValue ce) {
 		OWLObjectVisitor.super.visit(ce);
-		stack.add("SOME");
+		stack.add("some");
 		ce.getProperty().accept(this);
 		ce.getFiller().accept(this);
 	}
@@ -213,7 +213,7 @@ public class AxiomEntityVisitor implements OWLObjectVisitor {
 	@Override
 	public void visit(OWLDataSomeValuesFrom ce) {
 		OWLObjectVisitor.super.visit(ce);
-		stack.add("SOME");
+		stack.add("some");
 		ce.getProperty().accept(this);
 		ce.getFiller().accept(this);
 	}
@@ -434,7 +434,7 @@ public class AxiomEntityVisitor implements OWLObjectVisitor {
 	@Override
 	public void visit(OWLNegativeDataPropertyAssertionAxiom axiom) {
 		OWLObjectVisitor.super.visit(axiom);
-		stack.add("NOT");
+		stack.add("not");
 		axiom.getProperty().accept(this);
 		axiom.getSubject().accept(this);
 		axiom.getObject().accept(this);
@@ -443,7 +443,7 @@ public class AxiomEntityVisitor implements OWLObjectVisitor {
 	@Override
 	public void visit(OWLNegativeObjectPropertyAssertionAxiom axiom) {
 		OWLObjectVisitor.super.visit(axiom);
-		stack.add("NOT");
+		stack.add("not");
 		axiom.getProperty().accept(this);
 		axiom.getSubject().accept(this);
 		axiom.getObject().accept(this);
@@ -452,7 +452,7 @@ public class AxiomEntityVisitor implements OWLObjectVisitor {
 	@Override
 	public void visit(OWLObjectAllValuesFrom ce) {
 		OWLObjectVisitor.super.visit(ce);
-		stack.add("ALL");
+		stack.add("all");
 		ce.getProperty().accept(this);
 		getNestedFillers(ce.getFiller());
 	}
@@ -460,14 +460,14 @@ public class AxiomEntityVisitor implements OWLObjectVisitor {
 	@Override
 	public void visit(OWLObjectComplementOf ce) {
 		OWLObjectVisitor.super.visit(ce);
-		stack.add("NOT");
+		stack.add("not");
 		getNestedFillers(ce.getOperand());
 	}
 
 	@Override
 	public void visit(OWLObjectHasSelf ce) {
 		OWLObjectVisitor.super.visit(ce);
-		stack.add("SOME");
+		stack.add("some");
 		ce.getProperty().accept(this);
 		stack.add("SELF");
 	}
@@ -475,7 +475,7 @@ public class AxiomEntityVisitor implements OWLObjectVisitor {
 	@Override
 	public void visit(OWLObjectHasValue ce) {
 		OWLObjectVisitor.super.visit(ce);
-		stack.add("SOME");
+		stack.add("some");
 		ce.getProperty().accept(this);
 		ce.getFiller().accept(this);
 	}
@@ -546,7 +546,7 @@ public class AxiomEntityVisitor implements OWLObjectVisitor {
 	@Override
 	public void visit(OWLObjectSomeValuesFrom ce) {
 		OWLObjectVisitor.super.visit(ce);
-		stack.add("SOME");
+		stack.add("some");
 		ce.getProperty().accept(this);
 		getNestedFillers(ce.getFiller());
 	}
