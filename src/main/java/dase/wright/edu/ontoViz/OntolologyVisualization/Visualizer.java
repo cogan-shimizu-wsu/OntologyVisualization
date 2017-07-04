@@ -17,13 +17,11 @@ import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
-import org.semanticweb.owlapi.util.IRIComparator;
-import org.semanticweb.owlapi.util.IRIShortFormProvider;
 import org.semanticweb.owlapi.util.OWLEntityComparator;
 import org.semanticweb.owlapi.util.ShortFormProvider;
 import org.semanticweb.owlapi.util.SimpleShortFormProvider;
 
-import com.yworks.yfiles.geometry.RectD;
+/*import com.yworks.yfiles.geometry.RectD;
 import com.yworks.yfiles.graph.IEdge;
 import com.yworks.yfiles.graph.IGraph;
 import com.yworks.yfiles.graph.INode;
@@ -32,7 +30,7 @@ import com.yworks.yfiles.graph.LayoutUtilities;
 import com.yworks.yfiles.graph.portlocationmodels.FreeNodePortLocationModel;
 import com.yworks.yfiles.layout.organic.OrganicLayout;
 import com.yworks.yfiles.view.GraphComponent;
-import com.yworks.yfiles.view.input.GraphEditorInputMode;
+import com.yworks.yfiles.view.input.GraphEditorInputMode;*/
 
 import dase.wright.edu.ontoViz.OntolologyVisualization.OntologyVisualization.PropertyNode;
 
@@ -47,21 +45,17 @@ public class Visualizer {
 								 * a graph.
 								 */
 
-				GraphComponent graphComponent = new GraphComponent(); /*
-																		 * Enabling
-																		 * user-
-																		 * interaction
-																		 */
-				graphComponent.setInputMode(new GraphEditorInputMode());
+				//GraphComponent graphComponent = new GraphComponent(); 
+				//graphComponent.setInputMode(new GraphEditorInputMode());
 
-				IGraph graph = graphComponent.getGraph();
+				//IGraph graph = graphComponent.getGraph();
 
 				double coOrdX = 30;
 				double coOrdY = 30;
 				double height = 100;
 				double width = 30;
 
-				HashMap<String, INode> labels = new HashMap<>();
+				//HashMap<String, INode> labels = new HashMap<>();
 				HashMap<String, SimpleEntry<String, String>> visualized = new HashMap<>();
 				/* iterate over the hashmap */
 				Iterator<Map.Entry<String, HashMap<PropertyNode, String>>> iterator = visualizer.entrySet().iterator();
@@ -69,24 +63,21 @@ public class Visualizer {
 					Map.Entry<String, HashMap<PropertyNode, String>> entry = iterator.next();
 
 					String className = entry.getKey();
-					INode node1;
-					if (!labels.containsKey(
-							className)) { /*
-											 * checks if the same classname has
-											 * been drawn before
-											 */
-						node1 = graph.createNode(new RectD(coOrdX, coOrdY, height, width));
-						labels.put(className, node1);
+					//INode node1;
+					//if (!labels.containsKey(className)) { 
+						//node1 = graph.createNode(new RectD(coOrdX, coOrdY, height, width));
+						//labels.put(className, node1);
 						String clsString = getReadableClassLabel(className);					
-						graph.addLabel(node1, clsString);
+						//graph.addLabel(node1, clsString);
 						System.out.print("Node1: "+ clsString + " is connected to ");
-					} else {
-						node1 = labels.get(className);
-					}
+					//} 
+					//else {
+						//node1 = labels.get(className);
+					//}
 
 					HashMap<PropertyNode, String> values = entry.getValue();
 					Iterator<Map.Entry<PropertyNode, String>> it = values.entrySet().iterator();
-					INode node2 = null;
+					//INode node2 = null;
 					String leString = null;
 					while (it.hasNext()) {
 						Map.Entry<PropertyNode, String> secondaryEntry = it.next();
@@ -106,7 +97,7 @@ public class Visualizer {
 										&& connectedNodeName.matches("[0-9]")) {
 									continue;
 								}
-								if (!simpleDataType(connectedNodeName)) {
+								/*if (!simpleDataType(connectedNodeName)) {
 									if (connectedNodeName.equalsIgnoreCase("SELF")) {
 										node2 = node1;
 									} else if (labels.containsKey(connectedNodeName)) {
@@ -117,19 +108,19 @@ public class Visualizer {
 									}
 								} else {
 									node2 = graph.createNode(new RectD(coOrdX + 125, coOrdY, height, width));
-								}
+								}*/
 
 								if (!connectedNodeName.equalsIgnoreCase("SELF")
 										&& !connectedNodeName.equalsIgnoreCase(className)) {			
 									String connectedNodeNameString = getReadableClassLabel(connectedNodeName);
-									graph.addLabel(node2, connectedNodeNameString);
-									System.out.print(connectedNodeName + "through ");
+									//graph.addLabel(node2, connectedNodeNameString);
+									System.out.print(connectedNodeName + " through ");
 								} else {
-									System.out.print(className + " , " + connectedNodeName + " through ");
+									System.out.print(connectedNodeName + " through ");
 								}
-								IPort portAtNode1 = graph.addPort(node1);
-								IPort portAtNode2 = graph.addPort(node2, FreeNodePortLocationModel.NODE_LEFT_ANCHORED);
-								IEdge edgeAtPorts = graph.createEdge(portAtNode1, portAtNode2);
+								//IPort portAtNode1 = graph.addPort(node1);
+								//IPort portAtNode2 = graph.addPort(node2, FreeNodePortLocationModel.NODE_LEFT_ANCHORED);
+								//IEdge edgeAtPorts = graph.createEdge(portAtNode1, portAtNode2);
 								
 								leString = getReadablePropertyLabel(propName);
 								if (pn.isNot()) {
@@ -137,7 +128,7 @@ public class Visualizer {
 								} else {
 									leString = leString;
 								}
-								graph.addLabel(edgeAtPorts, leString);
+								//graph.addLabel(edgeAtPorts, leString);
 								System.out.print(leString + "\n");
 
 								SimpleEntry<String, String> sE = new SimpleEntry<String, String>(leString,
@@ -153,10 +144,10 @@ public class Visualizer {
 
 				}
 
-				OrganicLayout layout = new OrganicLayout();
-				layout.setConsiderNodeSizes(true);
-				layout.setMinimumNodeDistance(50);
-				LayoutUtilities.morphLayout(graphComponent, layout, Duration.ofMillis(500), null);
+				//OrganicLayout layout = new OrganicLayout();
+				//layout.setConsiderNodeSizes(true);
+				//layout.setMinimumNodeDistance(50);
+				//LayoutUtilities.morphLayout(graphComponent, layout, Duration.ofMillis(500), null);
 
 				/* create a top-level window and add the graph component. */
 				 JFrame frame = new JFrame("Ontology Visualization");
@@ -164,7 +155,7 @@ public class Visualizer {
 				 frame.setSize(500, 500);
 				 frame.setLocationRelativeTo(null);
 				 frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-				 frame.add(graphComponent, BorderLayout.CENTER);
+				 //frame.add(graphComponent, BorderLayout.CENTER);
 				 frame.setVisible(true);
 			}
 
@@ -183,28 +174,18 @@ public class Visualizer {
 			String nd1 = entry.getKey();
 			nd1 = nd1.replaceAll("[^\\w\\s]","");
 			className=className.replaceAll("[^\\w\\s]","");
-			System.out.println(nd1 + " comparing to: " + className);
-			//IRI nd1IRI = IRI.create(nd1);
-			//IRI classIRI = IRI.create(className);
-			//IRIShortFormProvider iriShortFormProvider = null;
-			//IRIComparator iriComparator = new IRIComparator(iriShortFormProvider);
-			//String str_1 = escapeName(shortFormProvider.getShortForm((OWLEntity) nd1IRI));
+			//System.out.println(nd1 + " comparing to: " + className);
 			if (nd1.equalsIgnoreCase(className)) {
 				SimpleEntry<String, String> se1 = entry.getValue();
 				String propname = se1.getKey();
 				propname = propname.replaceAll("[^\\w\\s]","");
 				leString = leString.replaceAll("[^\\w\\s]","");
-				System.out.println(propname + " comparing to: " + leString);
-				//IRI propnameIRI = IRI.create(propname);
-				//IRI leStringIRI = IRI.create(leString);
-				//leString.compareTo(propname);
+				//System.out.println(propname + " comparing to: " + leString);
 				if (propname.equalsIgnoreCase(leString)) {
 					String fillername = se1.getValue();
 					fillername = fillername.replaceAll("[^\\w\\s]","");
 					connectedNodeName = connectedNodeName.replaceAll("[^\\w\\s]","");
-					System.out.println(fillername + " comparing to: " + connectedNodeName);
-					//IRI fillernameIRI = IRI.create(fillername);
-					//IRI connectedNodeNameIRI = IRI.create(connectedNodeName);
+					//System.out.println(fillername + " comparing to: " + connectedNodeName);
 					if (fillername.equalsIgnoreCase(connectedNodeName)) {
 						return true;
 					}
