@@ -111,8 +111,7 @@ public class OntologyVisualization {
 	}
 
 	/*
-	 * initializes the ontology and produces a tree structure for each class
-	 * with it's properties
+	 * loads the ontology, classifies the axioms and populates the dataStructure to be visualized
 	 */
 	private static void init(OWLOntologyManager manager, File fullOntology, ArrayList<OWLClass> classes,
 			ArrayList<OWLObjectProperty> prop, ArrayList<OWLDataProperty> dataProp) {
