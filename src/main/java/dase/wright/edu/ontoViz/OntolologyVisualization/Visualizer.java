@@ -65,7 +65,7 @@ public class Visualizer {
 					Map.Entry<String, HashMap<PropertyNode, String>> entry = iterator.next();
 
 					String className = entry.getKey();
-					if (!getReadableClassLabel(className).equalsIgnoreCase("things")) {
+					if (!getReadableClassLabel(className).equalsIgnoreCase("Things")) {
 						INode node1;
 						if (!labels.containsKey(className)) {
 							node1 = graph.createNode(new RectD(coOrdX, coOrdY, height, width));
@@ -90,9 +90,9 @@ public class Visualizer {
 								String connectedNodeName = secondaryEntry.getValue();
 								leString = propName;
 
-								boolean visualizedbefore = checkIfVisualizedBefore(visualized, className, leString,
-										connectedNodeName);
-								if (!visualizedbefore) {
+								//boolean visualizedbefore = checkIfVisualizedBefore(visualized, className, leString,
+										//connectedNodeName);
+								//if (!visualizedbefore) {
 									if (connectedNodeName.equalsIgnoreCase("OR")
 											&& connectedNodeName.equalsIgnoreCase("AND")
 											&& connectedNodeName.matches("[0-9]")) {
@@ -126,7 +126,7 @@ public class Visualizer {
 
 									System.out.print(leString + "\n");
 									leString = getReadablePropertyLabel(propName);
-									if (pn.isNot()) {
+									if (pn.isReverse) {
 										leString = leString + "-";
 									}
 									graph.addLabel(edgeAtPorts, leString);
@@ -134,7 +134,7 @@ public class Visualizer {
 									SimpleEntry<String, String> sE = new SimpleEntry<String, String>(leString,
 											connectedNodeName);
 									visualized.put(className, sE);
-								}
+								//}
 							}
 
 						}
@@ -152,7 +152,7 @@ public class Visualizer {
 				layout.setMinimumNodeDistance(50);
 				layout.setAvoidingNodeEdgeOverlapsEnabled(true);
 				layout.setParallelEdgeRouterEnabled(true);
-				layout.setSelfLoopRouterEnabled(true);
+				//layout.setSelfLoopRouterEnabled(true);
 
 				LayoutUtilities.morphLayout(graphComponent, layout, Duration.ofMillis(500));
 

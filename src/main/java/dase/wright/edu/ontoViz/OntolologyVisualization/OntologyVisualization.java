@@ -10,6 +10,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.stream.Stream;
 
+import org.apache.xmlbeans.impl.xb.xsdschema.Public;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.MissingImportHandlingStrategy;
@@ -31,8 +32,15 @@ import org.semanticweb.owlapi.model.parameters.Imports;
  */
 public class OntologyVisualization {
 	
+	static String GEOLINKONTOLOGY = "geolinkMain";
+	static String AGENTROLE = "agentrole";
+	static String CHESSGAME = "chessgame";
+	static String CHESSSHORTCUT = "chessgameshortcuts";
+	static String CRUISE = "cruise";
+	static String TRAJECTORY = "trajectory";
+	
 	public static OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
-	public static File ontologyFile = new File("src/resources/cruise.owl");
+	public static File ontologyFile = new File("src/resources/" + GEOLINKONTOLOGY + ".owl");
 
 	public static OWLOntology ontology;
 	public static OntologyVisualization ontoViz = new OntologyVisualization();
@@ -41,7 +49,8 @@ public class OntologyVisualization {
 	public static ArrayList<OWLObjectProperty> prop = new ArrayList<OWLObjectProperty>();
 	public static ArrayList<OWLDataProperty> dataProp = new ArrayList<OWLDataProperty>();
 	
-
+    
+    
 	public class PropertyNode {
 		boolean isReverse;
 		String propertyName;
