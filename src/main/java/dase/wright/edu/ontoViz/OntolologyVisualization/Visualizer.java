@@ -103,22 +103,26 @@ public class Visualizer {
 											node2 = node1;
 										} else if (labels.containsKey(connectedNodeName)) {
 											node2 = labels.get(connectedNodeName);
+											graph.addLabel(node2, getReadableClassLabel(connectedNodeName));
+											System.out.print(connectedNodeName + " through ");
 										} else {
 											node2 = graph.createNode(new RectD(coOrdX + 125, coOrdY, height, width));
 											labels.put(connectedNodeName, node2);
+											graph.addLabel(node2, getReadableClassLabel(connectedNodeName));
+											System.out.print(connectedNodeName + " through ");
 										}
 									} else {
 										node2 = graph.createNode(new RectD(coOrdX + 125, coOrdY, height, width));
+										graph.addLabel(node2, getReadableClassLabel(connectedNodeName));
+										System.out.print(connectedNodeName + " through ");
 									}
 
-									if (!connectedNodeName.equalsIgnoreCase("SELF")
+									/*if (!connectedNodeName.equalsIgnoreCase("SELF")
 											&& !connectedNodeName.equalsIgnoreCase(className)) {
 										String connectedNodeNameString = getReadableClassLabel(connectedNodeName);
 										graph.addLabel(node2, connectedNodeNameString);
 										System.out.print(connectedNodeName + " through ");
-									} else {
-										System.out.print(connectedNodeName + " through ");
-									}
+									} */
 									IPort portAtNode1 = graph.addPort(node1);
 									IPort portAtNode2 = graph.addPort(node2,
 											FreeNodePortLocationModel.NODE_LEFT_ANCHORED);

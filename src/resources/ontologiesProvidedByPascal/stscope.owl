@@ -1,0 +1,310 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE Ontology [
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY xml "http://www.w3.org/XML/1998/namespace" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+]>
+
+
+<Ontology xmlns="http://www.w3.org/2002/07/owl#"
+     xml:base="http://descartes-core.org/ontologies/lca/1.0/"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     ontologyIRI="http://geog.ucsb.edu/~boyan/ontology/spatiotemporalscope">
+    <Prefix name="rdf" IRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
+    <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
+    <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
+    <Prefix name="owl" IRI="http://www.w3.org/2002/07/owl#"/>
+    <Import>http://www.ontologydesignpatterns.org/schemas/cpannotationschema.owl</Import>
+    <Annotation>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">Spatiotemporal Scope</Literal>
+    </Annotation>
+    <Annotation>
+        <AnnotationProperty IRI="http://www.ontologydesignpatterns.org/schemas/cpannotationschema.owl#coversRequirements"/>
+        <Literal datatypeIRI="&xsd;string">What is the emission of activity a at place p at time t?
+What are the supply chain requirements of activity a when it happens
+at place p1 and time t1?
+What is the difference of activity a at places p1 and p2 at the same
+time t?
+What is the difference of activity a at times t1 and t2 at the same
+place p?</Literal>
+    </Annotation>
+    <Annotation>
+        <AnnotationProperty IRI="http://www.ontologydesignpatterns.org/schemas/cpannotationschema.owl#scenarios"/>
+        <Literal datatypeIRI="&xsd;string">LCA activities under certain spatial and temporal context. Each spatiotemporal scope has at least one place and time and the class SpatiotemporalScope is disjoint from all other classes.</Literal>
+    </Annotation>
+    <Annotation>
+        <AnnotationProperty IRI="http://www.ontologydesignpatterns.org/schemas/cpannotationschema.owl#hasIntent"/>
+        <Literal datatypeIRI="&xsd;string">To incorporate a spatiotemporal scope of assessed activities in order to capture the dynamic nature of Life Cycle Assessment (LCA). This ontology pattern is developed based on the existing Activity ontology design pattern which also includes concpets such as Activity, Requirement, and Outcome. We modify it to fit the activities in the domain of LCA.</Literal>
+    </Annotation>
+    <Annotation>
+        <AnnotationProperty abbreviatedIRI="owl:versionInfo"/>
+        <Literal datatypeIRI="&xsd;string">Created by Bo Yan, Yingjie Hu, Krzysztof Janowicz, Brandon Kuczenski, Andrea Ballatore, Kyle Meisterling, Mike Taptich, Antonio Medrano, Sarah Cashman and Sara Lafia. Version 1.0</Literal>
+    </Annotation>
+    <Declaration>
+        <Class IRI="http://www.co-ode.org/ontologies/ont.owl#Outcome"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://www.co-ode.org/ontologies/ont.owl#Place"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://www.co-ode.org/ontologies/ont.owl#SpatiotemporalOutcome"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://www.co-ode.org/ontologies/ont.owl#SpatiotemporalScope"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://www.co-ode.org/ontologies/ont.owl#Time"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://www.semanticweb.org/bo/ontologies/2015/6/untitled-ontology-2#Activity"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://www.semanticweb.org/bo/ontologies/2015/6/untitled-ontology-2#Flow"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://www.semanticweb.org/bo/ontologies/2015/6/untitled-ontology-2#Requirement"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://www.semanticweb.org/bo/ontologies/2015/6/untitled-ontology-2#SpatiotemporalRequirement"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="http://www.co-ode.org/ontologies/ont.owl#hasRequirement"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="http://www.co-ode.org/ontologies/ont.owl#hasSpatiotemporalScope"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="http://www.co-ode.org/ontologies/ont.owl#isAssociatedWith"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="http://www.co-ode.org/ontologies/ont.owl#isInfluencedBy"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="http://www.co-ode.org/ontologies/ont.owl#occursAtPlace"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="http://www.co-ode.org/ontologies/ont.owl#occursAtTime"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="http://www.co-ode.org/ontologies/ont.owl#produces"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="http://www.co-ode.org/ontologies/ont.owl#scopedByPlace"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="http://www.co-ode.org/ontologies/ont.owl#scopedByTime"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="http://www.semanticweb.org/bo/ontologies/2015/6/untitled-ontology-2#hasRole"/>
+    </Declaration>
+    <SubClassOf>
+        <Class IRI="http://www.co-ode.org/ontologies/ont.owl#SpatiotemporalOutcome"/>
+        <Class IRI="http://www.co-ode.org/ontologies/ont.owl#Outcome"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="http://www.semanticweb.org/bo/ontologies/2015/6/untitled-ontology-2#SpatiotemporalRequirement"/>
+        <Class IRI="http://www.semanticweb.org/bo/ontologies/2015/6/untitled-ontology-2#Requirement"/>
+    </SubClassOf>
+    <DisjointClasses>
+        <Class IRI="http://www.co-ode.org/ontologies/ont.owl#Outcome"/>
+        <Class IRI="http://www.co-ode.org/ontologies/ont.owl#Place"/>
+        <Class IRI="http://www.co-ode.org/ontologies/ont.owl#SpatiotemporalOutcome"/>
+        <Class IRI="http://www.co-ode.org/ontologies/ont.owl#SpatiotemporalScope"/>
+        <Class IRI="http://www.co-ode.org/ontologies/ont.owl#Time"/>
+        <Class IRI="http://www.semanticweb.org/bo/ontologies/2015/6/untitled-ontology-2#Activity"/>
+        <Class IRI="http://www.semanticweb.org/bo/ontologies/2015/6/untitled-ontology-2#Flow"/>
+        <Class IRI="http://www.semanticweb.org/bo/ontologies/2015/6/untitled-ontology-2#Requirement"/>
+        <Class IRI="http://www.semanticweb.org/bo/ontologies/2015/6/untitled-ontology-2#SpatiotemporalRequirement"/>
+    </DisjointClasses>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="http://www.co-ode.org/ontologies/ont.owl#hasRequirement"/>
+        <Class IRI="http://www.semanticweb.org/bo/ontologies/2015/6/untitled-ontology-2#Activity"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="http://www.co-ode.org/ontologies/ont.owl#isAssociatedWith"/>
+        <Class IRI="http://www.semanticweb.org/bo/ontologies/2015/6/untitled-ontology-2#SpatiotemporalRequirement"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="http://www.co-ode.org/ontologies/ont.owl#isInfluencedBy"/>
+        <Class IRI="http://www.co-ode.org/ontologies/ont.owl#SpatiotemporalOutcome"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="http://www.co-ode.org/ontologies/ont.owl#occursAtPlace"/>
+        <Class IRI="http://www.co-ode.org/ontologies/ont.owl#SpatiotemporalScope"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="http://www.co-ode.org/ontologies/ont.owl#occursAtTime"/>
+        <Class IRI="http://www.co-ode.org/ontologies/ont.owl#SpatiotemporalScope"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="http://www.co-ode.org/ontologies/ont.owl#produces"/>
+        <Class IRI="http://www.semanticweb.org/bo/ontologies/2015/6/untitled-ontology-2#Activity"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="http://www.co-ode.org/ontologies/ont.owl#scopedByPlace"/>
+        <Class IRI="http://www.semanticweb.org/bo/ontologies/2015/6/untitled-ontology-2#Activity"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="http://www.co-ode.org/ontologies/ont.owl#scopedByTime"/>
+        <Class IRI="http://www.semanticweb.org/bo/ontologies/2015/6/untitled-ontology-2#Activity"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="http://www.semanticweb.org/bo/ontologies/2015/6/untitled-ontology-2#hasRole"/>
+        <Class IRI="http://www.semanticweb.org/bo/ontologies/2015/6/untitled-ontology-2#Flow"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="http://www.co-ode.org/ontologies/ont.owl#hasRequirement"/>
+        <Class IRI="http://www.semanticweb.org/bo/ontologies/2015/6/untitled-ontology-2#Requirement"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="http://www.co-ode.org/ontologies/ont.owl#isAssociatedWith"/>
+        <Class IRI="http://www.co-ode.org/ontologies/ont.owl#SpatiotemporalScope"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="http://www.co-ode.org/ontologies/ont.owl#isInfluencedBy"/>
+        <Class IRI="http://www.co-ode.org/ontologies/ont.owl#SpatiotemporalScope"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="http://www.co-ode.org/ontologies/ont.owl#occursAtPlace"/>
+        <Class IRI="http://www.co-ode.org/ontologies/ont.owl#Place"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="http://www.co-ode.org/ontologies/ont.owl#occursAtTime"/>
+        <Class IRI="http://www.co-ode.org/ontologies/ont.owl#Time"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="http://www.co-ode.org/ontologies/ont.owl#produces"/>
+        <Class IRI="http://www.co-ode.org/ontologies/ont.owl#Outcome"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="http://www.co-ode.org/ontologies/ont.owl#scopedByPlace"/>
+        <Class IRI="http://www.co-ode.org/ontologies/ont.owl#Place"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="http://www.co-ode.org/ontologies/ont.owl#scopedByTime"/>
+        <Class IRI="http://www.co-ode.org/ontologies/ont.owl#Time"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="http://www.semanticweb.org/bo/ontologies/2015/6/untitled-ontology-2#hasRole"/>
+        <ObjectUnionOf>
+            <Class IRI="http://www.co-ode.org/ontologies/ont.owl#Outcome"/>
+            <Class IRI="http://www.semanticweb.org/bo/ontologies/2015/6/untitled-ontology-2#Requirement"/>
+        </ObjectUnionOf>
+    </ObjectPropertyRange>
+    <SubObjectPropertyOf>
+        <ObjectPropertyChain>
+            <ObjectProperty IRI="http://www.co-ode.org/ontologies/ont.owl#hasSpatiotemporalScope"/>
+            <ObjectProperty IRI="http://www.co-ode.org/ontologies/ont.owl#occursAtPlace"/>
+        </ObjectPropertyChain>
+        <ObjectProperty IRI="http://www.co-ode.org/ontologies/ont.owl#scopedByPlace"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectPropertyChain>
+            <ObjectProperty IRI="http://www.co-ode.org/ontologies/ont.owl#hasSpatiotemporalScope"/>
+            <ObjectProperty IRI="http://www.co-ode.org/ontologies/ont.owl#occursAtTime"/>
+        </ObjectPropertyChain>
+        <ObjectProperty IRI="http://www.co-ode.org/ontologies/ont.owl#scopedByTime"/>
+    </SubObjectPropertyOf>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.co-ode.org/ontologies/ont.owl#Outcome</IRI>
+        <Literal datatypeIRI="&xsd;string">Outcome is the formalization of output of any activity in LCA</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.co-ode.org/ontologies/ont.owl#Outcome</IRI>
+        <Literal datatypeIRI="&xsd;string">Outcome</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.co-ode.org/ontologies/ont.owl#Place</IRI>
+        <Literal datatypeIRI="&xsd;string">A place is some, typically named, extent in geographic space, e.g., a country region.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.co-ode.org/ontologies/ont.owl#Place</IRI>
+        <Literal datatypeIRI="&xsd;string">Place</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.co-ode.org/ontologies/ont.owl#SpatiotemporalOutcome</IRI>
+        <Literal datatypeIRI="&xsd;string">SpatiotemporalOutcome is a subclass of Outcome and is influenced by SpatiotemporalScope.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.co-ode.org/ontologies/ont.owl#SpatiotemporalOutcome</IRI>
+        <Literal datatypeIRI="&xsd;string">Spatiotemporal Outcome</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.co-ode.org/ontologies/ont.owl#SpatiotemporalScope</IRI>
+        <Literal datatypeIRI="&xsd;string">SpatiotemporalScope is associated with classes Place and Time through relations occursAtPlace and occursAtTime.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.co-ode.org/ontologies/ont.owl#SpatiotemporalScope</IRI>
+        <Literal datatypeIRI="&xsd;string">Spatiotemporal Scope</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.co-ode.org/ontologies/ont.owl#Time</IRI>
+        <Literal datatypeIRI="&xsd;string">TIme is an interval because an LCA activity generally represents the performance of a typical facility or a set of facilities over a time period, rather than at a specific moment.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.co-ode.org/ontologies/ont.owl#Time</IRI>
+        <Literal datatypeIRI="&xsd;string">Time</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.semanticweb.org/bo/ontologies/2015/6/untitled-ontology-2#Activity</IRI>
+        <Literal datatypeIRI="&xsd;string">Activities in the LCA sense. An activity roughly corresponds with a unit process as defined in the ISO 14044 standard, but may also indicagte a reservoir, stock, or natural process. An activity always occurs at a certain place in a particular time span.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.semanticweb.org/bo/ontologies/2015/6/untitled-ontology-2#Activity</IRI>
+        <Literal datatypeIRI="&xsd;string">Activity</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.semanticweb.org/bo/ontologies/2015/6/untitled-ontology-2#Flow</IRI>
+        <Literal datatypeIRI="&xsd;string">A flow is a counterpart to an activity. A flow may represent the transfer of matteror an exchange of services</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.semanticweb.org/bo/ontologies/2015/6/untitled-ontology-2#Flow</IRI>
+        <Literal datatypeIRI="&xsd;string">Flow</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.semanticweb.org/bo/ontologies/2015/6/untitled-ontology-2#Requirement</IRI>
+        <Literal datatypeIRI="&xsd;string">Requirement is the formalization of input of any activity in LCA</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.semanticweb.org/bo/ontologies/2015/6/untitled-ontology-2#Requirement</IRI>
+        <Literal datatypeIRI="&xsd;string">Requirement</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.semanticweb.org/bo/ontologies/2015/6/untitled-ontology-2#SpatiotemporalRequirement</IRI>
+        <Literal datatypeIRI="&xsd;string">SpatiotemporalRequirement is a subclass of Requirement and is associated with SpatiotemporalScope.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.semanticweb.org/bo/ontologies/2015/6/untitled-ontology-2#SpatiotemporalRequirement</IRI>
+        <Literal datatypeIRI="&xsd;string">Spatiotemporal Requirement</Literal>
+    </AnnotationAssertion>
+</Ontology>
+
+
+
+<!-- Generated by the OWL API (version 3.5.1) http://owlapi.sourceforge.net -->
+

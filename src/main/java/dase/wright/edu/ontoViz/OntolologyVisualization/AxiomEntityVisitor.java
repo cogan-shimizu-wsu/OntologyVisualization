@@ -322,11 +322,13 @@ public class AxiomEntityVisitor implements OWLObjectVisitor {
 		OWLObjectVisitor.super.visit(axiom);
 		List<OWLClassExpression> classExpressions = org.semanticweb.owlapi.util.OWLAPIStreamUtils
 				.asList(axiom.classExpressions());
-		stack.add("Equivalent");
+		stack.add("equivalent");
 		for (Iterator<OWLClassExpression> it = classExpressions.iterator(); it.hasNext();) {
 			it.next().accept(this);
+			if (it.hasNext())
+				stack.add(",");
 			if (!it.hasNext())
-				stack.add("End of equivalent class list");
+				stack.add("end of equivalent class list");
 		}
 	}
 
@@ -487,7 +489,7 @@ public class AxiomEntityVisitor implements OWLObjectVisitor {
 		for (Iterator<? extends OWLClassExpression> it = ce.operands().iterator(); it.hasNext();) {
 			it.next().accept(this);
 			if (it.hasNext()) {
-				stack.add("AND");
+				stack.add("and");
 			}
 		}
 	}
@@ -508,7 +510,7 @@ public class AxiomEntityVisitor implements OWLObjectVisitor {
 		for (Iterator<? extends OWLIndividual> it = ce.individuals().iterator(); it.hasNext();) {
 			it.next().accept(this);
 			if (it.hasNext()) {
-				stack.add("OR");
+				stack.add("or");
 			}
 		}
 	}
@@ -561,7 +563,7 @@ public class AxiomEntityVisitor implements OWLObjectVisitor {
 		for (Iterator<? extends OWLClassExpression> it = ce.operands().iterator(); it.hasNext();) {
 			it.next().accept(this);
 			if (it.hasNext()) {
-				stack.add("OR");
+				stack.add("or");
 			}
 		}
 	}
