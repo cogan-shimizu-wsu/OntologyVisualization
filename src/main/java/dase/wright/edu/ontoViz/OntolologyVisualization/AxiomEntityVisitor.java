@@ -647,7 +647,7 @@ public class AxiomEntityVisitor implements OWLObjectVisitor {
 		axiom.getProperty().accept(this);
 		stack.add("EQUIVALENT");
 		axiom.getProperty().accept(this);
-		stack.add("INVERSE");
+		stack.add("inverse");
 	}
 
 	@Override
