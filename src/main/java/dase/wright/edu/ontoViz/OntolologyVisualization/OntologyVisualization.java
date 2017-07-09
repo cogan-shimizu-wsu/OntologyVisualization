@@ -12,6 +12,7 @@ import java.util.stream.Stream;
 
 import org.apache.xmlbeans.impl.xb.xsdschema.Public;
 import org.semanticweb.owlapi.apibinding.OWLManager;
+import org.semanticweb.owlapi.expression.OWLEntityChecker;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.MissingImportHandlingStrategy;
 import org.semanticweb.owlapi.model.OWLAxiom;
@@ -41,8 +42,8 @@ public class OntologyVisualization {
 	
 	public static OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
 	//public static File ontologyFile = new File("src/resources/" + "ontologies/basicplanexecution" + ".owl");
-	public static File ontologyFile = new File("src/resources/" + "ontologiesProvidedByPascal/LCAPattern" + ".owl");
-	//public static File ontologyFile = new File("src/resources/" + CHESSGAME + ".owl");
+	//public static File ontologyFile = new File("src/resources/" + "ontologiesProvidedByPascal/LCAPattern" + ".owl");
+	public static File ontologyFile = new File("src/resources/" + CHESSGAME + ".owl");
 	
 
 	public static OWLOntology ontology;
@@ -177,7 +178,8 @@ public class OntologyVisualization {
 							populatingScAndEquivToViz(aLStack);
 						} else if (first.equalsIgnoreCase("subclass")) { /*This and the following check prevent disjoint class axioms from visualizing*/
 							populatingSCDefAxiomToViz(iterator);
-						}else if (first.equalsIgnoreCase("equivalent")) {
+						}
+						else if (first.equalsIgnoreCase("equivalent")) {
 							for (int i = 0; i < aLStack.size(); i++) {
 								String cur = iterator.next();
 								ArrayList<String> subStack = new ArrayList<>();
@@ -202,7 +204,7 @@ public class OntologyVisualization {
 	}
 
 	private static boolean isbasicSubOrEquivDef(ArrayList<String> aLStack, String first) {
-		return (first.equalsIgnoreCase("subclass") || first.equalsIgnoreCase("equivalent")) && aLStack.size() <= 3;
+		return ((first.equalsIgnoreCase("subclass") || first.equalsIgnoreCase("equivalent")) && aLStack.size() <= 3);
 	}
 
 	private static void populatingScAndEquivToViz(ArrayList<String> aLStack) {
@@ -246,7 +248,8 @@ public class OntologyVisualization {
 		}
 		if (visualizer.containsKey(className)) {
 			HashMap<PropertyNode, String> retrievedMap = visualizer.get(className);
-			if (!containsSameEdge(retrievedMap, propNode, filler) && !containsReverseEdge(retrievedMap, propNode, filler, negation)) {
+			HashMap<PropertyNode, String> retrievedReversedMap = visualizer.get(filler);
+			if (!containsSameEdge(retrievedMap, propNode, filler) && !containsReverseEdge(retrievedReversedMap, propNode, className, negation)) {
 				retrievedMap.put(propNode, filler);
 				visualizer.put(className, retrievedMap);
 			}
@@ -296,28 +299,30 @@ public class OntologyVisualization {
 		}
 		return false;
 	}
-	private static boolean containsReverseEdge(HashMap<PropertyNode, String> retrievedMap, PropertyNode propNode, String filler, boolean negation) {
-		Iterator<Map.Entry<PropertyNode, String>> it = retrievedMap.entrySet().iterator();
-		while (it.hasNext()) {
-			Map.Entry<PropertyNode, String> entry = it.next();
-			PropertyNode pnToMatch = entry.getKey();
-			String propNameToMatch = pnToMatch.getPropertyName();
-			propNameToMatch = propNameToMatch.replaceAll("[^\\w\\s]","");
-			String propNameToCheck = propNode.getPropertyName();
-			propNameToCheck=propNameToCheck.replaceAll("[^\\w\\s]","");
-			//System.out.println("PropertyName" + ": " + propNameToMatch + " comparing to: " + propNameToCheck);
-			if (propNameToMatch.equalsIgnoreCase(propNameToCheck)) {
-				String fillerToMatch = entry.getValue();
-				fillerToMatch = fillerToMatch.replaceAll("[^\\w\\s]","");
-				String fillerToCheck = filler.replaceAll("[^\\w\\s]","");
-				//System.out.println("FillerName" + ": " + fillerToMatch + " comparing to: " + fillerToCheck);
-				boolean reverseEdgeExists = (propNode.isReverse != negation);
-				if (fillerToMatch.equalsIgnoreCase(fillerToCheck) && reverseEdgeExists) {
-					//System.out.println("Returning true");
-					return true;
+	private static boolean containsReverseEdge(HashMap<PropertyNode, String> retrievedReversedMap, PropertyNode propNode, String className, boolean negation) {
+		if (retrievedReversedMap!=null && !retrievedReversedMap.isEmpty()) {
+			Iterator<Map.Entry<PropertyNode, String>> it = retrievedReversedMap.entrySet().iterator();
+			while (it.hasNext()) {
+				Map.Entry<PropertyNode, String> entry = it.next();
+				PropertyNode pnToMatch = entry.getKey();
+				String propNameToMatch = pnToMatch.getPropertyName();
+				propNameToMatch = propNameToMatch.replaceAll("[^\\w\\s]", "");
+				String propNameToCheck = propNode.getPropertyName();
+				propNameToCheck = propNameToCheck.replaceAll("[^\\w\\s]", "");
+				//System.out.println("PropertyName" + ": " + propNameToMatch + " comparing to: " + propNameToCheck);
+				if (propNameToMatch.equalsIgnoreCase(propNameToCheck)) {
+					String fillerToMatch = entry.getValue();
+					fillerToMatch = fillerToMatch.replaceAll("[^\\w\\s]", "");
+					String fillerToCheck = className.replaceAll("[^\\w\\s]", "");
+					//System.out.println("FillerName" + ": " + fillerToMatch + " comparing to: " + fillerToCheck);
+					boolean reverseEdgeExists = (pnToMatch.isReverse != negation);
+					if (fillerToMatch.equalsIgnoreCase(fillerToCheck) && reverseEdgeExists) {
+						//System.out.println("Returning true");
+						return true;
+					}
 				}
-			}
-			
+
+			} 
 		}
 		return false;
 	}
