@@ -13,6 +13,7 @@ import org.semanticweb.owlapi.model.OWLAnnotationPropertyDomainAxiom;
 import org.semanticweb.owlapi.model.OWLAnnotationPropertyRangeAxiom;
 import org.semanticweb.owlapi.model.OWLAnonymousIndividual;
 import org.semanticweb.owlapi.model.OWLAsymmetricObjectPropertyAxiom;
+import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLClassExpression;
@@ -26,6 +27,7 @@ import org.semanticweb.owlapi.model.OWLDataMinCardinality;
 import org.semanticweb.owlapi.model.OWLDataOneOf;
 import org.semanticweb.owlapi.model.OWLDataProperty;
 import org.semanticweb.owlapi.model.OWLDataPropertyAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLDataPropertyDomainAxiom;
 import org.semanticweb.owlapi.model.OWLDataPropertyExpression;
 import org.semanticweb.owlapi.model.OWLDataSomeValuesFrom;
 import org.semanticweb.owlapi.model.OWLDataUnionOf;
@@ -48,6 +50,7 @@ import org.semanticweb.owlapi.model.OWLInverseObjectPropertiesAxiom;
 import org.semanticweb.owlapi.model.OWLIrreflexiveObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
+import org.semanticweb.owlapi.model.OWLNaryClassAxiom;
 import org.semanticweb.owlapi.model.OWLNegativeDataPropertyAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLNegativeObjectPropertyAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLObjectAllValuesFrom;
@@ -331,20 +334,25 @@ public class AxiomEntityVisitor implements OWLObjectVisitor, OWLPairwiseVoidVisi
 	public void visit(OWLEquivalentClassesAxiom axiom) {
 		OWLObjectVisitor.super.visit(axiom);
 		stack.add("equivalent");
-		System.out.println(axiom.toString() + "Expression Type:" + axiom.getNestedClassExpressions().size());
-		if (axiom.getNestedClassExpressions().size() > 4) {
-			axiom.forEach(this);
-			/*if (it.hasNext())
-				stack.add(",");*/
-		} else {
-			List<OWLClassExpression> classExpressions = org.semanticweb.owlapi.util.OWLAPIStreamUtils
-					.asList(axiom.classExpressions());
-			for (Iterator<OWLClassExpression> it = classExpressions.iterator(); it.hasNext();) {
-				it.next().accept(this);
+		List<OWLSubClassOfAxiom> subSetAxioms = (List<OWLSubClassOfAxiom>) axiom.asOWLSubClassOfAxioms();
+		System.out.println("No. of subAxioms: " + subSetAxioms.size());
+		System.out.println(axiom + " is of type:" + axiom.getAxiomType());
+		for (int i = 0; i < subSetAxioms.size(); i=+2) {
+			OWLAxiom curAxiom = subSetAxioms.get(i);
+			System.out.println("subAxiom: " +axiom + " is of type:"  + " is of type:" + curAxiom.getAxiomType());
+			curAxiom.accept(this);
+			
+//			List<OWLClassExpression> classExpressions = org.semanticweb.owlapi.util.OWLAPIStreamUtils
+//					.asList(curAxiom.nestedClassExpressions());
+//			for (Iterator<OWLClassExpression> it = classExpressions.iterator(); it.hasNext();) {
+//				it.next().accept(this);
+//				
+//				}
+			if (i==subSetAxioms.size()-2)
+				stack.add("endOfEquivalentClassList");
+			else stack.add(";");
 			}
 		}
-		stack.add("end of equivalent class list");
-	}
 
 	@Override
 	public void visit(OWLEquivalentDataPropertiesAxiom axiom) {
@@ -829,5 +837,9 @@ public class AxiomEntityVisitor implements OWLObjectVisitor, OWLPairwiseVoidVisi
 		a.accept(this);
 		b.accept(this);
 		System.out.println("Pairwise: " + a + " , " + b);
+	}
+
+	public void visit(OWLNaryClassAxiom axiom) {
+		System.out.println("OWLNaryClassAxiom: " + axiom);
 	}
 }

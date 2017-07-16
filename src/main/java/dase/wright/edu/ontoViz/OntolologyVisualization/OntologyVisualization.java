@@ -42,8 +42,8 @@ public class OntologyVisualization {
 	
 	public static OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
 	//public static File ontologyFile = new File("src/resources/" + "ontologies/basicplanexecution" + ".owl");
-	//public static File ontologyFile = new File("src/resources/" + "ontologiesProvidedByPascal/LCAPattern" + ".owl");
-	public static File ontologyFile = new File("src/resources/" + CHESSGAME + ".owl");
+	public static File ontologyFile = new File("src/resources/" + "ontologiesProvidedByPascal/timeindexedpersonrole" + ".owl");
+	//public static File ontologyFile = new File("src/resources/" + AGENTROLE + ".owl");
 	
 
 	public static OWLOntology ontology;
@@ -175,23 +175,24 @@ public class OntologyVisualization {
 					for (Iterator<String> iterator = aLStack.iterator(); iterator.hasNext();) {
 						first = (String) iterator.next();
 						if (isbasicSubOrEquivDef(aLStack, first)) {
+							populatingSCDefAxiomToViz(aLStack);
+						} 
+						else if (first.equalsIgnoreCase("subclass")) { /*This and the following check prevent disjoint class axioms from visualizing*/
 							populatingScAndEquivToViz(aLStack);
-						} else if (first.equalsIgnoreCase("subclass")) { /*This and the following check prevent disjoint class axioms from visualizing*/
-							populatingSCDefAxiomToViz(iterator);
 						}
 						else if (first.equalsIgnoreCase("equivalent")) {
 							for (int i = 0; i < aLStack.size(); i++) {
 								String cur = iterator.next();
 								ArrayList<String> subStack = new ArrayList<>();
-								while (!cur.equalsIgnoreCase(",")) {
+								while (!cur.equalsIgnoreCase(";") && !cur.equalsIgnoreCase("endOfEquivalentClassList")) {
 									subStack.add(cur);
 									if (iterator.hasNext())
 										cur = iterator.next();
 								} 
 								if (isbasicSubOrEquivDef(subStack, subStack.get(0))) {
-									populatingScAndEquivToViz(subStack);
+									populatingSCDefAxiomToViz(subStack);
 								}else {
-									populatingSCDefAxiomToViz(iterator);
+									populatingScAndEquivToViz(subStack);
 								}
 							}
 						}
@@ -207,7 +208,7 @@ public class OntologyVisualization {
 		return ((first.equalsIgnoreCase("subclass") || first.equalsIgnoreCase("equivalent")) && aLStack.size() <= 3);
 	}
 
-	private static void populatingScAndEquivToViz(ArrayList<String> aLStack) {
+	private static void populatingSCDefAxiomToViz(ArrayList<String> aLStack) {
 		PropertyNode propNode = ontoViz.createPropertyNode(false, "subclass");
 		if (visualizer.containsKey(aLStack.get(1))) {
 			HashMap<PropertyNode, String> retrievedMap = visualizer.get(aLStack.get(1));
@@ -220,12 +221,13 @@ public class OntologyVisualization {
 		}
 	}
 
-	private static void populatingSCDefAxiomToViz(Iterator<String> iterator) {
+	private static void populatingScAndEquivToViz(ArrayList<String> aLStack) {
 		String cur;
 		String propName;
 		String filler;
 		String className;
 		boolean negation = false;
+		Iterator<String> iterator = aLStack.iterator();
 		className = (String) iterator.next();
 		cur = (String) iterator.next();
 		while (isStackWord(cur)) {
