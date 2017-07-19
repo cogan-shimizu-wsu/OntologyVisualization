@@ -42,7 +42,7 @@ public class OntologyVisualization {
 	
 	public static OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
 	//public static File ontologyFile = new File("src/resources/" + "ontologies/basicplanexecution" + ".owl");
-	public static File ontologyFile = new File("src/resources/" + "ontologiesProvidedByPascal/timeindexedpersonrole" + ".owl");
+	public static File ontologyFile = new File("src/resources/" + "ontologiesProvidedByPascal/spatiotemporalextent" + ".owl");
 	//public static File ontologyFile = new File("src/resources/" + AGENTROLE + ".owl");
 	
 
@@ -176,15 +176,14 @@ public class OntologyVisualization {
 						first = (String) iterator.next();
 						if (isbasicSubOrEquivDef(aLStack, first)) {
 							populatingSCDefAxiomToViz(aLStack);
-						} 
-						else if (first.equalsIgnoreCase("subclass")) { /*This and the following check prevent disjoint class axioms from visualizing*/
+						} else if (first.equalsIgnoreCase("subclass")) { /*This and the following check prevent disjoint class axioms from visualizing*/
 							populatingScAndEquivToViz(aLStack);
 						}
 						else if (first.equalsIgnoreCase("equivalent")) {
 							for (int i = 0; i < aLStack.size(); i++) {
 								String cur = iterator.next();
 								ArrayList<String> subStack = new ArrayList<>();
-								while (!cur.equalsIgnoreCase(";") && !cur.equalsIgnoreCase("endOfEquivalentClassList")) {
+								while (!cur.equalsIgnoreCase("endOfEquivalentClassList")) {
 									subStack.add(cur);
 									if (iterator.hasNext())
 										cur = iterator.next();
@@ -239,6 +238,7 @@ public class OntologyVisualization {
 			negation = true;
 			cur = (String) iterator.next();
 		}*/
+		
 		propName = cur;
 		/*System.out.println("Property name: " + propName);*/
 		filler = (String) iterator.next();
