@@ -10,16 +10,10 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.stream.Stream;
 
-import org.apache.xmlbeans.impl.xb.xsdschema.Public;
 import org.semanticweb.owlapi.apibinding.OWLManager;
-import org.semanticweb.owlapi.expression.OWLEntityChecker;
-import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.MissingImportHandlingStrategy;
 import org.semanticweb.owlapi.model.OWLAxiom;
-import org.semanticweb.owlapi.model.OWLClass;
-import org.semanticweb.owlapi.model.OWLDataProperty;
 import org.semanticweb.owlapi.model.OWLEntity;
-import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
@@ -42,16 +36,15 @@ public class OntologyVisualization {
 	
 	public static OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
 	//public static File ontologyFile = new File("src/resources/" + "ontologies/basicplanexecution" + ".owl");
-	public static File ontologyFile = new File("src/resources/" + "ontologiesProvidedByPascal/spatiotemporalextent" + ".owl");
-	//public static File ontologyFile = new File("src/resources/" + AGENTROLE + ".owl");
+	//public static File ontologyFile = new File("src/resources/" + "ontologiesProvidedByPascal/MaterialTransformationPattern" + ".owl");
+	//public static File ontologyFile = new File("src/resources/" + "geoLink/agentrole" + ".owl");
+	public static File ontologyFile = new File("src/resources/" + CHESSGAME + ".owl");
 	
 
 	public static OWLOntology ontology;
 	public static OntologyVisualization ontoViz = new OntologyVisualization();
 
-	public static ArrayList<OWLClass> classes = new ArrayList<OWLClass>();
-	public static ArrayList<OWLObjectProperty> prop = new ArrayList<OWLObjectProperty>();
-	public static ArrayList<OWLDataProperty> dataProp = new ArrayList<OWLDataProperty>();
+
 	
     
     
@@ -83,47 +76,17 @@ public class OntologyVisualization {
 
 	public static HashMap<String, HashMap<PropertyNode, String>> visualizer = new HashMap<>();
 
-	public class link {
-		String arrowLabel;
-		String boxLabel;
-		String arrowLabelPrefix;
-		String arrowLabelCardinality;
-
-		public link(String aL, String bL, String aLP, String aLC) {
-			this.arrowLabel = aL;
-			this.boxLabel = bL;
-			this.arrowLabelPrefix = aLP;
-			this.arrowLabelPrefix = aLC;
-		}
-
-		public String getArrowLabel() {
-			return arrowLabel;
-		}
-
-		public String getBoxLabel() {
-			return boxLabel;
-		}
-
-		public String getArrowLabelPrefix() {
-			return arrowLabelPrefix;
-		}
-
-		public String getArrowLabelCardinality() {
-			return arrowLabelCardinality;
-		}
-	}
 
 	public static void main(String[] args) {
 
-		init(manager, ontologyFile, classes, prop, dataProp);
+		init(manager, ontologyFile);
 		Visualizer.visualization(visualizer);
 	}
 
 	/*
 	 * loads the ontology, classifies the axioms and populates the dataStructure to be visualized
 	 */
-	private static void init(OWLOntologyManager manager, File fullOntology, ArrayList<OWLClass> classes,
-			ArrayList<OWLObjectProperty> prop, ArrayList<OWLDataProperty> dataProp) {
+	private static void init(OWLOntologyManager manager, File fullOntology) {
 		OWLOntology ontology;
 		try {
 			ontology = manager.loadOntologyFromOntologyDocument(fullOntology);
@@ -134,9 +97,7 @@ public class OntologyVisualization {
 			manager.setOntologyLoaderConfiguration(manager.getOntologyLoaderConfiguration()
 					.setMissingImportHandlingStrategy(MissingImportHandlingStrategy.SILENT));
 			/* Load Ontology */
-			IRI iri = IRI.create(ontologyFile.toURI());
 
-			AxiomEntityVisitor nodeCreator;
 
 			/* Create Tree for each Axiom */
 			ontology.classesInSignature().forEach(cls -> {
@@ -168,18 +129,16 @@ public class OntologyVisualization {
 //				}
 //				System.out.println();
 
-				String first;
-				boolean negation = false;
-
+				String first = null;
+				
 				if (!aLStack.contains("not")) {
 					for (Iterator<String> iterator = aLStack.iterator(); iterator.hasNext();) {
 						first = (String) iterator.next();
-						if (isbasicSubOrEquivDef(aLStack, first)) {
-							populatingSCDefAxiomToViz(aLStack);
-						} else if (first.equalsIgnoreCase("subclass")) { /*This and the following check prevent disjoint class axioms from visualizing*/
-							populatingScAndEquivToViz(aLStack);
-						}
-						else if (first.equalsIgnoreCase("equivalent")) {
+						if (isbasicSCDef(aLStack, first)) {
+							populatingSCDefAxiomToViz(false, aLStack);
+						} else if (isSCOAxiom(aLStack, first)) { 
+							populatingSCOAxiomToViz(aLStack);
+						}else if (first.equalsIgnoreCase("equivalent")) {
 							for (int i = 0; i < aLStack.size(); i++) {
 								String cur = iterator.next();
 								ArrayList<String> subStack = new ArrayList<>();
@@ -188,10 +147,10 @@ public class OntologyVisualization {
 									if (iterator.hasNext())
 										cur = iterator.next();
 								} 
-								if (isbasicSubOrEquivDef(subStack, subStack.get(0))) {
-									populatingSCDefAxiomToViz(subStack);
+								if (isbasicEquivDef(subStack)) {
+									populatingEquivDefAxiomToViz(true, subStack);
 								}else {
-									populatingScAndEquivToViz(subStack);
+									populatingSCOAxiomToViz(subStack);
 								}
 							}
 						}
@@ -203,11 +162,45 @@ public class OntologyVisualization {
 		}
 	}
 
-	private static boolean isbasicSubOrEquivDef(ArrayList<String> aLStack, String first) {
-		return ((first.equalsIgnoreCase("subclass") || first.equalsIgnoreCase("equivalent")) && aLStack.size() <= 3);
+	private static void populatingEquivDefAxiomToViz(boolean b, ArrayList<String> subStack) {
+		PropertyNode propNode = ontoViz.createPropertyNode(false, "equivalent");
+		if (visualizer.containsKey(subStack.get(1))) {
+			HashMap<PropertyNode, String> retrievedMap = visualizer.get(subStack.get(1));
+			retrievedMap.put(propNode, subStack.get(2));
+			visualizer.put(subStack.get(1), retrievedMap);
+		} else {
+			HashMap<PropertyNode, String> map = new HashMap<>();
+			map.put(propNode, subStack.get(2));
+			visualizer.put(subStack.get(1), map);
+		}
+		if (visualizer.containsKey(subStack.get(1))) {
+			HashMap<PropertyNode, String> retrievedMap = visualizer.get(subStack.get(1));
+			retrievedMap.put(propNode, subStack.get(3));
+			visualizer.put(subStack.get(1), retrievedMap);
+		} else {
+			HashMap<PropertyNode, String> map = new HashMap<>();
+			map.put(propNode, subStack.get(3));
+			visualizer.put(subStack.get(1), map);
+		}
 	}
 
-	private static void populatingSCDefAxiomToViz(ArrayList<String> aLStack) {
+	private static boolean isSCOAxiom(ArrayList<String> aLStack, String first) {
+		return (first.equalsIgnoreCase("subclass") && aLStack.size() > 3);
+	}
+
+	private static boolean isbasicSCDef(ArrayList<String> aLStack, String first) {
+		return (first.equalsIgnoreCase("subclass") && aLStack.size() <= 3);
+	}
+
+	private static boolean isbasicEquivDef(ArrayList<String> subStack) {
+		boolean result;
+		for (Iterator<String> iterator = subStack.iterator(); iterator.hasNext();) {
+			
+		}
+		return false;
+	}
+
+	private static void populatingSCDefAxiomToViz(boolean isEquivalentClassAxiom, ArrayList<String> aLStack) {
 		PropertyNode propNode = ontoViz.createPropertyNode(false, "subclass");
 		if (visualizer.containsKey(aLStack.get(1))) {
 			HashMap<PropertyNode, String> retrievedMap = visualizer.get(aLStack.get(1));
@@ -220,7 +213,7 @@ public class OntologyVisualization {
 		}
 	}
 
-	private static void populatingScAndEquivToViz(ArrayList<String> aLStack) {
+	private static void populatingSCOAxiomToViz(ArrayList<String> aLStack) {
 		String cur;
 		String propName;
 		String filler;
@@ -230,15 +223,11 @@ public class OntologyVisualization {
 		className = (String) iterator.next();
 		cur = (String) iterator.next();
 		while (isStackWord(cur)) {
-			if(cur.equalsIgnoreCase("reverse") || cur.equalsIgnoreCase("OWLObjectInverseOf"))
+			if(cur.equalsIgnoreCase("reverse") || cur.equalsIgnoreCase("owlobjectinverseOf"))
 					negation = true;
 			cur = (String) iterator.next();
 		}
-		/*if (cur.equalsIgnoreCase("OWLObjectInverseOf")) {
-			negation = true;
-			cur = (String) iterator.next();
-		}*/
-		
+
 		propName = cur;
 		/*System.out.println("Property name: " + propName);*/
 		filler = (String) iterator.next();
@@ -267,7 +256,7 @@ public class OntologyVisualization {
 				|| cur.equalsIgnoreCase("some") || cur.equalsIgnoreCase("all") 
 				|| cur.equalsIgnoreCase("and") || cur.equalsIgnoreCase("or") 
 				|| cur.equalsIgnoreCase("equivalent") || cur.equalsIgnoreCase("end of equivalent class list")
-				|| cur.equalsIgnoreCase("OWLObjectInverseOf")
+				|| cur.equalsIgnoreCase("owlobjectinverseOf")
 				|| cur.equalsIgnoreCase("OWLDataExactCardinality")
 				|| cur.equalsIgnoreCase("OWLDataMaxCardinality")
 				|| cur.equalsIgnoreCase("OWLDataMinCardinality")
