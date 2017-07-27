@@ -127,7 +127,7 @@ public class OntologyVisualization {
 
 				Node first = null;
 				
-				if (!aLStack.contains("not")) {
+				if (!containsNot(aLStack)) {
 					//for (Iterator<String> iterator = aLStack.iterator(); iterator.hasNext();) {
 					Iterator<Node> iterator = aLStack.iterator();
 						first = (Node) iterator.next();
@@ -159,6 +159,15 @@ public class OntologyVisualization {
 			}
 
 		}
+	}
+
+	private static boolean containsNot(ArrayList<Node> aLStack) {
+		for (int i = 0; i < aLStack.size(); i++) {
+			String cur = aLStack.get(i).getEntityName();
+			if(cur.equalsIgnoreCase("not"))
+				return true;
+		}
+		return false;
 	}
 
 	private static void populatingEquivDefAxiomToViz(boolean b, ArrayList<Node> subStack) {
@@ -255,7 +264,7 @@ public class OntologyVisualization {
 		}
 		if (visualizer.containsKey(className)) {
 			HashMap<PropertyNode, String> retrievedMap = visualizer.get(className);
-			HashMap<PropertyNode, String> retrievedReversedMap = visualizer.get(filler);
+			HashMap<PropertyNode, String> retrievedReversedMap = visualizer.get(fillerName);
 			if (!containsSameEdge(retrievedMap, propNode, fillerName) && !containsReverseEdge(retrievedReversedMap, propNode, className, negation)) {
 				retrievedMap.put(propNode, fillerName);
 				visualizer.put(className, retrievedMap);
@@ -329,10 +338,6 @@ public class OntologyVisualization {
 	
 	private static Collection<? extends OWLAxiom> sortAxioms(Stream<? extends OWLAxiom> axioms) {
 		return asList(axioms.sorted());
-	}
-
-	private static <T extends OWLEntity> Collection<T> sortEntities(Stream<T> entities) {
-		return asList(entities.sorted());
 	}
 
 }

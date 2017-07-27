@@ -302,8 +302,12 @@ public class Visualizer {
 		OWLDataFactory factory = manager.getOWLDataFactory();
 		IRI iri = IRI.create(className);
 		OWLEntity cls = factory.getOWLEntity(EntityType.CLASS, iri);
+		System.out.println(shortFormProvider.getShortForm(cls));
 		String clsString = (escapeName(shortFormProvider.getShortForm(cls)));
-		return clsString;
+		if (clsString.contains("#")) {
+			clsString = clsString.split("#")[1];
+		}
+		return clsString.replaceAll("[^\\w\\s]","");
 	}
 	public static String getReadablePropertyLabel(String propertyName) {
 		OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
