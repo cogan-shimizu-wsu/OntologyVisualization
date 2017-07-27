@@ -501,6 +501,7 @@ public class AxiomEntityVisitor implements OWLObjectVisitor {
 	@Override
 	public void visit(OWLObjectProperty property) {
 		OWLObjectVisitor.super.visit(property);
+		System.out.println(property.getEntityType() + " index: " + property.typeIndex());
 		stack.add(property.toStringID());
 	}
 
@@ -739,8 +740,8 @@ public class AxiomEntityVisitor implements OWLObjectVisitor {
 	@Override
 	public void visit(OWLObjectExactCardinality ce) {
 		OWLObjectVisitor.super.visit(ce);
-		stack.add("OWLObjectExactCardinality");
-		stack.add(Integer.toString(ce.getCardinality()));
+		//stack.add("OWLObjectExactCardinality");
+		//stack.add(Integer.toString(ce.getCardinality()));
 		ce.getProperty().accept(this);
 		ce.getFiller().accept(this);
 	}

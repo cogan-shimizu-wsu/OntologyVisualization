@@ -132,7 +132,8 @@ public class OntologyVisualization {
 				String first = null;
 				
 				if (!aLStack.contains("not")) {
-					for (Iterator<String> iterator = aLStack.iterator(); iterator.hasNext();) {
+					//for (Iterator<String> iterator = aLStack.iterator(); iterator.hasNext();) {
+					Iterator<String> iterator = aLStack.iterator();
 						first = (String) iterator.next();
 						if (isbasicSCDef(aLStack, first)) {
 							populatingSCDefAxiomToViz(false, aLStack);
@@ -155,7 +156,7 @@ public class OntologyVisualization {
 							}
 						}
 
-					} 
+					//} 
 				}
 			}
 
@@ -185,6 +186,7 @@ public class OntologyVisualization {
 	}
 
 	private static boolean isSCOAxiom(ArrayList<String> aLStack, String first) {
+		System.out.println(aLStack.size());
 		return (first.equalsIgnoreCase("subclass") && aLStack.size() > 3);
 	}
 
@@ -220,6 +222,7 @@ public class OntologyVisualization {
 		String className;
 		boolean negation = false;
 		Iterator<String> iterator = aLStack.iterator();
+		String first = (String) iterator.next();
 		className = (String) iterator.next();
 		cur = (String) iterator.next();
 		while (isStackWord(cur)) {
