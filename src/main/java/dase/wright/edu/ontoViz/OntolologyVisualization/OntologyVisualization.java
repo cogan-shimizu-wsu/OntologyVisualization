@@ -37,8 +37,8 @@ public class OntologyVisualization {
 	public static OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
 	//public static File ontologyFile = new File("src/resources/" + "ontologies/basicplanexecution" + ".owl");
 	//public static File ontologyFile = new File("src/resources/" + "ontologiesProvidedByPascal/MaterialTransformationPattern" + ".owl");
-	//public static File ontologyFile = new File("src/resources/" + "geoLink/agentrole" + ".owl");
-	public static File ontologyFile = new File("src/resources/" + CHESSGAME + ".owl");
+	public static File ontologyFile = new File("src/resources/" + "geoLink/agentrole" + ".owl");
+	//public static File ontologyFile = new File("src/resources/" + CHESSGAME + ".owl");
 	
 
 	public static OWLOntology ontology;
@@ -124,11 +124,6 @@ public class OntologyVisualization {
 					axiom.accept(visitor);
 				}
 
-//				for (Iterator<String> iterator = aLStack.iterator(); iterator.hasNext();) {
-//					System.out.print(iterator.next() + " ");
-//				}
-//				System.out.println();
-
 				String first = null;
 				
 				if (!aLStack.contains("not")) {
@@ -186,7 +181,6 @@ public class OntologyVisualization {
 	}
 
 	private static boolean isSCOAxiom(ArrayList<String> aLStack, String first) {
-		System.out.println(aLStack.size());
 		return (first.equalsIgnoreCase("subclass") && aLStack.size() > 3);
 	}
 
@@ -232,7 +226,6 @@ public class OntologyVisualization {
 		}
 
 		propName = cur;
-		/*System.out.println("Property name: " + propName);*/
 		filler = (String) iterator.next();
 		PropertyNode propNode;
 		if (negation) {
@@ -277,15 +270,11 @@ public class OntologyVisualization {
 			propNameToMatch = propNameToMatch.replaceAll("[^\\w\\s]","");
 			String propNameToCheck = propNode.getPropertyName();
 			propNameToCheck=propNameToCheck.replaceAll("[^\\w\\s]","");
-			//System.out.println("PropertyName" + ": " + propNameToMatch + " comparing to: " + propNameToCheck);
 			if (propNameToMatch.equalsIgnoreCase(propNameToCheck)) {
 				String fillerToMatch = entry.getValue();
 				fillerToMatch = fillerToMatch.replaceAll("[^\\w\\s]","");
 				String fillerToCheck = filler.replaceAll("[^\\w\\s]","");
-
-				//System.out.println("FillerName" + ": " + fillerToMatch + " comparing to: " + fillerToCheck);
 				if (fillerToMatch.equalsIgnoreCase(fillerToCheck)) {
-					//System.out.println("Returning true");
 					return true;
 				}
 			}
@@ -303,15 +292,12 @@ public class OntologyVisualization {
 				propNameToMatch = propNameToMatch.replaceAll("[^\\w\\s]", "");
 				String propNameToCheck = propNode.getPropertyName();
 				propNameToCheck = propNameToCheck.replaceAll("[^\\w\\s]", "");
-				//System.out.println("PropertyName" + ": " + propNameToMatch + " comparing to: " + propNameToCheck);
 				if (propNameToMatch.equalsIgnoreCase(propNameToCheck)) {
 					String fillerToMatch = entry.getValue();
 					fillerToMatch = fillerToMatch.replaceAll("[^\\w\\s]", "");
 					String fillerToCheck = className.replaceAll("[^\\w\\s]", "");
-					//System.out.println("FillerName" + ": " + fillerToMatch + " comparing to: " + fillerToCheck);
 					boolean reverseEdgeExists = (pnToMatch.isReverse != negation);
 					if (fillerToMatch.equalsIgnoreCase(fillerToCheck) && reverseEdgeExists) {
-						//System.out.println("Returning true");
 						return true;
 					}
 				}

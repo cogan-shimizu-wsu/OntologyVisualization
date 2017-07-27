@@ -125,6 +125,7 @@ public class AxiomEntityVisitor implements OWLObjectVisitor {
 	@Override
 	public void visit(OWLClass ce) {
 		OWLObjectVisitor.super.visit(ce);	
+		String type = ce.getEntityType().getName();
 		stack.add(ce.toStringID());
 	}
 
@@ -176,6 +177,7 @@ public class AxiomEntityVisitor implements OWLObjectVisitor {
 	@Override
 	public void visit(OWLDataProperty property) {
 		OWLObjectVisitor.super.visit(property);
+
 		stack.add(property.toStringID());
 	}
 
@@ -501,7 +503,6 @@ public class AxiomEntityVisitor implements OWLObjectVisitor {
 	@Override
 	public void visit(OWLObjectProperty property) {
 		OWLObjectVisitor.super.visit(property);
-		System.out.println(property.getEntityType() + " index: " + property.typeIndex());
 		stack.add(property.toStringID());
 	}
 
