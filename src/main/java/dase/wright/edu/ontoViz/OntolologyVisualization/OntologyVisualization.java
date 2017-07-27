@@ -37,8 +37,8 @@ public class OntologyVisualization {
 	public static OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
 	//public static File ontologyFile = new File("src/resources/" + "ontologies/basicplanexecution" + ".owl");
 	//public static File ontologyFile = new File("src/resources/" + "ontologiesProvidedByPascal/MaterialTransformationPattern" + ".owl");
-	public static File ontologyFile = new File("src/resources/" + "geoLink/agentrole" + ".owl");
-	//public static File ontologyFile = new File("src/resources/" + CHESSGAME + ".owl");
+	//public static File ontologyFile = new File("src/resources/" + "geoLink/agentrole" + ".owl");
+	public static File ontologyFile = new File("src/resources/" + CHESSGAME + ".owl");
 	
 
 	public static OWLOntology ontology;
@@ -117,28 +117,31 @@ public class OntologyVisualization {
 		if (axioms.size() > 0) {
 			for (Iterator<? extends OWLAxiom> it = axioms.iterator(); it.hasNext();) {
 				OWLAxiom axiom = it.next();
-				ArrayList<String> aLStack = new ArrayList<>();
+				//ArrayList<String> aLStack = new ArrayList<>();
+				ArrayList<Node> aLStack = new ArrayList<>();
 				if (axiom.isLogicalAxiom()) {
 					aLStack.clear();
 					AxiomEntityVisitor visitor = new AxiomEntityVisitor(aLStack);
 					axiom.accept(visitor);
 				}
 
-				String first = null;
+				Node first = null;
 				
 				if (!aLStack.contains("not")) {
 					//for (Iterator<String> iterator = aLStack.iterator(); iterator.hasNext();) {
-					Iterator<String> iterator = aLStack.iterator();
-						first = (String) iterator.next();
+					Iterator<Node> iterator = aLStack.iterator();
+						first = (Node) iterator.next();
+						String firstEntity = first.getEntityName();
 						if (isbasicSCDef(aLStack, first)) {
 							populatingSCDefAxiomToViz(false, aLStack);
 						} else if (isSCOAxiom(aLStack, first)) { 
 							populatingSCOAxiomToViz(aLStack);
-						}else if (first.equalsIgnoreCase("equivalent")) {
+						}else if (firstEntity.equalsIgnoreCase("equivalent")) {
 							for (int i = 0; i < aLStack.size(); i++) {
-								String cur = iterator.next();
-								ArrayList<String> subStack = new ArrayList<>();
-								while (!cur.equalsIgnoreCase("endOfEquivalentClassList")) {
+								Node cur = iterator.next();
+								String curEntity = cur.getEntityName();
+								ArrayList<Node> subStack = new ArrayList<>();
+								while (!curEntity.equalsIgnoreCase("endOfEquivalentClassList")) {
 									subStack.add(cur);
 									if (iterator.hasNext())
 										cur = iterator.next();
@@ -158,75 +161,92 @@ public class OntologyVisualization {
 		}
 	}
 
-	private static void populatingEquivDefAxiomToViz(boolean b, ArrayList<String> subStack) {
+	private static void populatingEquivDefAxiomToViz(boolean b, ArrayList<Node> subStack) {
 		PropertyNode propNode = ontoViz.createPropertyNode(false, "equivalent");
 		if (visualizer.containsKey(subStack.get(1))) {
 			HashMap<PropertyNode, String> retrievedMap = visualizer.get(subStack.get(1));
-			retrievedMap.put(propNode, subStack.get(2));
-			visualizer.put(subStack.get(1), retrievedMap);
+			String filler = subStack.get(2).getEntityName();
+			retrievedMap.put(propNode, filler);
+			String className = subStack.get(1).getEntityName();
+			visualizer.put(className, retrievedMap);
 		} else {
 			HashMap<PropertyNode, String> map = new HashMap<>();
-			map.put(propNode, subStack.get(2));
-			visualizer.put(subStack.get(1), map);
+			String filler = subStack.get(2).getEntityName();
+			map.put(propNode, filler);
+			String className = subStack.get(1).getEntityName();
+			visualizer.put(className, map);
 		}
 		if (visualizer.containsKey(subStack.get(1))) {
 			HashMap<PropertyNode, String> retrievedMap = visualizer.get(subStack.get(1));
-			retrievedMap.put(propNode, subStack.get(3));
-			visualizer.put(subStack.get(1), retrievedMap);
+			String filler = subStack.get(3).getEntityName();
+			retrievedMap.put(propNode, filler);
+			String className = subStack.get(1).getEntityName();
+			visualizer.put(className, retrievedMap);
 		} else {
 			HashMap<PropertyNode, String> map = new HashMap<>();
-			map.put(propNode, subStack.get(3));
-			visualizer.put(subStack.get(1), map);
+			String filler = subStack.get(3).getEntityName();
+			map.put(propNode, filler);
+			String className = subStack.get(1).getEntityName();
+			visualizer.put(className, map);
 		}
 	}
 
-	private static boolean isSCOAxiom(ArrayList<String> aLStack, String first) {
-		return (first.equalsIgnoreCase("subclass") && aLStack.size() > 3);
+	private static boolean isSCOAxiom(ArrayList<Node> aLStack, Node first) {
+		String firstEntity = first.getEntityName();
+		return (firstEntity.equalsIgnoreCase("subclass") && aLStack.size() > 3);
 	}
 
-	private static boolean isbasicSCDef(ArrayList<String> aLStack, String first) {
-		return (first.equalsIgnoreCase("subclass") && aLStack.size() <= 3);
+	private static boolean isbasicSCDef(ArrayList<Node> aLStack, Node first) {
+		String firstEntity = first.getEntityName();
+		return (firstEntity.equalsIgnoreCase("subclass") && aLStack.size() <= 3);
 	}
 
-	private static boolean isbasicEquivDef(ArrayList<String> subStack) {
+	private static boolean isbasicEquivDef(ArrayList<Node> subStack) {
 		boolean result;
-		for (Iterator<String> iterator = subStack.iterator(); iterator.hasNext();) {
+		for (Iterator<Node> iterator = subStack.iterator(); iterator.hasNext();) {
 			
 		}
 		return false;
 	}
 
-	private static void populatingSCDefAxiomToViz(boolean isEquivalentClassAxiom, ArrayList<String> aLStack) {
+	private static void populatingSCDefAxiomToViz(boolean isEquivalentClassAxiom, ArrayList<Node> aLStack) {
 		PropertyNode propNode = ontoViz.createPropertyNode(false, "subclass");
 		if (visualizer.containsKey(aLStack.get(1))) {
-			HashMap<PropertyNode, String> retrievedMap = visualizer.get(aLStack.get(1));
-			retrievedMap.put(propNode, aLStack.get(2));
-			visualizer.put(aLStack.get(1), retrievedMap);
+			HashMap<PropertyNode, String> retrievedMap = visualizer.get(aLStack.get(1).getEntityName());
+			String filler = aLStack.get(2).getEntityName();
+			retrievedMap.put(propNode, filler);
+			visualizer.put(aLStack.get(1).getEntityName(), retrievedMap);
 		} else {
 			HashMap<PropertyNode, String> map = new HashMap<>();
-			map.put(propNode, aLStack.get(2));
-			visualizer.put(aLStack.get(1), map);
+			String filler = aLStack.get(2).getEntityName();
+			map.put(propNode, filler);
+			visualizer.put(aLStack.get(1).getEntityName(), map);
 		}
 	}
 
-	private static void populatingSCOAxiomToViz(ArrayList<String> aLStack) {
-		String cur;
+	private static void populatingSCOAxiomToViz(ArrayList<Node> aLStack) {
+		Node cur;
 		String propName;
-		String filler;
+		Node filler;
+		Node classObj;
 		String className;
 		boolean negation = false;
-		Iterator<String> iterator = aLStack.iterator();
-		String first = (String) iterator.next();
-		className = (String) iterator.next();
-		cur = (String) iterator.next();
-		while (isStackWord(cur)) {
-			if(cur.equalsIgnoreCase("reverse") || cur.equalsIgnoreCase("owlobjectinverseOf"))
+		Iterator<Node> iterator = aLStack.iterator();
+		Node first = (Node) iterator.next();
+		classObj = (Node) iterator.next();
+		className = classObj.getEntityName();
+		cur = (Node) iterator.next();
+		String curStr = cur.getEntityName();
+		while (isStackWord(curStr)) {
+			if(curStr.equalsIgnoreCase("reverse") || curStr.equalsIgnoreCase("owlobjectinverseOf"))
 					negation = true;
-			cur = (String) iterator.next();
+			cur = (Node) iterator.next();
+			curStr = cur.getEntityName();
 		}
 
-		propName = cur;
-		filler = (String) iterator.next();
+		propName = curStr;
+		filler = (Node) iterator.next();
+		String fillerName = filler.getEntityName();
 		PropertyNode propNode;
 		if (negation) {
 			propNode = ontoViz.createPropertyNode(true, propName);
@@ -236,13 +256,13 @@ public class OntologyVisualization {
 		if (visualizer.containsKey(className)) {
 			HashMap<PropertyNode, String> retrievedMap = visualizer.get(className);
 			HashMap<PropertyNode, String> retrievedReversedMap = visualizer.get(filler);
-			if (!containsSameEdge(retrievedMap, propNode, filler) && !containsReverseEdge(retrievedReversedMap, propNode, className, negation)) {
-				retrievedMap.put(propNode, filler);
+			if (!containsSameEdge(retrievedMap, propNode, fillerName) && !containsReverseEdge(retrievedReversedMap, propNode, className, negation)) {
+				retrievedMap.put(propNode, fillerName);
 				visualizer.put(className, retrievedMap);
 			}
 		} else {
 			HashMap<PropertyNode, String> map = new HashMap<>();
-			map.put(propNode, filler);
+			map.put(propNode, fillerName);
 			visualizer.put(className, map);
 		}
 	}
