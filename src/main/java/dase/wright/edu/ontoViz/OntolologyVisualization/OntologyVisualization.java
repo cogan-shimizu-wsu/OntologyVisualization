@@ -36,9 +36,10 @@ public class OntologyVisualization {
 	
 	public static OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
 	//public static File ontologyFile = new File("src/resources/" + "ontologies/basicplanexecution" + ".owl");
-	//public static File ontologyFile = new File("src/resources/" + "ontologiesProvidedByPascal/MaterialTransformationPattern" + ".owl");
-	//public static File ontologyFile = new File("src/resources/" + "geoLink/agentrole" + ".owl");
-	public static File ontologyFile = new File("src/resources/" + "geolinkMain" + ".owl");
+	public static File ontologyFile = new File("src/resources/" + "ontologiesProvidedByPascal/timeindexedpersonrole" + ".owl");
+	//public static File ontologyFile = new File("src/resources/" + "geoLink/vessel" + ".owl");
+	//public static File ontologyFile = new File("src/resources/" + TRAJECTORY + ".owl");
+	//public static File ontologyFile = new File("src/resources/" + "geolinkMain" + ".owl");
 	
 
 	public static OWLOntology ontology;
