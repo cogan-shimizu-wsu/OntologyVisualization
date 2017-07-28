@@ -90,9 +90,7 @@ public class Visualizer {
 								String connectedNodeName = secondaryEntry.getValue();
 								leString = propName;
 
-								//boolean visualizedbefore = checkIfVisualizedBefore(visualized, className, leString,
-										//connectedNodeName);
-								//if (!visualizedbefore) {
+								
 									if (connectedNodeName.equalsIgnoreCase("OR")
 											&& connectedNodeName.equalsIgnoreCase("AND")
 											&& connectedNodeName.matches("[0-9]")) {
@@ -134,7 +132,6 @@ public class Visualizer {
 									SimpleEntry<String, String> sE = new SimpleEntry<String, String>(leString,
 											connectedNodeName);
 									visualized.put(className, sE);
-								//}
 							}
 
 						}
