@@ -359,7 +359,6 @@ public class OntologyVisualization
 		boolean isReverse = false;
 		boolean isNot = false;
 		Iterator<Node> iterator = aLStack.iterator();
-		Node first = (Node) iterator.next();
 		classObj = (Node) iterator.next();
 		className = classObj.getEntityName();
 		cur = (Node) iterator.next();
