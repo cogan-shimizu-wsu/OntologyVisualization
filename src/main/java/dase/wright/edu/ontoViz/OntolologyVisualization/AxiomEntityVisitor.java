@@ -33,7 +33,6 @@ import org.semanticweb.owlapi.model.OWLDisjointClassesAxiom;
 import org.semanticweb.owlapi.model.OWLDisjointDataPropertiesAxiom;
 import org.semanticweb.owlapi.model.OWLDisjointObjectPropertiesAxiom;
 import org.semanticweb.owlapi.model.OWLDisjointUnionAxiom;
-import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLEquivalentClassesAxiom;
 import org.semanticweb.owlapi.model.OWLEquivalentDataPropertiesAxiom;
 import org.semanticweb.owlapi.model.OWLEquivalentObjectPropertiesAxiom;
@@ -136,7 +135,7 @@ public class AxiomEntityVisitor implements OWLObjectVisitor
 	public void visit(OWLClass ce)
 	{
 		OWLObjectVisitor.super.visit(ce);
-		Node node = new Node(ce.toString(), (EntityType<OWLEntity>) ce.getEntityType());
+		Node node = new Node(ce.toString(), (EntityType<?>) ce.getEntityType());
 		stack.add(node);
 	}
 
@@ -193,7 +192,7 @@ public class AxiomEntityVisitor implements OWLObjectVisitor
 	public void visit(OWLDataProperty property)
 	{
 		OWLObjectVisitor.super.visit(property);
-		Node nProp = new Node(property.toStringID(), (EntityType<OWLEntity>) property.getEntityType());
+		Node nProp = new Node(property.toStringID(), (EntityType<?>) property.getEntityType());
 		stack.add(nProp);
 	}
 
@@ -239,7 +238,7 @@ public class AxiomEntityVisitor implements OWLObjectVisitor
 	{
 		// TODO Auto-generated method stub
 		OWLObjectVisitor.super.visit(node);
-		Node nNode = new Node(node.toStringID(), (EntityType<OWLEntity>) node.getEntityType());
+		Node nNode = new Node(node.toStringID(), (EntityType<?>) node.getEntityType());
 		stack.add(nNode);
 	}
 
@@ -478,7 +477,7 @@ public class AxiomEntityVisitor implements OWLObjectVisitor
 	public void visit(OWLNamedIndividual individual)
 	{
 		OWLObjectVisitor.super.visit(individual);
-		Node nIndividual = new Node(individual.toStringID(), (EntityType<OWLEntity>) individual.getEntityType());
+		Node nIndividual = new Node(individual.toStringID(), (EntityType<?>) individual.getEntityType());
 		stack.add(nIndividual);
 	}
 
@@ -581,7 +580,7 @@ public class AxiomEntityVisitor implements OWLObjectVisitor
 	public void visit(OWLObjectProperty property)
 	{
 		OWLObjectVisitor.super.visit(property);
-		Node nProp = new Node(property.toStringID(), (EntityType<OWLEntity>) property.getEntityType());
+		Node nProp = new Node(property.toStringID(), (EntityType<?>) property.getEntityType());
 		stack.add(nProp);
 	}
 
