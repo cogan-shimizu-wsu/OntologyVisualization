@@ -10,20 +10,23 @@ import org.semanticweb.owlapi.util.OWLEntityComparator;
 import org.semanticweb.owlapi.util.ShortFormProvider;
 import org.semanticweb.owlapi.util.SimpleShortFormProvider;
 
-public class Node {
-	
-	String entity;
-	EntityType<OWLEntity> type;
-	int typeIndex;
-	
-	public int getTypeIndex() {
+public class Node
+{
+
+	String					entity;
+	EntityType<OWLEntity>	type;
+	int						typeIndex;
+
+	public int getTypeIndex()
+	{
 		return typeIndex;
 	}
 
-	public static ShortFormProvider shortFormProvider = new SimpleShortFormProvider();
-	public static OWLEntityComparator entityComparator = new OWLEntityComparator(shortFormProvider);
-	
-	public String getShortForm() {
+	public static ShortFormProvider		shortFormProvider	= new SimpleShortFormProvider();
+	public static OWLEntityComparator	entityComparator	= new OWLEntityComparator(shortFormProvider);
+
+	public String getShortForm()
+	{
 		OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
 		OWLDataFactory factory = manager.getOWLDataFactory();
 		IRI iri = IRI.create(entity);
@@ -31,40 +34,48 @@ public class Node {
 		String label = (escapeName(shortFormProvider.getShortForm(cls)));
 		return label;
 	}
-	
-	public static String escapeName(String name) {
+
+	public static String escapeName(String name)
+	{
 		return name.replace("_", "\\_").replace("#", "\\#");
 	}
-	
-	public void setTypeIndex(int typeIndex) {
+
+	public void setTypeIndex(int typeIndex)
+	{
 		this.typeIndex = typeIndex;
 	}
 
-	public Node(String entityName, EntityType<OWLEntity> etype) {
+	public Node(String entityName, EntityType<OWLEntity> etype)
+	{
 		this.entity = entityName;
 		this.type = etype;
 	}
-	
-	public Node(String entityName, int tI) {
+
+	public Node(String entityName, int tI)
+	{
 		this.entity = entityName;
 		this.typeIndex = tI;
 		this.type = null;
 	}
 
-	public String getEntityName() {
+	public String getEntityName()
+	{
 		return entity;
 	}
 
-	public void setEntity(String entityUri) {
+	public void setEntity(String entityUri)
+	{
 		this.entity = entityUri;
 	}
 
-	public EntityType<OWLEntity> getType() {
+	public EntityType<OWLEntity> getType()
+	{
 
 		return type;
 	}
 
-	public void setType(EntityType<OWLEntity> type) {
+	public void setType(EntityType<OWLEntity> type)
+	{
 		this.type = type;
 	}
 
