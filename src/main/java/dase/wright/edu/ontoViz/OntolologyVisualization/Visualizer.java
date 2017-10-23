@@ -32,8 +32,6 @@ import com.yworks.yfiles.layout.organic.OrganicLayout;
 import com.yworks.yfiles.view.GraphComponent;
 import com.yworks.yfiles.view.input.GraphEditorInputMode;
 
-import dase.wright.edu.ontoViz.OntolologyVisualization.OntologyVisualization.PropertyNode;
-
 public class Visualizer
 {
 	public static ShortFormProvider		shortFormProvider	= new SimpleShortFormProvider();

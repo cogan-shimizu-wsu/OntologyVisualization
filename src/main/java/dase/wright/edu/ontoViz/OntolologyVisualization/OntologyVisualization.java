@@ -27,6 +27,13 @@ import org.semanticweb.owlapi.model.parameters.Imports;
  */
 public class OntologyVisualization
 {
+	public static OWLOntologyManager	manager			= OWLManager.createOWLOntologyManager();
+	public static File					ontologyFile	= new File(
+	        "src/resources/" + "ontologiesProvidedByPascal/timeindexedpersonrole" + ".owl");
+
+
+	public static OWLOntology			ontology;
+	public static OntologyVisualization	ontoViz			= new OntologyVisualization();
 
 	// static String GEOLINKONTOLOGY = "geolinkMain";
 	static String						AGENTROLE		= "agentrole";
@@ -35,48 +42,8 @@ public class OntologyVisualization
 	static String						CRUISE			= "cruise";
 	static String						TRAJECTORY		= "trajectory";
 
-	public static OWLOntologyManager	manager			= OWLManager.createOWLOntologyManager();
-	// public static File ontologyFile = new File("src/resources/" +
-	// "ontologies/basicplanexecution" + ".owl");
-	public static File					ontologyFile	= new File(
-	        "src/resources/" + "ontologiesProvidedByPascal/timeindexedpersonrole" + ".owl");
-	// public static File ontologyFile = new File("src/resources/" +
-	// "geoLink/vessel" + ".owl");
-	// public static File ontologyFile = new File("src/resources/" + TRAJECTORY
-	// + ".owl");
-	// public static File ontologyFile = new File("src/resources/" +
-	// "geolinkMain" + ".owl");
-
-	public static OWLOntology			ontology;
-	public static OntologyVisualization	ontoViz			= new OntologyVisualization();
-
-	public class PropertyNode
-	{
-		boolean	isReverse;
-		String	propertyName;
-
-		public void setNot(boolean not)
-		{
-			this.isReverse = not;
-		}
-
-		public PropertyNode(Boolean val, String name)
-		{
-			this.isReverse = val;
-			this.propertyName = name;
-		}
-
-		public String getPropertyName()
-		{
-			return propertyName;
-		}
-
-		public void setPropertyName(String propertyName)
-		{
-			this.propertyName = propertyName;
-		}
-	}
-
+	
+	
 	public PropertyNode createPropertyNode(Boolean b, String property)
 	{
 		return new PropertyNode(b, property);
@@ -197,7 +164,7 @@ public class OntologyVisualization
 		if(subStack.size() == 1)
 		{
 			String propertyName = "equivalent";
-			PropertyNode propNode = ontoViz.new PropertyNode(false, propertyName);
+			PropertyNode propNode = new PropertyNode(false, propertyName);
 			String filler = subStack.get(0).getEntityName();
 			if(visualizer.containsKey(className))
 			{
