@@ -14,7 +14,7 @@ public class Node
 {
 
 	String					entity;
-	EntityType<OWLEntity>	type;
+	EntityType<?>	type;
 	int						typeIndex;
 
 	public int getTypeIndex()
@@ -45,7 +45,7 @@ public class Node
 		this.typeIndex = typeIndex;
 	}
 
-	public Node(String entityName, EntityType<OWLEntity> etype)
+	public Node(String entityName, EntityType<?> etype)
 	{
 		this.entity = entityName;
 		this.type = etype;
@@ -68,13 +68,13 @@ public class Node
 		this.entity = entityUri;
 	}
 
-	public EntityType<OWLEntity> getType()
+	public EntityType<?> getType()
 	{
 
 		return type;
 	}
 
-	public void setType(EntityType<OWLEntity> type)
+	public void setType(EntityType<?> type)
 	{
 		this.type = type;
 	}
