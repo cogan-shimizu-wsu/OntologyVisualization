@@ -15,10 +15,12 @@ import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.parameters.Imports;
 
 /**
- * This Project is supposed to produce an interactive visualization for
- * ontologies for ensuring better understandability
+ * This Project produces an interactive visualization for
+ * ontologies to ensure increased understandability
  * 
- * @author: Nazifa Karima
+ * @author Nazifa Karima
+ * @author Cogan Shimizu
+ * Data Semantics Lab, Wright State University
  */
 public class OntologyVisualizer
 {
@@ -26,7 +28,7 @@ public class OntologyVisualizer
 
 	public void createVisualization(OWLOntology ontology)
 	{
-		// Create tree for each axiom
+		// For each class in the ontology, populate the visualizer
 		ontology.classesInSignature().forEach(cls -> {
 			populateVisualizer(cls, sortAxioms(ontology.axioms(cls, Imports.INCLUDED)));
 		});
@@ -38,6 +40,8 @@ public class OntologyVisualizer
 	 */
 	protected void populateVisualizer(OWLEntity cls, Collection<? extends OWLAxiom> axioms)
 	{
+//		axioms.forEach(a->{System.out.println(a);});
+		
 		if(!axioms.isEmpty())
 		{
 			for(Iterator<? extends OWLAxiom> it = axioms.iterator(); it.hasNext();)
