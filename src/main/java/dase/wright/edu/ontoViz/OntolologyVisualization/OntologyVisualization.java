@@ -42,13 +42,6 @@ public class OntologyVisualization
 	static String						CRUISE			= "cruise";
 	static String						TRAJECTORY		= "trajectory";
 
-	
-	
-	public PropertyNode createPropertyNode(Boolean b, String property)
-	{
-		return new PropertyNode(b, property);
-	}
-
 	public static HashMap<String, HashMap<PropertyNode, String>> visualizer = new HashMap<>();
 
 	public static void main(String[] args)
@@ -211,11 +204,11 @@ public class OntologyVisualization
 			PropertyNode propNode;
 			if(isReverse)
 			{
-				propNode = ontoViz.createPropertyNode(true, propName);
+				propNode = new PropertyNode(true, propName);
 			}
 			else
 			{
-				propNode = ontoViz.createPropertyNode(false, propName);
+				propNode = new PropertyNode(false, propName);
 			}
 			if(visualizer.containsKey(className))
 			{
@@ -299,7 +292,7 @@ public class OntologyVisualization
 
 	private static void populatingSCDefAxiomToViz(ArrayList<Node> aLStack)
 	{
-		PropertyNode propNode = ontoViz.createPropertyNode(false, "subclass");
+		PropertyNode propNode = new PropertyNode(false, "subclass");
 		if(visualizer.containsKey(aLStack.get(1).getEntityName()))
 		{
 			HashMap<PropertyNode, String> retrievedMap = visualizer.get(aLStack.get(1).getEntityName());
@@ -354,11 +347,11 @@ public class OntologyVisualization
 		PropertyNode propNode;
 		if(isReverse)
 		{
-			propNode = ontoViz.createPropertyNode(true, propName);
+			propNode = new PropertyNode(true, propName);
 		}
 		else
 		{
-			propNode = ontoViz.createPropertyNode(false, propName);
+			propNode = new PropertyNode(false, propName);
 		}
 		if(visualizer.containsKey(className))
 		{
